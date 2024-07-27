@@ -1,0 +1,104 @@
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 355px; /* 팝업 너비 */
+  height: auto; /* 팝업 높이를 자동으로 */
+  max-height: 80vh; /* 최대 높이를 80%로 */
+  overflow-y: auto; /* 내용이 넘칠 때 스크롤 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.popup button.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.close-button img {
+  width: 24px;
+  height: 24px;
+}
+
+.content-display,
+.content-edit,
+.diary-completion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.content-display h2,
+.content-display p,
+.diary-completion p {
+  margin: 10px 0;
+}
+
+.content-edit input,
+.content-edit textarea {
+  width: 80%;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.edit-button,
+.save-button,
+.delete-button,
+.summary-button {
+  background-color: #6200EE;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.delete-button {
+  background-color: #FFA500; /* 삭제 버튼 색상 */
+}
+
+.highlight {
+  color: #FF69B4; /* 즐거움을 나타내는 색상 */
+  font-weight: bold;
+}
+
+.tags {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.tag {
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
