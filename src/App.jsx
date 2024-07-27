@@ -1,27 +1,26 @@
 import React, { useState } from 'react';
 import Chat from './components/Chat';
-import Popup from './components/Popup_emoji';
+import PopupSummary from './components/PopupSummary';
 import './App.css';
 
 function App() {
-  const [showPopup, setShowPopup] = useState(false);
-  const [emotion, setEmotion] = useState('happy'); // 예시로 'happy'를 기본값으로 설정
+    const [showSummaryPopup, setShowSummaryPopup] = useState(false);
+    const [emotion, setEmotion] = useState('happy'); // 예시로 'happy' 설정
 
-  const handleSave = () => {
-    setShowPopup(true);
-  };
+    const handleSave = () => {
+        setShowSummaryPopup(true);
+    };
 
-  const closePopup = () => {
-    setShowPopup(false);
-  };
+    const closeSummaryPopup = () => {
+        setShowSummaryPopup(false);
+    };
 
-  return (
-    <div className="App">
-      <button onClick={handleSave}>눌러보세용..</button>
-      <Chat />
-      {showPopup && <Popup main_emo={emotion} onClose={closePopup} />}
-    </div>
-  );
+    return (
+        <div className='App'>
+            <Chat onSave={handleSave} />
+            {showSummaryPopup && <PopupSummary emotion={emotion} onClose={closeSummaryPopup} />}
+        </div>
+    );
 }
 
 export default App;
