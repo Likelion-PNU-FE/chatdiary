@@ -1,0 +1,47 @@
+.calendar-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 50px;
+    z-index: 1000;
+    overflow: hidden;
+}
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-left: 60px;
+    font-size: 14px;
+}
+
+.confirm-btn {
+    flex: none;
+    width: calc(30% - 10px);
+    background-color: #6f48eb;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+    margin-top: 5px;
+}
+
+.close-btn {
+    flex: none;
+    width: calc(30% - 10px);
+    color: #6f48eb;
+    baqckground-color: white;
+    border: solid 2px;
+    border-color: #d5d5d5;
+    cursor: pointer;
+    border-radius: 15px;
+    margin-top: 5px;
+}
+
+.confirm-btn:disabled {
+    background-color: #cccccc; /* Disabled button color */
+    cursor: not-allowed;
+}
