@@ -34,6 +34,13 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
+    outline: none; /* 아웃라인 제거 */
+  }
+  
+  .diary-summary .close-button:focus,
+  .diary-summary .close-button:active {
+    outline: none; /* 포커스 및 클릭 시 아웃라인 제거 */
+    box-shadow: none; /* 포커스 시 박스 그림자 제거 */
   }
   
   .diary-summary .close-button img {
@@ -42,8 +49,9 @@
   }
   
   .diary-summary .emoji-icon {
-    width: 70px; /* 이모지 너비 */
-    height: 50px; /* 이모지 높이 */
+    width: 60px; /* 이모지 너비 */
+    height: 60px; /* 이모지 높이 */
+    margin-bottom: 10px;
   }
   
   .diary-summary .summary-header {
@@ -55,26 +63,38 @@
   /* Divider */
   .diary-summary .divider {
     width: 100%;
-    border: 5;
+    border: 0;
     border-top: 1px solid #ddd;
-    margin: 5;
+    margin-bottom: 10px;
   }
   
   .diary-summary .header-top {
-    margin-top:0;
+    margin-top: 1px;
     display: flex;
     align-items: center;
   }
   
   .diary-summary .header-text {
-    margin-top:0;
+    margin-top: 0;
     margin-left: 10px;
   }
   
   .diary-summary .summary-header h3 {
+    margin-top: 0;
     margin: 0;
     font-size: 16px;
     font-weight: bold; /* 제목을 굵게 표시 */
+    display: flex;
+    align-items: center;
+  }
+  
+  .diary-summary .title-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .diary-summary .editable-title {
+    color: #666; /* 진한 그레이 색상 */
   }
   
   .diary-summary .summary-header p {
@@ -84,14 +104,13 @@
   }
   
   .diary-summary .keywords {
-    margin: 0;
     display: flex;
     gap: 5px;
     margin-top: 10px;
+    margin-bottom: 10px;
   }
   
   .diary-summary .keyword-title {
-    margin: 0;
     font-weight: bold;
     font-size: 15px;
     color: black;
@@ -103,22 +122,62 @@
     padding: 2px 10px;
     border-radius: 15px;
     font-size: 12px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .diary-summary .remove-keyword-icon {
+    width: 12px;
+    height: 12px;
+    margin-left: 5px;
+    cursor: pointer;
+  }
+  
+  .diary-summary .edit-icon {
+    width: 16px;
+    height: 16px;
+    margin-left: 5px;
+    cursor: pointer;
   }
   
   .diary-summary .summary-body {
     text-align: left;
+    font-size: 16px;
     width: 100%;
   }
   
   .diary-summary .summary-body h4 {
     margin-bottom: 10px;
     font-size: 16px;
+    display: flex;
+    align-items: center;
   }
   
-  .diary-summary .summary-body p {
-    font-size: 14px;
-    line-height: 1.4;
-    color: #333;
+  .diary-summary .editable-content {
+    color: #666; /* 진한 그레이 색상 */
+  }
+  
+  .diary-summary .edit-title-input,
+  .diary-summary .edit-content-textarea {
+    width: 100%;
+    font-family: 'Pretendard', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    resize: none;
+    box-sizing: border-box;
+  }
+  
+  .diary-summary .edit-content-textarea {
+    font-size: 16px;
+    height: 300px;
+    font-family: 'Pretendard', sans-serif;
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
   }
   
   .diary-summary .summary-buttons {
@@ -149,10 +208,52 @@
     color: #8B4CFC;
     border: 1px solid #8B4CFC;
     margin-left: 25px; /* 버튼 사이의 간격을 15px로 고정 */
+    outline: none; /* 아웃라인 제거 */
+  }
+  
+  .diary-summary .summary-buttons .edit-button:focus,
+  .diary-summary .summary-buttons .edit-button:active {
+    outline: none; /* 포커스 및 클릭 시 아웃라인 제거 */
+    box-shadow: none; /* 포커스 시 박스 그림자 제거 */
+    color: rgba(139, 76, 252, 0.5); /* 버튼 색 연하게 */
   }
   
   .diary-summary .summary-buttons .save-button {
     background-color: #8B4CFC;
     color: white;
     margin-right: 25px;
+    outline: none; /* 아웃라인 제거 */
   }
+  
+  .diary-summary .summary-buttons .save-button:focus,
+  .diary-summary .summary-buttons .save-button:active {
+    outline: none; /* 포커스 및 클릭 시 아웃라인 제거 */
+    box-shadow: none; /* 포커스 시 박스 그림자 제거 */
+    background-color: rgba(139, 76, 252, 0.8); /* 버튼 색 연하게 */
+  }
+  
+  .diary-summary .summary-buttons .edit-save-button {
+    width: 134px; /* 버튼 너비 */
+    height: 38px; /* 버튼 높이 */
+    border: none;
+    border-radius: 10px; /* 버튼을 최대한 둥글게 */
+    cursor: pointer;
+    font-size: 15px;
+    font-family: 'Pretendard', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #8B4CFC;
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    outline: none; /* 아웃라인 제거 */
+  }
+  
+  .diary-summary .summary-buttons .edit-save-button:focus,
+  .diary-summary .summary-buttons .edit-save-button:active {
+    outline: none; /* 포커스 및 클릭 시 아웃라인 제거 */
+    box-shadow: none; /* 포커스 시 박스 그림자 제거 */
+    background-color: rgba(139, 76, 252, 0.8); /* 버튼 색 연하게 */
+  }
+  

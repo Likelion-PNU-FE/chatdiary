@@ -8,6 +8,7 @@ import joy_gra from '../assets/joy.svg';
 import sad_gra from '../assets/sad.svg';
 import soso_gra from '../assets/soso.svg';
 import closeIcon from '../assets/close_icn.svg';
+import editIcon from '../assets/edit_icn.svg';
 
 const emotionImages = {
   angry: angry_gra,
@@ -19,15 +20,9 @@ const emotionImages = {
   soso: soso_gra
 };
 
-function DiarySummary({ emotion, onClose }) {
-  const handleOverlayClick = (e) => {
-    if (e.target.classList.contains('diary-summary-overlay')) {
-      onClose();
-    }
-  };
-
+function DiarySummaryView({ emotion, title, keywords, content, onEdit, onClose }) {
   return (
-    <div className="diary-summary-overlay" onClick={handleOverlayClick}>
+    <div className="diary-summary-overlay" onClick={(e) => e.target.classList.contains('diary-summary-overlay') && onClose()}>
       <div className="diary-summary">
         <button className="close-button" onClick={onClose}>
           <img src={closeIcon} alt="Close" />
@@ -36,12 +31,17 @@ function DiarySummary({ emotion, onClose }) {
           <div className="header-top">
             <img src={emotionImages[emotion]} alt={emotion} className="emoji-icon" />
             <div className="header-text">
-              <h3>GPT가 추천한 제목...</h3>
+              <h3>
+                {title}
+              </h3>
               <p>2024.07.12</p>
               <div className="keywords">
                 <span className="keyword-title">KeyWord</span>
-                <span className="keyword">조별과제</span>
-                <span className="keyword">잠수</span>
+                {keywords.map((keyword, index) => (
+                  <span className="keyword" key={index}>
+                    {keyword}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
@@ -49,21 +49,15 @@ function DiarySummary({ emotion, onClose }) {
         <hr className="divider" />
         <div className="summary-body">
           <h4>내용</h4>
-          <p>
-            오늘 조별과제를 했는데 어떤놈이 잠수를 탔다. 
-            자료조사라는 놈이 잠수를 타버려서 매우 화가났다.과제 제출 2일 전이라 그 놈의 분량까지 하루종일
-            밤새워가며 했다. 처음에는 오지 않은 친구 때문에 화가 났고, 그 친구의 과제를 하며 체념을 하였고
-            이후에는 그냥 해탈했다. 다른 조원과 함께 과제를 마무리 하고, 치킨에 맥주를 먹으며 하루의 마무리를 
-            지었다. 내용 내용 .. 내용 ..
-          </p>
+          <p>{content}</p>
         </div>
         <div className="summary-buttons">
-          <button className="edit-button">수정</button>
-          <button className="save-button">저장</button>
+          <button className="edit-button" onClick={onEdit}>수정</button>
+          <button className="save-button" onClick={onClose}>저장</button>
         </div>
       </div>
     </div>
   );
 }
 
-export default DiarySummary;
+export default DiarySummaryView;
