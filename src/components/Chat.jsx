@@ -76,7 +76,7 @@ function Chat({ onSave }) {
           ref={inputRef}
           rows={1}
         />
-        <button className="send-button" onClick={handleSend}>
+        <button className="send-button" onClick={onSave}>
           <img src={sendIcon} alt="Send" />
         </button>
       </div>

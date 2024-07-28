@@ -39,8 +39,8 @@ function PopupSummary({ emotion, onClose }) {
   };
 
   return (
-    <div className="popup-overlay" onClick={handleOverlayClick}>
-      <div className="popup">
+    <div className="popup-summary-overlay" onClick={handleOverlayClick}>
+      <div className="popup-summary">
         <button className="close-button" onClick={onClose}>
           <img src={closeIcon} alt="Close" />
         </button>
