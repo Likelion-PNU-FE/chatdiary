@@ -1,0 +1,123 @@
+.board {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 32px 24px;
+  }
+
+  nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+
+    .date-picker {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .date-picker-item {
+      margin: 0 10px;
+      text-align: center;
+      cursor: pointer;
+
+      &.selected div {
+        background: #8B4CFC;
+        color: #FFFFFF;
+      }
+
+      .date-info {
+        border-radius: 55px;
+        width: 45px;
+        height: 66px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: #FFFFFF;
+      }
+
+      .mood-info {
+        border-radius: 100%;
+        width: 38px;
+        height: 38px;
+        margin: 6px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #FFFFFF;
+      }
+    }
+  }
+
+  section {
+    display: grid;
+    flex-grow: 1;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin: 20px;
+
+    .mood-chart {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .chat-summary {
+      grid-column: 1/3;
+    }
+
+  }
+
+  .bar-graph {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    gap: 20px;
+    align-items: flex-end;
+    margin-top: 10px;
+    justify-content: center;
+  }
+
+  .bar {
+    height: 100%;
+    max-width: 50px;
+    background-color: #f0f0f0;
+    border-radius: 25px;
+    flex-grow: 1;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .fill {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    bottom: 0;
+    border-radius: 25px;
+    transition: height 0.3s, background-color 0.3s;
+  }
+
+  .emoji {
+    width: 100%;
+    font-size: 24px;
+    position: absolute;
+    top: 0;
+  }
+
+
+}
