@@ -1,3 +1,4 @@
+
 import React from 'react';
 import './styles/App.css';
 import { RouterProvider } from "react-router-dom";
@@ -7,6 +8,4 @@ function App() {
   return (
     <RouterProvider router={router} />
   );
-}
-
 export default App;
