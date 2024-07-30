@@ -8,8 +8,8 @@ import joy_gra from '../assets/joy.svg';
 import sad_gra from '../assets/sad.svg';
 import soso_gra from '../assets/soso.svg';
 import closeIcon from '../assets/close_icn.svg';
-import editIcon from '../assets/edit_icn.svg';
 
+// 감정별 이미지 매핑
 const emotionImages = {
   angry: angry_gra,
   anxious: anxious_gra,

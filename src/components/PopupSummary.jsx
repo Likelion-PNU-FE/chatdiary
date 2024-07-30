@@ -31,9 +31,9 @@ const emotionKorean = {
   soso: '보통'
 };
 
-function PopupSummary({ emotion, onClose }) {
+function PopupSummary({ emotion, onClose, onSummary }) {
   const handleOverlayClick = (e) => {
-    if (e.target.classList.contains('popup-overlay')) {
+    if (e.target.classList.contains('popup-summary-overlay')) {
       onClose();
     }
   };
@@ -47,9 +47,9 @@ function PopupSummary({ emotion, onClose }) {
         <div className="popup-content">
           <img src={emotionImages[emotion]} alt={emotion} className="emoji-icon" />
           <p>함께 쓴 일기에 담긴</p>
-            <p> 당신의 감정은 <span className="highlight">{emotionKorean[emotion]}</span>이네요!</p>
+          <p> 당신의 감정은 <span className="highlight">{emotionKorean[emotion]}</span>이네요!</p>
           <p style={{ color: '#A9A9A9', fontSize: '12px' }}>일기가 정상적으로 기록되었습니다.</p>
-          <button onClick={onClose} className="summary-button">요약 보러가기</button>
+          <button onClick={onSummary} className="summary-button">요약 보러가기</button>
         </div>
       </div>
     </div>
