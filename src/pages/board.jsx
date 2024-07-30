@@ -1,7 +1,7 @@
 import {getKoDayOfWeek} from "../utils/utils.js";
 import calendarIcon from "../assets/calendar_sm_icn.svg";
 import {useState} from "react";
-import '../styles/board.scss';
+import './board.scss';
 import Datepicker from "../components/datepicker.jsx";
 import Bargraph from "../components/bargraph.jsx";
 

@@ -48,7 +48,7 @@ function protectedLoader({request}) {
     console.log("pathname", pathname);
     // 로그인 여부 토글
     // 추후에 api요청을 통해서 user가 로그인했는지 로직을 넣어야함
-    let isAuth = true;
+    let isAuth = false;
 
     if (!isAuth) {
         if (pathname === "/" || pathname === "/login" || pathname === "/signup") return null;
