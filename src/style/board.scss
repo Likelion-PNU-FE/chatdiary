@@ -115,9 +115,23 @@
         border: none;
         cursor: pointer;
       }
+
+      .uploaded-photo {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        max-height: 250px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10px;
+      }
     }
 
+
     .mood-chart p {
+      justify-content: end;
+      align-items: end;
       font-family: Pretendard;
       font-weight: 600;
     }

@@ -30,28 +30,25 @@ const days = [
 
 const userName = "감정아";
 
+// eslint-disable-next-line no-unused-vars
+const mockChatData = {
+    title: "오늘의 대화",
+    content: "친구와의 대화에서 여행 계획을 논의했습니다.",
+    date: "2024-07-31",
+    emotion: "화남",
+    keywords1: "여행",
+    keywords2: "친구",
+    keywords3: "계획"
+};
+
 const Board = () => {
     let nowDate = new Date();
     const [selectedIndex, setSelectedIndex] = useState(6);
     const [isPopupVisible, setPopupVisible] = useState(false); // 팝업 상태 추가
+    const [photo, setPhoto] = useState(null);
+    const [chatData] = useState(null);
 
-    // eslint-disable-next-line no-unused-vars
-    const mockChatData = {
-        title: "오늘의 대화",
-        content: "친구와의 대화에서 여행 계획을 논의했습니다.",
-        date: "2024-07-31",
-        emotion: "화남",
-        keywords1: "여행",
-        keywords2: "친구",
-        keywords3: "계획"
-    };
-
-    const [chatData] = useState(mockChatData);
-
-    const handleButtonClick = () => {
-        alert('버튼 클릭!');
-    };
-
+    // 날짜 선택
     const convertDate = (date) => {
         let month = date.getMonth() + 1;
         let day = date.getDate();
@@ -59,6 +56,7 @@ const Board = () => {
         return `${month}월 ${day}일 ${dayOfWeek}`;
     };
 
+    // 무드 차트 팝업
     const handleMoodChartClick = () => {
         setPopupVisible(true); // 팝업 보이기
     };
@@ -66,6 +64,35 @@ const Board = () => {
     const handleClosePopup = () => {
         setPopupVisible(false); // 팝업 닫기
     };
+
+    // 사진 추가
+    const handleAddButtonClick = () => {
+        document.getElementById("photo-input").click();
+    };
+
+    const handlePhotoChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPhoto(reader.result); // 사진 미리보기
+            };
+            reader.readAsDataURL(file);
+            // 서버로 사진을 보내는 로직 (주석 처리)
+            // const formData = new FormData();
+            // formData.append('photo', file);
+            // fetch('YOUR_API_ENDPOINT', {
+            //     method: 'POST',
+            //     body: formData,
+            // }).then(response => {
+            //     // 서버 응답 처리
+            // });
+        }
+    };
+
+    const handleGoChatClick = () => {
+        alert("채팅으로 이동");
+    }
 
     return (
         <div className="board">
@@ -82,14 +109,26 @@ const Board = () => {
             <section>
                 <div className="card mood-chart" onClick={handleMoodChartClick}>
                     <p>7월 Mood Chart</p>
-                    <Bargraph />
+                    <Bargraph/>
                 </div>
                 <div className="card photo">
-                    <button className="card add-photo" onClick={handleButtonClick}>
-                        <img src={addIcon} alt="add" width="28px" />
-                    </button>
+                    {photo ? (
+                        <img src={photo} alt="Uploaded" className="uploaded-photo"
+                             style={{width: "100%", height: "auto"}}/>
+                    ) : (
+                        <button className="card add-photo" onClick={handleAddButtonClick}>
+                            <img src={addIcon} alt="add" width="28px"/>
+                        </button>
+                    )}
+                    <input
+                        type="file"
+                        id="photo-input"
+                        accept="image/*"
+                        style={{display: 'none'}} // input 숨김
+                        onChange={handlePhotoChange}
+                    />
                     <p>
-                        오늘의 <span className="highlight"> 사진</span>을 <br />기록해보세요!
+                        오늘의 <span className="highlight"> 사진</span>을 <br/>기록해보세요!
                     </p>
                 </div>
 
@@ -97,7 +136,7 @@ const Board = () => {
                     {chatData ? (
                         <div className="summary-header">
                             <div className="summary-info">
-                                <img src={chat_icn} alt="chat mood icon" className="chat-emotion" />
+                                <img src={chat_icn} alt="chat mood icon" className="chat-emotion"/>
                                 <p>{chatData.title}</p>
                                 <p>{chatData.date}</p>
                             </div>
@@ -110,10 +149,10 @@ const Board = () => {
                         </div>
                     ) : (
                         <div className="empty-summary">
-                            <img src={oops_gra} alt="opps image" />
+                            <img src={oops_gra} alt="opps image"/>
                             <p>Oops! 기록할 대화가 없어요!</p>
-                            <button className="chat-button" onClick={handleButtonClick}>
-                                <img src={chat_icn} alt="chat icon" className="chat-icon" />
+                            <button className="chat-button" onClick={handleGoChatClick}>
+                                <img src={chat_icn} alt="chat icon" className="chat-icon"/>
                                 <span>대화하러 가기</span>
                             </button>
                         </div>
@@ -124,7 +163,8 @@ const Board = () => {
             <BargraphPopup
                 isVisible={isPopupVisible}
                 onClose={handleClosePopup}
-                month="7"
+                // 사용자가 선택한 날짜의 월 받아서 넘겨야함
+                month={nowDate.getMonth()}
             />
         </div>
     );
