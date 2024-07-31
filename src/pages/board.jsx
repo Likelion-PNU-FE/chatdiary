@@ -1,6 +1,9 @@
 import {getKoDayOfWeek} from "../utils/utils.js";
 import calendarIcon from "../assets/calendar_sm_icn.svg";
-import {useState} from "react";
+import addIcon from "../assets/add_icn.svg";
+import oops_gra from "../assets/oops_gra.svg";
+import chat_icn from "../assets/chat_icn.svg";
+import {useState} from "react"
 import '../style/board.scss';
 import Datepicker from "../components/datepicker.jsx";
 import Bargraph from "../components/bargraph.jsx";
@@ -28,6 +31,18 @@ const Board = () => {
     let nowDate = new Date();
     const [selectedIndex, setSelectedIndex] = useState(6);
 
+    const mockChatData = {
+        title: "오늘의 대화",
+        content: "친구와의 대화에서 여행 계획을 논의했습니다.",
+        date: "2024-07-31",
+        emotion: "화남",
+        keywords1: "여행",
+        keywords2: "친구",
+        keywords3: "계획"
+    };
+
+    const [chatData] = useState(mockChatData); // 상태를 추가하여 서버 데이터를 저장
+
     const convertDate = (date) => {
         //     7월 12일 일요일
         let month = date.getMonth() + 1;
@@ -35,6 +50,7 @@ const Board = () => {
         let dayOfWeek = getKoDayOfWeek(date.getDay());
         return `${month}월 ${day}일 ${dayOfWeek}`;
     }
+
     return (
         <div className="board">
             <header>
@@ -52,11 +68,29 @@ const Board = () => {
                     <p>7월 Mood Chart</p>
                     <Bargraph/>
                 </div>
-                <div className="card">
-                    hihi
+                <div className="card photo">
+                    <button className="card add-photo">
+                        <img src={addIcon} alt="add" width="28px"/>
+                    </button>
+                    <p>
+                        오늘의 <span className="highlight"> 사진</span>을 <br/>기록해보세요!
+                    </p>
+
                 </div>
                 <div className="card chat-summary">
-                    hihi
+                    {chatData ? (
+                        <p>{chatData.title}</p> // 예시로 summary 속성을 사용
+                    ) : ( // 데이터가 없을 경우
+                        <div className="empty-summary">
+                            <img src={oops_gra} alt="opps image"/>
+                            <p>Oops! 기록할 대화가 없어요!</p>
+                            <button className="chat-button">
+                                <img src={chat_icn} alt="chat icon" className="chat-icon"/>
+                                <span>대화하러 가기</span>
+                            </button>
+
+                        </div>
+                    )}
                 </div>
             </section>
         </div>
