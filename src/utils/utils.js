@@ -35,3 +35,13 @@ export const getUsDayOfWeek = (dayOfWeek) => {
             return "Sat";
     }
 }
+
+export const setAuthStorage = ({token, vender}) => {
+    localStorage.setItem('token', token);
+    localStorage.setItem('vender', vender);
+}
+
+export const resetAuthStorage = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('vender');
+}
