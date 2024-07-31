@@ -31,6 +31,7 @@ const Board = () => {
     let nowDate = new Date();
     const [selectedIndex, setSelectedIndex] = useState(6);
 
+    // eslint-disable-next-line no-unused-vars
     const mockChatData = {
         title: "오늘의 대화",
         content: "친구와의 대화에서 여행 계획을 논의했습니다.",
@@ -77,6 +78,7 @@ const Board = () => {
                     </p>
 
                 </div>
+
                 <div className="card chat-summary">
                     {chatData ? (
                         <p>{chatData.title}</p> // 예시로 summary 속성을 사용

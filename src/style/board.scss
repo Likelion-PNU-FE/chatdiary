@@ -67,28 +67,43 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
     margin: 20px;
+    grid-template-rows: auto 1fr; /* 첫 번째 행은 자동 크기, 두 번째 행은 남은 공간을 차지하도록 설정 */
 
-    .mood-chart {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 200px;
-    }
-
+    .mood-chart,
     .photo {
       display: flex;
       flex-direction: column;
       align-items: center;
-      text-align: center;
-      gap: 10px;
-      justify-content: space-between; /* 요소 간의 공간을 균등하게 배분 */
+      justify-content: center;
+      min-height: 240px;
+      flex: 0 1 auto; /* 기본 크기를 유지하고 필요에 따라 늘어나는 설정 */
+
+      .add-photo {
+        margin-bottom: 10px;
+        background-color: #E0E1E4;
+        width: 100%;
+        flex: 1; /* add-photo가 공간을 차지하도록 설정 */
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+      }
     }
 
     .chat-summary {
-      grid-column: 1/3;
+      grid-column: 1 / 3; /* 전체 열을 사용 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #8B4CFC;
+      min-height: 200px; /* 최소 높이 설정 */
+      height: 100%; /* 부모의 높이를 차지하도록 설정 */
     }
-
   }
+
+
+
 
   .bar-graph {
     display: flex;
@@ -130,28 +145,8 @@
     top: 0;
   }
 
-
-
-  .add-photo {
-    padding: 10px;
-    background-color: #E0E1E4;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer; /* 마우스 커서를 포인터로 변경 */
-  }
-
   .highlight {
     color: #8B4CFC;
-  }
-
-  .chat-summary {
-    grid-column: 1 / -1; /* grid-column: 1/3; -> grid-column: 1 / -1;로 변경하여 전체 열을 사용 */
   }
 
   .empty-summary {
@@ -169,6 +164,9 @@
       max-width: 100%; /* 이미지 크기를 부모 요소에 맞게 조절 */
       height: auto; /* 비율에 맞춰 높이 자동 조정 */
       margin: 0;
+    }
+    .chat-summary {
+      grid-column: 1 / -1; /* grid-column: 1/3; -> grid-column: 1 / -1;로 변경하여 전체 열을 사용 */
     }
 
     .chat-button {
