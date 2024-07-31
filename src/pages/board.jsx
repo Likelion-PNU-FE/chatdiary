@@ -1,9 +1,9 @@
-import { getKoDayOfWeek } from "../utils/utils.js";
+import {getImagePathByEmotion, getKoDayOfWeek} from "../utils/utils.js";
 import calendarIcon from "../assets/calendar_sm_icn.svg";
 import addIcon from "../assets/add_icn.svg";
 import oops_gra from "../assets/oops_gra.svg";
 import chat_icn from "../assets/chat_icn.svg";
-import { useState } from "react";
+import {useState} from "react";
 import '../style/board.scss';
 import '../components/Bargraph.scss'
 import Datepicker from "../components/datepicker.jsx";
@@ -11,20 +11,20 @@ import Bargraph from "../components/bargraph.jsx";
 import BargraphPopup from "../components/MoodChart.jsx";
 
 const days = [
-    { day: 'Mon', date: 3, emoji: '😍' },
-    { day: 'Tue', date: 4, emoji: '😍' },
-    { day: 'Wed', date: 5, emoji: '😍' },
-    { day: 'Thu', date: 6, emoji: '😍' },
-    { day: 'Fri', date: 7, emoji: '😍' },
-    { day: 'Sun', date: 8, emoji: '😍' },
-    { day: 'Mon', date: 9, emoji: '😍' },
-    { day: 'Tue', date: 10, emoji: '😍' },
-    { day: 'Wed', date: 11, emoji: '😍' },
-    { day: 'Thu', date: 12, emoji: '😡' },
-    { day: 'Fri', date: 13, emoji: '' },
-    { day: 'Sat', date: 14, emoji: '' },
-    { day: 'Sun', date: 15, emoji: '' },
-    { day: 'Mon', date: 16, emoji: '' },
+    {day: 'Mon', date: 3, emoji: '😍'},
+    {day: 'Tue', date: 4, emoji: '😍'},
+    {day: 'Wed', date: 5, emoji: '😍'},
+    {day: 'Thu', date: 6, emoji: '😍'},
+    {day: 'Fri', date: 7, emoji: '😍'},
+    {day: 'Sun', date: 8, emoji: '😍'},
+    {day: 'Mon', date: 9, emoji: '😍'},
+    {day: 'Tue', date: 10, emoji: '😍'},
+    {day: 'Wed', date: 11, emoji: '😍'},
+    {day: 'Thu', date: 12, emoji: '😡'},
+    {day: 'Fri', date: 13, emoji: ''},
+    {day: 'Sat', date: 14, emoji: ''},
+    {day: 'Sun', date: 15, emoji: ''},
+    {day: 'Mon', date: 16, emoji: ''},
     // 필요한 만큼 날짜를 추가합니다.
 ];
 
@@ -35,7 +35,7 @@ const mockChatData = {
     title: "오늘의 대화",
     content: "친구와의 대화에서 여행 계획을 논의했습니다.",
     date: "2024-07-31",
-    emotion: "화남",
+    emotion: getImagePathByEmotion("화남"),
     keywords1: "여행",
     keywords2: "친구",
     keywords3: "계획"
@@ -46,7 +46,7 @@ const Board = () => {
     const [selectedIndex, setSelectedIndex] = useState(6);
     const [isPopupVisible, setPopupVisible] = useState(false); // 팝업 상태 추가
     const [photo, setPhoto] = useState(null);
-    const [chatData] = useState(null);
+    const [chatData] = useState(mockChatData); //mockChatData
 
     // 날짜 선택
     const convertDate = (date) => {
@@ -100,11 +100,11 @@ const Board = () => {
                 <h3>반가워, <strong>{userName}</strong>! 👋</h3>
                 <button className="date-picker-button">
                     <p>{convertDate(nowDate)}</p>
-                    <img src={calendarIcon} alt="calendar" width="20px" />
+                    <img src={calendarIcon} alt="calendar" width="20px"/>
                 </button>
             </header>
             <nav>
-                <Datepicker days={days} nowIndex={selectedIndex} setIndex={setSelectedIndex} />
+                <Datepicker days={days} nowIndex={selectedIndex} setIndex={setSelectedIndex}/>
             </nav>
             <section>
                 <div className="card mood-chart" onClick={handleMoodChartClick}>
@@ -135,16 +135,26 @@ const Board = () => {
                 <div className="card chat-summary">
                     {chatData ? (
                         <div className="summary-header">
-                            <div className="summary-info">
-                                <img src={chat_icn} alt="chat mood icon" className="chat-emotion"/>
-                                <p>{chatData.title}</p>
-                                <p>{chatData.date}</p>
+                                <div className="header-top">
+                                    <img src={chatData.emotion} alt="chat mood icon" className="chat-emotion"
+                                         width="50px"/>
+                                    <div className="header-text">
+                                        <h3>
+                                            {chatData.title}
+                                        </h3>
+                                        <p>{chatData.date}</p>
+                                        <div className="keywords">
+                                            <span className="keyword-title">KeyWord</span>
+                                            <span className="keyword">{chatData.keywords1}</span>
+                                            <span className="keyword">{chatData.keywords2}</span>
+                                            <span className="keyword">{chatData.keywords3}</span>
+                                        </div>
+                                    </div>
                             </div>
-                            <div className="summary-keyword">
-                                <p>KEY WORD</p>
-                                <div className="keyword-box">{chatData.keywords1}</div>
-                                <div className="keyword-box">{chatData.keywords2}</div>
-                                <div className="keyword-box">{chatData.keywords3}</div>
+                            <hr className="divider"/>
+                            <div className="summary-body">
+                                <h4>내용</h4>
+                                <p>{chatData.content}</p>
                             </div>
                         </div>
                     ) : (
@@ -164,7 +174,7 @@ const Board = () => {
                 isVisible={isPopupVisible}
                 onClose={handleClosePopup}
                 // 사용자가 선택한 날짜의 월 받아서 넘겨야함
-                month={nowDate.getMonth()}
+                month={nowDate.getMonth()+1}
             />
         </div>
     );
