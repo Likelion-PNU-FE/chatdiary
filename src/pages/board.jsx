@@ -144,9 +144,10 @@ const Board = () => {
                                 <img src={chatData.emotion} alt="chat mood icon" className="chat-emotion"
                                      width="60px"/>
                                 <div className="header-text">
-                                    <h3>
+                                    <div className="header-text-top">
                                         {chatData.title}
-                                    </h3>
+                                        <button className="edit-button" onClick={handleEditButtonClick}>Edit</button>
+                                    </div>
                                     <p>{chatData.date}</p>
                                     <div className="keywords">
                                         <span className="keyword-title">KeyWord</span>
@@ -155,7 +156,7 @@ const Board = () => {
                                         <span className="keyword">{chatData.keywords3}</span>
                                     </div>
                                 </div>
-                                <button className="edit-button" onClick={handleEditButtonClick}>Edit</button>
+                                {/*<button className="edit-button" onClick={handleEditButtonClick}>Edit</button>*/}
                             </div>
                             <hr className="divider"/>
                             <div className="summary-body">

@@ -6,7 +6,7 @@
 
   header {
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     align-items: center;
     margin: 32px 24px;
 
@@ -155,18 +155,20 @@
           margin-top: 10px;
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          justify-content: start;
 
           .header-text {
             margin-top: 0;
             margin-left: 20px;
+            flex:1;
 
-            h3 {
+            .header-text-top {
               margin: 0;
               font-size: 16px;
               font-weight: bold; /* 제목을 굵게 표시 */
               display: flex;
               align-items: center;
+              justify-content: space-between;
             }
 
             p {
@@ -196,6 +198,7 @@
                 font-size: 13px;
                 display: flex;
                 align-items: center;
+                min-width: 23px;
               }
             }
           }
