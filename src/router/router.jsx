@@ -3,7 +3,7 @@ import {createBrowserRouter, redirect} from "react-router-dom";
 import Layout from "../components/layout.jsx";
 import Landing from "../pages/landing.jsx";
 import Board from "../pages/board.jsx";
-import Chat from "../pages/chat.jsx";
+import Chat from "../pages/Chatpage.jsx";
 import SignUp from "../pages/signUp.jsx";
 import Login from "../pages/login.jsx";
 

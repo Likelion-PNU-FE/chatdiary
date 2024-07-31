@@ -1,6 +1,8 @@
 @font-face {
   font-family: 'Pretendard';
-  src: url('../assets/Pretendard.ttf') format('truetype');
+  src: url('../assets/fonts/Pretendard-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 body, html, .App {
@@ -20,7 +22,7 @@ body, html, .App {
   min-width: 300px;
   min-height: 600px; /* 노트북 화면에 맞추기 위해 비율로 높이 설정 */
   height: 100vh;
-  width:100%; /* 최대 높이 설정 */
+  width: 100%; /* 최대 높이 설정 */
   background: linear-gradient(180deg, #FFEBEB 0%, #FFFFFF 100%);
   display: flex;
   flex-direction: column;
@@ -89,11 +91,12 @@ body, html, .App {
 
 .chat-bubble {
   max-width: 70%;
-  padding: 1px 10px; /* 말풍선 안의 여백 */
+  padding: 12px 15px; /* 말풍선 안의 여백 */
   border-radius: 20px;
   word-break: break-word;
-  font-size: 12px; /* 글자 크기 조정 */
+  font-size: 13px; /* 글자 크기 조정 */
   position: relative;
+  font-family: 'Pretendard', sans-serif;
 }
 
 .bot .chat-bubble {

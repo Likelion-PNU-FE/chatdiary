@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/DiarySummary.css';
+import '../style/DiarySummary.css';
 import angry_gra from '../assets/angry.svg';
 import anxious_gra from '../assets/anxious.svg';
 import embar_gra from '../assets/embar.svg';

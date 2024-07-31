@@ -51,6 +51,7 @@
 .diary-summary .emoji-icon {
   width: 60px; /* 이모지 너비 */
   height: 60px; /* 이모지 높이 */
+  margin-right: 15px;
   margin-bottom: 10px;
 }
 
@@ -65,11 +66,11 @@
   width: 100%;
   border: 0;
   border-top: 1px solid #ddd;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .diary-summary .header-top {
-  margin-top: 1px;
+  margin-top: 10px;
   display: flex;
   align-items: center;
 }
@@ -98,7 +99,7 @@
 }
 
 .diary-summary .summary-header p {
-  margin: 0;
+  margin-top: 10px;
   font-size: 12px;
   color: grey;
 }
@@ -121,7 +122,7 @@
   color: #7A43DD;
   padding: 2px 10px;
   border-radius: 15px;
-  font-size: 12px;
+  font-size: 13px;
   display: flex;
   align-items: center;
 }
@@ -148,9 +149,20 @@
 
 .diary-summary .summary-body h4 {
   margin-bottom: 10px;
+  font-weight: bold;
   font-size: 16px;
   display: flex;
   align-items: center;
+  color: black;
+}
+
+.diary-summary .summary-body p {
+  margin-bottom: 10px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  line-height: 1.4;
+  color: black;
 }
 
 .diary-summary .editable-content {
@@ -162,7 +174,6 @@
   width: 100%;
   font-family: 'Pretendard', sans-serif;
   font-size: 16px;
-  font-weight: bold;
   border: none;
   border-bottom: 1px solid #ccc;
   outline: none;
@@ -196,7 +207,7 @@
   border: none;
   border-radius: 10px; /* 버튼을 최대한 둥글게 */
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
   font-family: 'Pretendard', sans-serif;
   display: flex;
   justify-content: center;
@@ -222,7 +233,11 @@
   background-color: #8B4CFC;
   color: white;
   margin-right: 25px;
+  padding: 10px 40px;
   outline: none; /* 아웃라인 제거 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .diary-summary .summary-buttons .save-button:focus,
