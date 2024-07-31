@@ -26,6 +26,7 @@ const days = [
     // 필요한 만큼 날짜를 추가합니다.
 ];
 
+const userName = "감정아"; // 원하는 감정 이름으로 변경 가능
 
 const Board = () => {
     let nowDate = new Date();
@@ -42,8 +43,11 @@ const Board = () => {
         keywords3: "계획"
     };
 
-    const [chatData] = useState(mockChatData); // 상태를 추가하여 서버 데이터를 저장
+    const [chatData] = useState(null); // 상태를 추가하여 서버 데이터를 저장
 
+    const handleButtonClick = () => {
+        alert('버튼 클릭!');
+    };
     const convertDate = (date) => {
         //     7월 12일 일요일
         let month = date.getMonth() + 1;
@@ -55,8 +59,8 @@ const Board = () => {
     return (
         <div className="board">
             <header>
-                <h3>반가워, 감정아! 👋</h3>
-                <button>
+                <h3>반가워, <strong>{userName}</strong>! 👋</h3>
+                <button className="date-picker-button">
                     <p>{convertDate(nowDate)}</p>
                     <img src={calendarIcon} alt="calendar" width="20px"/>
                 </button>
@@ -70,7 +74,7 @@ const Board = () => {
                     <Bargraph/>
                 </div>
                 <div className="card photo">
-                    <button className="card add-photo">
+                    <button className="card add-photo" onClick={handleButtonClick}>
                         <img src={addIcon} alt="add" width="28px"/>
                     </button>
                     <p>
@@ -80,13 +84,25 @@ const Board = () => {
                 </div>
 
                 <div className="card chat-summary">
-                    {chatData ? (
-                        <p>{chatData.title}</p> // 예시로 summary 속성을 사용
+                    {chatData ? ( // chat 이 있을 경우인데 이거 미주 언니꺼 합치면 같이 쓰려고 구현 일단 생략입니당
+                        <div className="summary-header">
+                            <div className="summary-info">
+                                <img src={chat_icn} alt="chat mood icon" className="chat-emotion"/>
+                                <p>{chatData.title}</p>
+                                <p>{chatData.date}</p>
+                            </div>
+                            <div className="summary-keyword">
+                                <p>KEY WORD</p>
+                                <div className="keyword-box">{chatData.keywords1}</div>
+                                <div className="keyword-box">{chatData.keywords2}</div>
+                                <div className="keyword-box">{chatData.keywords3}</div>
+                            </div>
+                        </div>
                     ) : ( // 데이터가 없을 경우
                         <div className="empty-summary">
                             <img src={oops_gra} alt="opps image"/>
                             <p>Oops! 기록할 대화가 없어요!</p>
-                            <button className="chat-button">
+                            <button className="chat-button" onClick={handleButtonClick}>
                                 <img src={chat_icn} alt="chat icon" className="chat-icon"/>
                                 <span>대화하러 가기</span>
                             </button>
