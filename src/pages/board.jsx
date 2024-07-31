@@ -94,6 +94,10 @@ const Board = () => {
         alert("채팅으로 이동");
     }
 
+    const handleEditButtonClick = () => {
+        alert("수정으로 이동");
+    };
+
     return (
         <div className="board">
             <header>
@@ -108,7 +112,7 @@ const Board = () => {
             </nav>
             <section>
                 <div className="card mood-chart" onClick={handleMoodChartClick}>
-                    <p>7월 Mood Chart</p>
+                    <p>{nowDate.getMonth()+1}월 Mood Chart</p>
                     <Bargraph/>
                 </div>
                 <div className="card photo">
@@ -134,22 +138,23 @@ const Board = () => {
 
                 <div className="card chat-summary">
                     {chatData ? (
-                        <div className="summary-header">
-                                <div className="header-top">
-                                    <img src={chatData.emotion} alt="chat mood icon" className="chat-emotion"
-                                         width="50px"/>
-                                    <div className="header-text">
-                                        <h3>
-                                            {chatData.title}
-                                        </h3>
-                                        <p>{chatData.date}</p>
-                                        <div className="keywords">
-                                            <span className="keyword-title">KeyWord</span>
-                                            <span className="keyword">{chatData.keywords1}</span>
-                                            <span className="keyword">{chatData.keywords2}</span>
-                                            <span className="keyword">{chatData.keywords3}</span>
-                                        </div>
+                        <div className="summary-content">
+                            <div className="header-top">
+                                <img src={chatData.emotion} alt="chat mood icon" className="chat-emotion"
+                                     width="60px"/>
+                                <div className="header-text">
+                                    <h3>
+                                        {chatData.title}
+                                    </h3>
+                                    <p>{chatData.date}</p>
+                                    <div className="keywords">
+                                        <span className="keyword-title">KeyWord</span>
+                                        <span className="keyword">{chatData.keywords1}</span>
+                                        <span className="keyword">{chatData.keywords2}</span>
+                                        <span className="keyword">{chatData.keywords3}</span>
                                     </div>
+                                </div>
+                                <button className="edit-button" onClick={handleEditButtonClick}>Edit</button>
                             </div>
                             <hr className="divider"/>
                             <div className="summary-body">
@@ -173,8 +178,7 @@ const Board = () => {
             <BargraphPopup
                 isVisible={isPopupVisible}
                 onClose={handleClosePopup}
-                // 사용자가 선택한 날짜의 월 받아서 넘겨야함
-                month={nowDate.getMonth()+1}
+                month={nowDate.getMonth() + 1}
             />
         </div>
     );

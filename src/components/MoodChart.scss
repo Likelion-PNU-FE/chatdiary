@@ -20,6 +20,7 @@
     border-radius: 18px;
     z-index: 1000;
     height: 40%;
+    max-width: 520px;
     min-height: 250px;
     width: calc(100% - 80px);
 }
@@ -44,6 +45,9 @@
     justify-content: center;
     align-items: center;
     overflow: auto;
-    border: #8B4CFC solid 1px;
-    height: 200px;
+    height: 80%;
+}
+
+.bar-graph{
+    height: 90%;
 }
