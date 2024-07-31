@@ -11,22 +11,23 @@ import Bargraph from "../components/bargraph.jsx";
 import BargraphPopup from "../components/MoodChart.jsx";
 
 const days = [
-    {day: 'Mon', date: 3, emoji: '😍'},
-    {day: 'Tue', date: 4, emoji: '😍'},
-    {day: 'Wed', date: 5, emoji: '😍'},
-    {day: 'Thu', date: 6, emoji: '😍'},
-    {day: 'Fri', date: 7, emoji: '😍'},
-    {day: 'Sun', date: 8, emoji: '😍'},
-    {day: 'Mon', date: 9, emoji: '😍'},
-    {day: 'Tue', date: 10, emoji: '😍'},
-    {day: 'Wed', date: 11, emoji: '😍'},
-    {day: 'Thu', date: 12, emoji: '😡'},
-    {day: 'Fri', date: 13, emoji: ''},
-    {day: 'Sat', date: 14, emoji: ''},
-    {day: 'Sun', date: 15, emoji: ''},
-    {day: 'Mon', date: 16, emoji: ''},
+    {day: 'Mon', date: 3, emotion: '행복'},
+    {day: 'Tue', date: 4, emotion: '행복'},
+    {day: 'Wed', date: 5, emotion: '행복'},
+    {day: 'Thu', date: 6, emotion: '행복'},
+    {day: 'Fri', date: 7, emotion: '행복'},
+    {day: 'Sun', date: 8, emotion: '행복'},
+    {day: 'Mon', date: 9, emotion: '행복'},
+    {day: 'Tue', date: 10, emotion: '행복'},
+    {day: 'Wed', date: 11, emotion: '행복'},
+    {day: 'Thu', date: 12, emotion: '화남'},
+    {day: 'Fri', date: 13, emotion: '슬픔'},
+    {day: 'Sat', date: 14, emotion: '당황스러움'},
+    {day: 'Sun', date: 15, emotion: '보통'},
+    {day: 'Mon', date: 16, emotion: '힘듦'},
     // 필요한 만큼 날짜를 추가합니다.
 ];
+
 
 const userName = "감정아";
 
