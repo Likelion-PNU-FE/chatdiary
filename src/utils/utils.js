@@ -36,6 +36,22 @@ export const getUsDayOfWeek = (dayOfWeek) => {
     }
 }
 
+export const getImagePathByEmotion = (emotion) => {
+    const imagePaths = {
+        불안: "../src/assets/anxious.svg",
+        보통: "../src/assets/soso.svg",
+        힘듦: "../src/assets/strength.svg",
+        즐거움: "../src/assets/joy.svg",
+        행복: "../src/assets/happy.svg",
+        화남: "../src/assets/angry.svg",
+        당황스러움: "../src/assets/embar.svg",
+        슬픔: "../src/assets/sad.svg"
+    };
+
+    return imagePaths[emotion] || "../src/assets/error_icn.svg"; // 키워드가 없으면 null 반환
+};
+
+
 export const setAuthStorage = ({token, vender}) => {
     localStorage.setItem('token', token);
     localStorage.setItem('vender', vender);
