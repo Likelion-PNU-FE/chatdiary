@@ -21,7 +21,7 @@
 .confirm-btn {
     flex: none;
     width: calc(30% - 10px);
-    background-color: #6f48eb;
+    background-color: #8B4CFC;
     color: white;
     border: none;
     cursor: pointer;
@@ -32,7 +32,7 @@
 .close-btn {
     flex: none;
     width: calc(30% - 10px);
-    color: #6f48eb;
+    color: #8B4CFC;
     baqckground-color: white;
     border: solid 2px;
     border-color: #d5d5d5;
