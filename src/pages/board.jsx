@@ -4,7 +4,7 @@ import addIcon from "../assets/add_icn.svg";
 import oops_gra from "../assets/oops_gra.svg";
 import chat_icn from "../assets/chat_icn.svg";
 import {useState} from "react";
-import '../style/board.scss';
+import './board.scss';
 import '../components/Bargraph.scss'
 import Datepicker from "../components/datepicker.jsx";
 import Bargraph from "../components/bargraph.jsx";
@@ -135,21 +135,21 @@ const Board = () => {
                 <div className="card chat-summary">
                     {chatData ? (
                         <div className="summary-header">
-                                <div className="header-top">
-                                    <img src={chatData.emotion} alt="chat mood icon" className="chat-emotion"
-                                         width="50px"/>
-                                    <div className="header-text">
-                                        <h3>
-                                            {chatData.title}
-                                        </h3>
-                                        <p>{chatData.date}</p>
-                                        <div className="keywords">
-                                            <span className="keyword-title">KeyWord</span>
-                                            <span className="keyword">{chatData.keywords1}</span>
-                                            <span className="keyword">{chatData.keywords2}</span>
-                                            <span className="keyword">{chatData.keywords3}</span>
-                                        </div>
+                            <div className="header-top">
+                                <img src={chatData.emotion} alt="chat mood icon" className="chat-emotion"
+                                     width="50px"/>
+                                <div className="header-text">
+                                    <h3>
+                                        {chatData.title}
+                                    </h3>
+                                    <p>{chatData.date}</p>
+                                    <div className="keywords">
+                                        <span className="keyword-title">KeyWord</span>
+                                        <span className="keyword">{chatData.keywords1}</span>
+                                        <span className="keyword">{chatData.keywords2}</span>
+                                        <span className="keyword">{chatData.keywords3}</span>
                                     </div>
+                                </div>
                             </div>
                             <hr className="divider"/>
                             <div className="summary-body">
@@ -174,7 +174,7 @@ const Board = () => {
                 isVisible={isPopupVisible}
                 onClose={handleClosePopup}
                 // 사용자가 선택한 날짜의 월 받아서 넘겨야함
-                month={nowDate.getMonth()+1}
+                month={nowDate.getMonth() + 1}
             />
         </div>
     );
