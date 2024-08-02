@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import '../style/Chat.css';
+import {useEffect, useRef, useState} from 'react';
+import '../styles/Chat.css';
 import PopupSummary from '../components/PopupSummary';
 import DiarySummaryView from '../components/DiarySummaryView';
 import DiarySummaryEdit from '../components/DiarySummaryEdit';
@@ -8,10 +8,13 @@ import sendIcon from '../assets/send_icn.svg';
 
 function ChatPage() {
   const [messages, setMessages] = useState([
-    { text: '안녕, 나의 오늘 하루를 말해도 될까 ?', sender: 'user' },
-    { text: '네, 오늘 하루에 있었던 일을 말해주시면 하루를 요약해 일기를 적어드릴게요.', sender: 'bot' },
-    { text: '오늘 조별과제를 했는데 팀원이 안왔어.', sender: 'user' },
-    { text: '짜증나는 일이네요. 또 다른 일은 없었나요? 오늘 먹은 것이나 본 것 다 괜찮아요! 혹시 이 얘기가 끝났다면 오른쪽 하단에 저랑 버튼을 누르면 제가 일기를 만들어 드릴게요 !', sender: 'bot' },
+    {text: '안녕, 나의 오늘 하루를 말해도 될까 ?', sender: 'user'},
+    {text: '네, 오늘 하루에 있었던 일을 말해주시면 하루를 요약해 일기를 적어드릴게요.', sender: 'bot'},
+    {text: '오늘 조별과제를 했는데 팀원이 안왔어.', sender: 'user'},
+    {
+      text: '짜증나는 일이네요. 또 다른 일은 없었나요? 오늘 먹은 것이나 본 것 다 괜찮아요! 혹시 이 얘기가 끝났다면 오른쪽 하단에 저랑 버튼을 누르면 제가 일기를 만들어 드릴게요 !',
+      sender: 'bot'
+    },
   ]);
   const [inputText, setInputText] = useState('');
   const [showPopup, setShowPopup] = useState(false);
@@ -31,13 +34,13 @@ function ChatPage() {
 
   const handleSend = () => {
     if (inputText.trim()) {
-      setMessages([...messages, { text: inputText, sender: 'user' }]);
+      setMessages([...messages, {text: inputText, sender: 'user'}]);
       setInputText('');
       inputRef.current.style.height = 'auto';
       setTimeout(() => {
         setMessages((prevMessages) => [
           ...prevMessages,
-          { text: '백엔드에서 가져온 유니콘의 응답', sender: 'bot' },
+          {text: '백엔드에서 가져온 유니콘의 응답', sender: 'bot'},
         ]);
       }, 1000); // 1초 후에 유니콘의 응답을 추가
     }
@@ -101,7 +104,7 @@ function ChatPage() {
           <div className="chat-content" ref={chatContentRef}>
             {messages.map((message, index) => (
               <div key={index} className={`chat-message ${message.sender}`}>
-                {message.sender === 'bot' && <img src={unicorn} alt="unicorn" className="unicorn-icon" />}
+                {message.sender === 'bot' && <img src={unicorn} alt="unicorn" className="unicorn-icon"/>}
                 <div className={`chat-bubble ${message.sender}`}>
                   <p>{message.text}</p>
                 </div>
@@ -120,10 +123,11 @@ function ChatPage() {
               rows={1}
             />
             <button className="send-button" onClick={handleSend}>
-              <img src={sendIcon} alt="Send" />
+              <img src={sendIcon} alt="Send"/>
             </button>
           </div>
-          {showPopup && <PopupSummary isVisible={showPopup} emotion={emotion} onClose={handleClosePopup} onSummary={handleShowSummary} />}
+          {showPopup && <PopupSummary isVisible={showPopup} emotion={emotion} onClose={handleClosePopup}
+                                      onSummary={handleShowSummary}/>}
         </>
       ) : showSummary ? (
         <DiarySummaryView
