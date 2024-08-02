@@ -1,15 +1,25 @@
 import AuthContainer from "../components/authContainer.jsx";
 import useInputs from "../hook/useInputs.js";
+import {login} from "../services/apis.js";
+import {useNavigate} from "react-router-dom";
 
 const Login = () => {
-    const [{email, password}, onChange, reset] = useInputs({
+    const [{email, password}, onChange] = useInputs({
         email: '',
         password: ''
     })
+    const navigate = useNavigate();
 
-    const onSubmit = () => {
+
+    const onSubmit = async () => {
         console.log('submit');
-        reset();
+        try {
+            const response = await login({email, password});
+            console.log(response);
+            navigate('/board');
+        } catch (e) {
+            console.error(e);
+        }
     }
     return (
         <AuthContainer class="login" type='login' onSubmit={onSubmit}>
