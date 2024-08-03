@@ -1,23 +1,30 @@
 import useInputs from "../hook/useInputs.js";
 import AuthContainer from "../components/AuthContainer.jsx";
 import './SignUp.scss'
+import {signUp} from "../services/apis.js";
+import {useNavigate} from "react-router-dom";
 
 const SignUp = () => {
-  const [{email, password, name}, onChange, reset] = useInputs({
+  const [{email, password, nickname}, onChange, onSubmit] = useInputs({
     email: '',
     password: '',
-    name: ''
+    nickname: ''
   })
+  const navigate = useNavigate();
 
-  const onSubmit = () => {
-    console.log('submit');
-    reset();
+  const onSignUp = async () => {
+    try {
+      await onSubmit(signUp);
+      alert('회원가입 성공!🎉🎉');
+      navigate('/login');
+    } catch (e) {
+      alert(`회원가입 실패 : ${e.status} - ${e.message}`);
+    }
   }
-
   return (
-    <AuthContainer type='signUp' onSubmit={onSubmit}>
+    <AuthContainer type='signUp' onSubmit={onSignUp}>
       <div className="box">
-        <input value={name} onChange={onChange} name="name" id="signUp-name" type="text" placeholder="이름"/>
+        <input value={nickname} onChange={onChange} name="nickname" id="signUp-name" type="text" placeholder="이름"/>
       </div>
       <div className="box">
         <input value={email} onChange={onChange} name="email" id="signUp-email" type="email" placeholder="이메일"/>
