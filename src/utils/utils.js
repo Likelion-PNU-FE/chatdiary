@@ -50,3 +50,14 @@ export const getImagePathByEmotion = (emotion) => {
 
     return imagePaths[emotion] || "../src/assets/error_icn.svg"; // 키워드가 없으면 null 반환
 };
+
+
+export const setAuthStorage = ({token, vender}) => {
+    localStorage.setItem('token', token);
+    localStorage.setItem('vender', vender);
+}
+
+export const resetAuthStorage = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('vender');
+}
