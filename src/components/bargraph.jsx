@@ -41,21 +41,21 @@ const Bargraph = ({version}) => {
 const getColor = (emotion) => {
     switch (emotion) {
         case '화남':
-            return '#FF6B6B';
+            return '#F75A6D';
         case '슬픔':
-            return '#4D4DFF';
+            return '#83B2FD';
         case '행복':
-            return '#32FF7E';
+            return '#BAD2FF';
         case '즐거움':
-            return '#FFD700';
+            return '#86EC9E';
         case '힘듦':
-            return '#FFA07A';
+            return '#FF746B';
         case '당황스러움':
-            return '#FF8C00';
+            return '#FB9964';
         case '보통':
-            return '#D3D3D3';
+            return '#FFD873';
         case '불안':
-            return '#8A2BE2';
+            return '#5364FF';
         default:
             return '#f0f0f0';
     }
