@@ -8,18 +8,21 @@ const CalendarPopup = ({ isVisible, onClose , selectedDate, onDateChange, onConf
     if (!isVisible) return null;
 
     return (
-        <div className="popup-summary-overlay">
-            <div className="popup-summary">
-            <Calendar
-                value={selectedDate}
-                onClickDay={onDateChange}
-                showNeighboringMonth={false}
-                formatDay={(locale, date) => moment(date).format("DD")}
-                locale="en-GB" // 영어 달력이 더 이뻐보여서 설정했어요. 한글로 설정하려면 지우시면 됩니당
-            />
-                <div className="buttons">
-                    <button className="confirm-btn" onClick={onConfirm} disabled={!selectedDate}>선택</button>
-                    <button className="close-btn" onClick={onClose}>취소</button>
+        <div className="CalendarPopup">
+            <div className="CalendarPopup__popup-summary-overlay">
+                <div className="CalendarPopup__popup-summary">
+                    <Calendar
+                        value={selectedDate}
+                        onClickDay={onDateChange}
+                        showNeighboringMonth={false}
+                        formatDay={(locale, date) => moment(date).format("DD")}
+                        locale="en-GB"
+                    />
+                    <div className="CalendarPopup__buttons">
+                        <button className="CalendarPopup__close-btn" onClick={onClose}>취소</button>
+                        <button className="CalendarPopup__confirm-btn" onClick={onConfirm} disabled={!selectedDate}>선택
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
