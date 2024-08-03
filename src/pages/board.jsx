@@ -29,6 +29,18 @@ const days = [
 ];
 
 
+// Mock API 데이터
+const mockApiData = [
+    {emotion: '불안', count: 2},
+    {emotion: '보통', count: 5},
+    {emotion: '힘듦', count: 1},
+    {emotion: '즐거움', count: 8},
+    {emotion: '행복', count: 6},
+    {emotion: '화남', count: 3},
+    {emotion: '당황스러움', count: 4},
+    {emotion: '슬픔', count: 2},
+];
+
 const userName = "감정아";
 
 // eslint-disable-next-line no-unused-vars
@@ -48,6 +60,8 @@ const Board = () => {
     const [isPopupVisible, setPopupVisible] = useState(false); // 팝업 상태 추가
     const [photo, setPhoto] = useState(null);
     const [chatData] = useState(mockChatData); //mockChatData
+    const [apiData] = useState(mockApiData);
+
 
     // 날짜 선택
     const convertDate = (date) => {
@@ -114,7 +128,7 @@ const Board = () => {
             <section>
                 <div className="card mood-chart" onClick={handleMoodChartClick}>
                     <p>{nowDate.getMonth()+1}월 Mood Chart</p>
-                    <Bargraph version={1}/>
+                    <Bargraph version={1} apiData ={apiData}/>
                 </div>
                 <div className="card photo">
                     {photo ? (
@@ -181,6 +195,7 @@ const Board = () => {
                 isVisible={isPopupVisible}
                 onClose={handleClosePopup}
                 month={nowDate.getMonth() + 1}
+                apiData={apiData}
             />
         </div>
     );
