@@ -4,25 +4,23 @@ import {login} from "../services/apis.js";
 import {useNavigate} from "react-router-dom";
 
 const Login = () => {
-  const [{email, password}, onChange] = useInputs({
+  const [{email, password}, onChange, onSubmit] = useInputs({
     email: '',
     password: ''
   })
   const navigate = useNavigate();
 
 
-  const onSubmit = async () => {
-    console.log('submit');
+  const onLogin = async () => {
     try {
-      const response = await login({email, password});
-      console.log(response);
+      await onSubmit(login);
       navigate('/board');
     } catch (e) {
-      console.error(e);
+      alert('로그인 실패 :' + e.message);
     }
   }
   return (
-    <AuthContainer class="login" type='login' onSubmit={onSubmit}>
+    <AuthContainer class="login" type='login' onSubmit={onLogin}>
       <input value={email} onChange={onChange} name="email" id="login-email" type="email" placeholder="이메일"/>
 
       <input value={password} onChange={onChange} name="password" id="login-password" type="password"
