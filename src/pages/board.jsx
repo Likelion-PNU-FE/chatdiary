@@ -4,30 +4,42 @@ import addIcon from "../assets/add_icn.svg";
 import oops_gra from "../assets/oops_gra.svg";
 import chat_icn from "../assets/chat_icn.svg";
 import {useState} from "react";
-import '../style/board.scss';
+import '../pages/Board.scss';
 import '../components/Bargraph.scss'
 import Datepicker from "../components/datepicker.jsx";
-import Bargraph from "../components/bargraph.jsx";
+import Bargraph from "../components/Bargraph.jsx";
 import BargraphPopup from "../components/MoodChart.jsx";
-import SomePage from "./SomePage.jsx";
 import CalendarPopup from "../components/CalendarPopup.jsx";
 
 const days = [
-    {day: 'Mon', date: 3, emoji: '😍'},
-    {day: 'Tue', date: 4, emoji: '😍'},
-    {day: 'Wed', date: 5, emoji: '😍'},
-    {day: 'Thu', date: 6, emoji: '😍'},
-    {day: 'Fri', date: 7, emoji: '😍'},
-    {day: 'Sun', date: 8, emoji: '😍'},
-    {day: 'Mon', date: 9, emoji: '😍'},
-    {day: 'Tue', date: 10, emoji: '😍'},
-    {day: 'Wed', date: 11, emoji: '😍'},
-    {day: 'Thu', date: 12, emoji: '😡'},
-    {day: 'Fri', date: 13, emoji: ''},
-    {day: 'Sat', date: 14, emoji: ''},
-    {day: 'Sun', date: 15, emoji: ''},
-    {day: 'Mon', date: 16, emoji: ''},
+    {day: 'Mon', date: 3, emotion: '행복'},
+    {day: 'Tue', date: 4, emotion: '행복'},
+    {day: 'Wed', date: 5, emotion: '행복'},
+    {day: 'Thu', date: 6, emotion: '행복'},
+    {day: 'Fri', date: 7, emotion: '행복'},
+    {day: 'Sun', date: 8, emotion: '행복'},
+    {day: 'Mon', date: 9, emotion: '행복'},
+    {day: 'Tue', date: 10, emotion: '행복'},
+    {day: 'Wed', date: 11, emotion: '행복'},
+    {day: 'Thu', date: 12, emotion: '화남'},
+    {day: 'Fri', date: 13, emotion: '슬픔'},
+    {day: 'Sat', date: 14, emotion: '당황스러움'},
+    {day: 'Sun', date: 15, emotion: '보통'},
+    {day: 'Mon', date: 16, emotion: '힘듦'},
     // 필요한 만큼 날짜를 추가합니다.
+];
+
+
+// Mock API 데이터
+const mockApiData = [
+    {emotion: '불안', count: 2},
+    {emotion: '보통', count: 5},
+    {emotion: '힘듦', count: 1},
+    {emotion: '즐거움', count: 8},
+    {emotion: '행복', count: 6},
+    {emotion: '화남', count: 3},
+    {emotion: '당황스러움', count: 4},
+    {emotion: '슬픔', count: 2},
 ];
 
 const userName = "감정아";
@@ -51,6 +63,8 @@ const Board = () => {
     const [isPopupVisible, setPopupVisible] = useState(false); // 팝업 상태 추가
     const [photo, setPhoto] = useState(null);
     const [chatData] = useState(mockChatData); //mockChatData
+    const [apiData] = useState(mockApiData);
+
 
     const [isCalendarVisible, setCalendarVisible] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
@@ -110,6 +124,10 @@ const Board = () => {
         alert("채팅으로 이동");
     }
 
+    const handleEditButtonClick = () => {
+        alert("수정으로 이동");
+    };
+
     return (
         <div className="board">
             <header>
@@ -124,8 +142,8 @@ const Board = () => {
             </nav>
             <section>
                 <div className="card mood-chart" onClick={handleMoodChartClick}>
-                    <p>7월 Mood Chart</p>
-                    <Bargraph/>
+                    <p>{selectedDate.getMonth()+1}월 Mood Chart</p>
+                    <Bargraph version={1} apiData ={apiData}/>
                 </div>
                 <div className="card photo">
                     {photo ? (
@@ -150,22 +168,24 @@ const Board = () => {
 
                 <div className="card chat-summary">
                     {chatData ? (
-                        <div className="summary-header">
-                                <div className="header-top">
-                                    <img src={chatData.emotion} alt="chat mood icon" className="chat-emotion"
-                                         width="50px"/>
-                                    <div className="header-text">
-                                        <h3>
-                                            {chatData.title}
-                                        </h3>
-                                        <p>{chatData.date}</p>
-                                        <div className="keywords">
-                                            <span className="keyword-title">KeyWord</span>
-                                            <span className="keyword">{chatData.keywords1}</span>
-                                            <span className="keyword">{chatData.keywords2}</span>
-                                            <span className="keyword">{chatData.keywords3}</span>
-                                        </div>
+                        <div className="summary-content">
+                            <div className="header-top">
+                                <img src={chatData.emotion} alt="chat mood icon" className="chat-emotion"
+                                     width="60px"/>
+                                <div className="header-text">
+                                    <div className="header-text-top">
+                                        {chatData.title}
+                                        <button className="edit-button" onClick={handleEditButtonClick}>Edit</button>
                                     </div>
+                                    <p>{chatData.date}</p>
+                                    <div className="keywords">
+                                        <span className="keyword-title">KeyWord</span>
+                                        <span className="keyword">{chatData.keywords1}</span>
+                                        <span className="keyword">{chatData.keywords2}</span>
+                                        <span className="keyword">{chatData.keywords3}</span>
+                                    </div>
+                                </div>
+                                {/*<button className="edit-button" onClick={handleEditButtonClick}>Edit</button>*/}
                             </div>
                             <hr className="divider"/>
                             <div className="summary-body">
@@ -189,8 +209,8 @@ const Board = () => {
             <BargraphPopup
                 isVisible={isPopupVisible}
                 onClose={handleClosePopup}
-                // 사용자가 선택한 날짜의 월 받아서 넘겨야함
-                month={nowDate.getMonth()+1}
+                month={selectedDate.getMonth() + 1}
+                apiData={apiData}
             />
             <CalendarPopup
                 isVisible={isCalendarVisible}
@@ -199,6 +219,7 @@ const Board = () => {
                 onDateChange={handleDateChange}
                 onConfirm={handleConfirm}
             />
+
         </div>
 
     );

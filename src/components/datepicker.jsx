@@ -1,4 +1,5 @@
 import {useEffect, useRef} from "react";
+import {getImagePathByEmotion} from "../utils/utils.js";
 
 const Datepicker = ({days, nowIndex, setIndex}) => {
     const containerRef = useRef(null);
@@ -28,7 +29,10 @@ const Datepicker = ({days, nowIndex, setIndex}) => {
                         <div>{day.date}</div>
                     </div>
 
-                    <div className="mood-info">{day.emoji}</div>
+                    <div className="mood-info">
+                        <img src={getImagePathByEmotion(day.emotion)} alt="chat mood icon" className="chat-emotion"
+                             width="30px"/>
+                    </div>
                 </div>
             ))}
         </div>

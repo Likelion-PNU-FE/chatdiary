@@ -1,5 +1,4 @@
-import React from 'react';
-import '../style/DiarySummary.css';
+import '../styles/DiarySummary.css';
 import angry_gra from '../assets/angry.svg';
 import anxious_gra from '../assets/anxious.svg';
 import embar_gra from '../assets/embar.svg';
@@ -20,16 +19,17 @@ const emotionImages = {
   soso: soso_gra
 };
 
-function DiarySummaryView({ emotion, title, keywords, content, onEdit, onClose }) {
+function DiarySummaryView({emotion, title, keywords, content, onEdit, onClose}) {
   return (
-    <div className="diary-summary-overlay" onClick={(e) => e.target.classList.contains('diary-summary-overlay') && onClose()}>
+    <div className="diary-summary-overlay"
+         onClick={(e) => e.target.classList.contains('diary-summary-overlay') && onClose()}>
       <div className="diary-summary">
         <button className="close-button" onClick={onClose}>
-          <img src={closeIcon} alt="Close" />
+          <img src={closeIcon} alt="Close"/>
         </button>
         <div className="summary-header">
           <div className="header-top">
-            <img src={emotionImages[emotion]} alt={emotion} className="emoji-icon" />
+            <img src={emotionImages[emotion]} alt={emotion} className="emoji-icon"/>
             <div className="header-text">
               <h3>
                 {title}
@@ -46,7 +46,7 @@ function DiarySummaryView({ emotion, title, keywords, content, onEdit, onClose }
             </div>
           </div>
         </div>
-        <hr className="divider" />
+        <hr className="divider"/>
         <div className="summary-body">
           <h4>내용</h4>
           <p>{content}</p>

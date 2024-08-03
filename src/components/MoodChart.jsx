@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import Bargraph from './bargraph.jsx';
+import Bargraph from './Bargraph.jsx';
 import './MoodChart.scss';
 import closeIcon from "../assets/close_icn.svg";
 import '../components/Bargraph.scss'
 
 
-const BargraphPopup = ({ isVisible, onClose, month }) => {
+const BargraphPopup = ({ isVisible, onClose, month, apiData }) => {
     if (!isVisible) return null;
 
     return (
@@ -17,7 +17,7 @@ const BargraphPopup = ({ isVisible, onClose, month }) => {
                 </div>
                 <h2>{month}월 Mood Chart</h2>
                 <div className="graph">
-                    <Bargraph />
+                    <Bargraph version={2} apiData={apiData}/>
                 </div>
             </div>
         </div>
@@ -26,8 +26,8 @@ const BargraphPopup = ({ isVisible, onClose, month }) => {
 
 
 BargraphPopup.propTypes = {
-    isVisible: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
+  isVisible: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default BargraphPopup;

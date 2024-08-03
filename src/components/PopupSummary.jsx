@@ -1,6 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import '../style/Popup.css';
+import '../styles/Popup.css';
 import angry from '../assets/angry_gra.svg';
 import anxious from '../assets/anxious_gra.svg';
 import embar from '../assets/embar_gra.svg';
@@ -30,20 +29,20 @@ const emotionKorean = {
   soso: '보통'
 };
 
-const PopupSummary = ({ isVisible, emotion, onClose, onSummary }) => {
+const PopupSummary = ({isVisible, emotion, onClose, onSummary}) => {
   if (!isVisible) return null;
 
   return (
     <div className="popup-summary-overlay">
       <div className="popup-summary">
         <button className="close-button" onClick={onClose}>
-          <img src={closeIcon} alt="Close" />
+          <img src={closeIcon} alt="Close"/>
         </button>
         <div className="popup-content">
-          <img src={emotionImages[emotion]} alt={emotion} className="emoji-icon" />
+          <img src={emotionImages[emotion]} alt={emotion} className="emoji-icon"/>
           <p>함께 쓴 일기에 담긴</p>
           <p>당신의 감정은 <span className="highlight">{emotionKorean[emotion]}</span>이네요!</p>
-          <p style={{ color: '#A9A9A9', fontSize: '12px' }}>일기가 정상적으로 기록되었습니다.</p>
+          <p style={{color: '#A9A9A9', fontSize: '12px'}}>일기가 정상적으로 기록되었습니다.</p>
           <button onClick={onSummary} className="summary-button">요약 보러가기</button>
         </div>
       </div>
