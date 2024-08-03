@@ -1,14 +1,15 @@
 import axios from "axios";
 import {redirect} from "react-router-dom";
 
+const isDev = import.meta.env.MODE === "development";
+
 export const Api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: isDev ? "http://3.37.103.251:8089" : "/api",
   headers: {
     "Content-type": "application/json"
   }
 });
 
-const isDev = import.meta.env.MODE === "development";
 
 Api.interceptors.request.use(
   config => {

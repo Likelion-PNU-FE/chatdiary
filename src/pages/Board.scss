@@ -70,6 +70,8 @@
         align-items: center;
         justify-content: center;
         background: #FFFFFF;
+        color: black;
+        font-weight: 500;
       }
 
       .mood-info {
@@ -134,6 +136,7 @@
 
     .photo p {
       line-height: 1.2;
+      font-weight: 500;
     }
 
     .chat-summary {
@@ -169,6 +172,7 @@
               display: flex;
               align-items: center;
               justify-content: space-between;
+
             }
 
             p {

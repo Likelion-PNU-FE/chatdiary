@@ -3,6 +3,12 @@
 각 컵포넌트에서 쓰일만한 css는 styles 폴더에 컴포넌트 이름으로 파일을 만들어서 작성해주세요!
 */
 
+p{
+  color: black;
+}
+h1,h2,h3{
+  color: black;
+}
 .layout {
   max-width: 600px;
   min-width: 300px;
