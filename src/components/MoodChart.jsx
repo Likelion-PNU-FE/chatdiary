@@ -17,7 +17,7 @@ const BargraphPopup = ({ isVisible, onClose, month }) => {
                 </div>
                 <h2>{month}월 Mood Chart</h2>
                 <div className="graph">
-                    <Bargraph />
+                    <Bargraph version={2}/>
                 </div>
             </div>
         </div>

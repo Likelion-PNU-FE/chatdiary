@@ -114,7 +114,7 @@ const Board = () => {
             <section>
                 <div className="card mood-chart" onClick={handleMoodChartClick}>
                     <p>{nowDate.getMonth()+1}월 Mood Chart</p>
-                    <Bargraph/>
+                    <Bargraph version={1}/>
                 </div>
                 <div className="card photo">
                     {photo ? (
