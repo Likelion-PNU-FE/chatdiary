@@ -9,6 +9,8 @@ import '../components/Bargraph.scss'
 import Datepicker from "../components/datepicker.jsx";
 import Bargraph from "../components/bargraph.jsx";
 import BargraphPopup from "../components/MoodChart.jsx";
+import SomePage from "./SomePage.jsx";
+import CalendarPopup from "../components/CalendarPopup.jsx";
 
 const days = [
     {day: 'Mon', date: 3, emoji: '😍'},
@@ -41,12 +43,26 @@ const mockChatData = {
     keywords3: "계획"
 };
 
+
+
 const Board = () => {
     let nowDate = new Date();
     const [selectedIndex, setSelectedIndex] = useState(6);
     const [isPopupVisible, setPopupVisible] = useState(false); // 팝업 상태 추가
     const [photo, setPhoto] = useState(null);
     const [chatData] = useState(mockChatData); //mockChatData
+
+    const [isCalendarVisible, setCalendarVisible] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(null);
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+    };
+
+    const handleConfirm = () => {
+        alert(`Selected date: ${selectedDate.toLocaleDateString()}`); // 날짜 팝업 보이게 해놨음
+        setCalendarVisible(false);
+    };
 
     // 날짜 선택
     const convertDate = (date) => {
@@ -98,7 +114,7 @@ const Board = () => {
         <div className="board">
             <header>
                 <h3>반가워, <strong>{userName}</strong>! 👋</h3>
-                <button className="date-picker-button">
+                <button className="date-picker-button" onClick={() => setCalendarVisible(true)}> {/* 날짜 선택 버튼 */}
                     <p>{convertDate(nowDate)}</p>
                     <img src={calendarIcon} alt="calendar" width="20px"/>
                 </button>
@@ -176,7 +192,15 @@ const Board = () => {
                 // 사용자가 선택한 날짜의 월 받아서 넘겨야함
                 month={nowDate.getMonth()+1}
             />
+            <CalendarPopup
+                isVisible={isCalendarVisible}
+                onClose={() => setCalendarVisible(false)}
+                selectedDate={selectedDate}
+                onDateChange={handleDateChange}
+                onConfirm={handleConfirm}
+            />
         </div>
+
     );
 }
 
