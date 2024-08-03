@@ -18,7 +18,7 @@ const SignUp = () => {
       alert('회원가입 성공!🎉🎉');
       navigate('/login');
     } catch (e) {
-      alert(`회원가입 실패 : ${e.status} - ${e.message}`);
+      alert(`회원가입 실패 : ${e}`);
     }
   }
   return (
