@@ -4,10 +4,10 @@ import addIcon from "../assets/add_icn.svg";
 import oops_gra from "../assets/oops_gra.svg";
 import chat_icn from "../assets/chat_icn.svg";
 import {useState} from "react";
-import '../style/board.scss';
+import './Board.scss';
 import '../components/Bargraph.scss'
 import Datepicker from "../components/datepicker.jsx";
-import Bargraph from "../components/bargraph.jsx";
+import Bargraph from "../components/Bargraph.jsx";
 import BargraphPopup from "../components/MoodChart.jsx";
 
 const days = [
