@@ -8,9 +8,11 @@ export const Api = axios.create({
   }
 });
 
+const isDev = import.meta.env.MODE === "development";
+
 Api.interceptors.request.use(
   config => {
-    console.log(`[요청]${config.method} : ${config.url}`);
+    isDev && console.log(`[요청]${config.method} : ${config.url}`);
     const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = token;
@@ -24,7 +26,7 @@ Api.interceptors.request.use(
 
 Api.interceptors.response.use(
   response => {
-    console.log(`[응답]${response.config.url} : ${response.status} ${response.data} ${response.headers}`);
+    isDev && console.log(`[응답]${response.config.url} : ${response.status} ${response.data} ${response.headers}`);
     const token = response.headers.getAuthorization();
     if (token) {
       localStorage.setItem("token", token);
@@ -32,7 +34,7 @@ Api.interceptors.response.use(
     return response;
   },
   error => {
-    console.log(`[에러]${error.config.url} : ${error.response.status} ${error.response.data}`);
+    isDev && console.log(`[에러]${error.config.url} : ${error.response.status} ${error.response.data}`);
     if (error.response.status === 401) {
       localStorage.removeItem("token");
       redirect("/login");
