@@ -1,6 +1,9 @@
 name: main
 
-on: [ push ]
+on:
+  push:
+    branches:
+      - main    # main 브랜치에서 push 이벤트가 일어났을 때 실행
 
 jobs:
   build-and-deploy:
