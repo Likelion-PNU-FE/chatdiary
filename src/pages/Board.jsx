@@ -1,4 +1,4 @@
-import {getImagePathByEmotion, getKoDayOfWeek} from "../utils/utils.js";
+import {getDateString, getImagePathByEmotion, getKoDayOfWeek} from "../utils/utils.js";
 import calendarIcon from "../assets/calendar_sm_icn.svg";
 import deleteIcon from "../assets/deleteIcn.svg"
 import addIcon from "../assets/add_icn.svg";
@@ -11,9 +11,10 @@ import Datepicker from "../components/datepicker.jsx";
 import Bargraph from "../components/Bargraph.jsx";
 import BargraphPopup from "../components/MoodChart.jsx";
 import useFetchData from "../hook/useFetchData.js";
-import {getDiaryContent, getMonthEmotions, getMyInfo} from "../services/apis.js";
+import {getDiaryContent, getMonthEmotions, getMyInfo, postChatRoom} from "../services/apis.js";
 import LogoutDialog from "../components/LogoutDialog.jsx";
 import CalendarPopup from "../components/CalendarPopup.jsx";
+import {useNavigate} from "react-router-dom";
 
 
 const Board = () => {
@@ -28,10 +29,9 @@ const Board = () => {
   const [isCalendarOpen, setCalendarOpen] = useState(false);
   const [isPopupVisible, setPopupVisible] = useState(false); // 팝업 상태 추가
   const [photo, setPhoto] = useState(null);
-  const {data: diaryContent} = useFetchData(() => getDiaryContent({targetDate: "2024-08-09"}));
-  const {data: apiData = []} = useFetchData(() => {
-    return getMonthEmotions("2024-08");
-  });
+  const {data: diaryContent, error: diaryError} = useFetchData(getDiaryContent, getDateString(nowDate));
+  const {data: apiData = []} = useFetchData(getMonthEmotions, "2024-08")
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (apiData) {
@@ -75,8 +75,16 @@ const Board = () => {
   };
 
 
-  const handleGoChatClick = () => {
-    alert("채팅으로 이동");
+  const handleGoChatClick = async () => {
+    try {
+      const date = getDateString(nowDate);
+      const response = await postChatRoom({title: "오늘의 대화", date});
+      const id = response.data?.chatRoomId;
+      if (!id) throw new Error("id 없음");
+      navigate('/chat', {state: {date, id}});
+    } catch (e) {
+      alert(`대화방 생성 실패 : ${e}`);
+    }
   }
 
   const handleEditButtonClick = () => {
@@ -122,7 +130,7 @@ const Board = () => {
         </div>
 
         <div className="card chat-summary">
-          {diaryContent ? (
+          {(!diaryError && diaryContent) ? (
             <div className="summary-content">
               <div className="header-top">
                 <img src={getImagePathByEmotion(diaryContent.emotion)} alt="chat mood icon"
