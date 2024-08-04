@@ -1,16 +1,37 @@
 import {getImagePathByEmotion, getKoDayOfWeek} from "../utils/utils.js";
 import calendarIcon from "../assets/calendar_sm_icn.svg";
 import addIcon from "../assets/add_icn.svg";
-import oops_gra from "../assets/oops_gra.svg";
-import chat_icn from "../assets/chat_icn.svg";
+import oopsGra from "../assets/oops_gra.svg";
+import chatIcon from "../assets/chat_icn.svg";
 import {useState} from "react";
 import './Board.scss';
 import '../components/Bargraph.scss'
 import Datepicker from "../components/datepicker.jsx";
 import Bargraph from "../components/Bargraph.jsx";
 import BargraphPopup from "../components/MoodChart.jsx";
+import anxiousImg from "../assets/anxious.svg";
+import sosoImg from "../assets/soso.svg";
+import strengthImg from "../assets/strength.svg";
+import joyImg from "../assets/joy.svg";
+import happyImg from "../assets/happy.svg";
+import angryImg from "../assets/angry.svg";
+import embarImg from "../assets/embar.svg";
+import sadImg from "../assets/sad.svg";
 import useFetchData from "../hook/useFetchData.js";
 import {getMyInfo} from "../services/apis.js";
+const imagePaths = {
+    anxiousImg,
+    sosoImg,
+    strengthImg,
+    joyImg,
+    happyImg,
+    angryImg,
+    embarImg,
+    sadImg
+};
+
+
+
 
 const days = [
     {day: 'Mon', date: 3, emotion: '행복'},
@@ -157,7 +178,7 @@ const Board = () => {
                     {chatData ? (
                         <div className="summary-content">
                             <div className="header-top">
-                                <img src={chatData.emotion} alt="chat mood icon" className="chat-emotion"
+                                <img src={imagePaths[chatData.emotion]} alt="chat mood icon" className="chat-emotion"
                                      width="60px"/>
                                 <div className="header-text">
                                     <div className="header-text-top">
@@ -182,10 +203,10 @@ const Board = () => {
                         </div>
                     ) : (
                         <div className="empty-summary">
-                            <img src={oops_gra} alt="opps image"/>
+                            <img src={oopsGra} alt="opps image"/>
                             <p>Oops! 기록할 대화가 없어요!</p>
                             <button className="chat-button" onClick={handleGoChatClick}>
-                                <img src={chat_icn} alt="chat icon" className="chat-icon"/>
+                                <img src={chatIcon} alt="chat icon" className="chat-icon"/>
                                 <span>대화하러 가기</span>
                             </button>
                         </div>
