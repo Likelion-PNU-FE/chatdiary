@@ -56,7 +56,7 @@ const Board = () => {
     const [selectedIndex, setSelectedIndex] = useState(6);
     const [isPopupVisible, setPopupVisible] = useState(false); // 팝업 상태 추가
     const [photo, setPhoto] = useState(null);
-    const {data: diaryContent} = useFetchData(() => getDiaryContent({targetDate: "2024-08-01"}));
+    const {data: diaryContent} = useFetchData(() => getDiaryContent({targetDate: "2024-08-04"}));
     const {data: apiData = []} = useFetchData(() => {
         return getMonthEmotions("2024-08");
     });
