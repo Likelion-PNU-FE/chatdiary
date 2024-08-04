@@ -15,3 +15,5 @@ export const getDiaryContent = (targetDate) => Api.get("/diaries/date", {params:
 export const getMonthEmotions = (yearMonth) => Api.get(`/diaries/emotion/months`, {params: {yearMonth}});
 
 export const postChatRoom = ({title, date}) => Api.post("/chatRoom", {title, date});
+
+export const deleteDiary = (diaryId) => Api.delete(`/diaries/${diaryId}/user`);

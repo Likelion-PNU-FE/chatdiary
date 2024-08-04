@@ -11,7 +11,7 @@ import Datepicker from "../components/datepicker.jsx";
 import Bargraph from "../components/Bargraph.jsx";
 import BargraphPopup from "../components/MoodChart.jsx";
 import useFetchData from "../hook/useFetchData.js";
-import {getDiaryContent, getMonthEmotions, getMyInfo, postChatRoom} from "../services/apis.js";
+import {getDiaryContent, getMonthEmotions, getMyInfo, postChatRoom, deleteDiary} from "../services/apis.js";
 import LogoutDialog from "../components/LogoutDialog.jsx";
 import CalendarPopup from "../components/CalendarPopup.jsx";
 import {useNavigate} from "react-router-dom";
@@ -92,6 +92,16 @@ const Board = () => {
     alert("수정으로 이동");
   };
 
+  const handleDeleteDiary = async (diaryId) => {
+    try {
+      await deleteDiary(diaryId);
+      alert("일기가 성공적으로 삭제되었습니다."); // 삭제 후 알림 추가
+      window.location.reload(); // 페이지 새로 고침
+    } catch (error) {
+      console.error("일기 삭제 중 오류가 발생했습니다:", error);
+    }
+  };
+
   return (
     <div className="board">
       <header>
@@ -140,8 +150,16 @@ const Board = () => {
                   <div className="header-text-top">
                     {diaryContent.title}
                     <div className="buttons">
-                      <button className="edit-button" onClick={handleEditButtonClick}>Edit</button>
-                      <img src={deleteIcon} alt="deleteIcn" width="20px" color="0xFFFFF"/>
+                      <button className="edit-button" onClick={handleEditButtonClick}>Edit
+                      </button>
+                      <img
+                          src={deleteIcon}
+                          alt="deleteIcn"
+                          width="20px"
+                          color="0xFFFFF"
+                          className="delete-icon"
+                          onClick={() => handleDeleteDiary(diaryContent.id)}
+                      />
                     </div>
                   </div>
                   <p>{diaryContent.date}</p>
