@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import '../style/Chat.css';
 import PopupSummary from '../components/PopupSummary';
 import DiarySummaryView from '../components/DiarySummaryView';
@@ -12,21 +13,18 @@ async function sendMessageToBackend(message) {
   const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwb3RhdG8gand0IHNlcnZpY2UiLCJpc3MiOiJwb3RhdG8gc2VydmVyIiwianRpIjoiYWFAZXhhbXBsZS5jb20iLCJleHAiOjE3MjI4NDE3MTAsImVtYWlsIjoiYWFAZXhhbXBsZS5jb20ifQ.QMKHKFwahHTB9g7Db6hhQO-YtjBKL8dbeKsS4XPK-W4B-p4Y43eRwByCm1ekUw1L4qvhXGuXhEnn-cC4PHQH7Q";
   
   try {
-    const response = await fetch(`https://chat-diary.duckdns.org/api/chatRooms/${chatRoomId}/messages`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({ prompt: message }), // 전송하는 메시지 내용
-    });
+    const response = await axios.post(
+      `https://chat-diary.duckdns.org/api/chatRooms/${chatRoomId}/messages`,
+      { prompt: message },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      }
+    );
 
-    if (!response.ok) {
-      throw new Error('네트워크 응답에 문제가 있습니다.');
-    }
-
-    const data = await response.json();
-    return data.reply; // 백엔드에서 반환된 챗봇의 응답
+    return response.data.reply; // 백엔드에서 반환된 챗봇의 응답
   } catch (error) {
     console.error('오류가 발생했습니다:', error);
     return '유니콘과 연결하는데 문제가 발생했습니다.';
@@ -36,14 +34,18 @@ async function sendMessageToBackend(message) {
 // 랜덤 질문을 가져오는 함수
 async function fetchRandomQuestion() {
   try {
-    const response = await fetch('http://3.37.103.251:8089/query/random');
-    if (!response.ok) {
-      throw new Error('랜덤 질문을 가져오는데 실패했습니다.');
+    const response = await axios.get('http://3.37.103.251:8089/query/random');
+
+    console.log('Random Question Response:', response.data); // 응답 데이터 확인
+
+    if (response.data && response.data.query) {
+      return response.data.query;
+    } else {
+      console.error('Expected query key not found in the response:', response.data);
+      return '질문을 가져오는데 문제가 발생했습니다.';
     }
-    const data = await response.json();
-    return data.query; // 백엔드에서 반환된 랜덤 질문
   } catch (error) {
-    console.error('랜덤 질문 가져오기 오류:', error);
+    console.error('랜덤 질문 가져오기 오류:', error.message);
     return '질문을 가져오는데 문제가 발생했습니다.';
   }
 }
@@ -52,28 +54,25 @@ async function fetchRandomQuestion() {
 async function saveDiary(chatRoomId, summary) {
   const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwb3RhdG8gand0IHNlcnZpY2UiLCJpc3MiOiJwb3RhdG8gc2VydmVyIiwianRpIjoiYWFAZXhhbXBsZS5jb20iLCJleHAiOjE3MjI4NDE3MTAsImVtYWlsIjoiYWFAZXhhbXBsZS5jb20ifQ.QMKHKFwahHTB9g7Db6hhQO-YtjBKL8dbeKsS4XPK-W4B-p4Y43eRwByCm1ekUw1L4qvhXGuXhEnn-cC4PHQH7Q";
   try {
-    const response = await fetch(`https://chat-diary.duckdns.org/api/chatRooms/${chatRoomId}/diaries`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
+    const response = await axios.post(
+      `https://chat-diary.duckdns.org/api/chatRooms/${chatRoomId}/diaries`,
+      {
         title: summary.title,
         content: summary.content,
         emotion: summary.emotion,
         keyword1: summary.keywords[0] || '',
         keyword2: summary.keywords[1] || '',
-        keyword3: summary.keywords[2] || ''
-      }),
-    });
+        keyword3: summary.keywords[2] || '',
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      }
+    );
 
-    if (!response.ok) {
-      throw new Error('네트워크 응답에 문제가 있습니다.');
-    }
-
-    const data = await response.json(); // 서버로부터 받은 데이터를 파싱
-    return data; // 응답 데이터를 반환
+    return response.data; // 응답 데이터를 반환
   } catch (error) {
     console.error('일기 저장 중 오류가 발생했습니다:', error);
     throw error;
@@ -103,7 +102,9 @@ function ChatPage() {
 
     getRandomQuestion();
 
-    chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;
+    if (chatContentRef.current) {
+      chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;
+    }
   }, []);
 
   const handleSend = async () => {
@@ -129,8 +130,10 @@ function ChatPage() {
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
-    inputRef.current.style.height = 'auto';
-    inputRef.current.style.height = `${inputRef.current.scrollHeight}px`;
+    if (inputRef.current) {
+      inputRef.current.style.height = 'auto';
+      inputRef.current.style.height = `${inputRef.current.scrollHeight}px`;
+    }
   };
 
   const handleKeyDown = (e) => {
