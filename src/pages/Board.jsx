@@ -1,5 +1,6 @@
 import {getImagePathByEmotion, getKoDayOfWeek} from "../utils/utils.js";
 import calendarIcon from "../assets/calendar_sm_icn.svg";
+import deleteIcon from "../assets/deleteIcn.svg"
 import addIcon from "../assets/add_icn.svg";
 import oopsGra from "../assets/oops_gra.svg";
 import chatIcon from "../assets/chat_icn.svg";
@@ -11,7 +12,7 @@ import happyImg from "../assets/happy.svg";
 import angryImg from "../assets/angry.svg";
 import embarImg from "../assets/embar.svg";
 import sadImg from "../assets/sad.svg";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import './Board.scss';
 import '../components/Bargraph.scss'
 import Datepicker from "../components/datepicker.jsx";
@@ -19,6 +20,7 @@ import Bargraph from "../components/Bargraph.jsx";
 import BargraphPopup from "../components/MoodChart.jsx";
 import useFetchData from "../hook/useFetchData.js";
 import {getMyInfo, getDiaryContent,getMonthEmotions} from "../services/apis.js";
+
 const imagePaths = {
     anxiousImg,
     sosoImg,
@@ -30,52 +32,23 @@ const imagePaths = {
     sadImg
 };
 
-
-
-
 const days = [
-    {day: 'Mon', date: 3, emotion: '행복'},
-    {day: 'Tue', date: 4, emotion: '행복'},
-    {day: 'Wed', date: 5, emotion: '행복'},
-    {day: 'Thu', date: 6, emotion: '행복'},
-    {day: 'Fri', date: 7, emotion: '행복'},
-    {day: 'Sun', date: 8, emotion: '행복'},
-    {day: 'Mon', date: 9, emotion: '행복'},
-    {day: 'Tue', date: 10, emotion: '행복'},
-    {day: 'Wed', date: 11, emotion: '행복'},
-    {day: 'Thu', date: 12, emotion: '화남'},
-    {day: 'Fri', date: 13, emotion: '슬픔'},
-    {day: 'Sat', date: 14, emotion: '당황스러움'},
-    {day: 'Sun', date: 15, emotion: '보통'},
-    {day: 'Mon', date: 16, emotion: '힘듦'},
-    // 필요한 만큼 날짜를 추가합니다.
+    { day: 'Mon', date: 3, emotion: 'HAPPY' },
+    { day: 'Tue', date: 4, emotion: 'SAD' },
+    { day: 'Wed', date: 5, emotion: 'ANXIOUS' },
+    { day: 'Thu', date: 6, emotion: 'HAPPY' },
+    { day: 'Fri', date: 7, emotion: 'TIRED' },
+    { day: 'Sat', date: 8, emotion: 'ANGRY' },
+    { day: 'Sun', date: 9, emotion: 'EMBARRASSED' },
+    { day: 'Mon', date: 10, emotion: 'NEUTRAL' },
+    { day: 'Tue', date: 11, emotion: 'EXCITED' },
+    { day: 'Wed', date: 12, emotion: 'HAPPY' },
+    { day: 'Sat', date: 13, emotion: '' },
+    { day: 'Sun', date: 14, emotion: '' },
+    { day: 'Mon', date: 15, emotion: '' },
+    { day: 'Tue', date: 16, emotion: '' },
+    { day: 'Wed', date: 17, emotion: '' },
 ];
-
-
-// Mock API 데이터
-// eslint-disable-next-line no-unused-vars
-const mockApiData = [
-    {emotion: '불안', count: 2},
-    {emotion: '보통', count: 5},
-    {emotion: '힘듦', count: 1},
-    {emotion: '즐거움', count: 8},
-    {emotion: '행복', count: 6},
-    {emotion: '화남', count: 3},
-    {emotion: '당황스러움', count: 4},
-    {emotion: '슬픔', count: 2},
-];
-
-
-// eslint-disable-next-line no-unused-vars
-const mockDiaryContent = {
-    title: "오늘의 대화",
-    content: "친구와의 대화에서 여행 계획을 논의했습니다.",
-    date: "2024-07-31",
-    emotion: getImagePathByEmotion("화남"),
-    keywords1: "여행",
-    keywords2: "친구",
-    keywords3: "계획"
-};
 
 const Board = () => {
     let nowDate = new Date();
@@ -83,14 +56,18 @@ const Board = () => {
     const [selectedIndex, setSelectedIndex] = useState(6);
     const [isPopupVisible, setPopupVisible] = useState(false); // 팝업 상태 추가
     const [photo, setPhoto] = useState(null);
-    // const [diaryContent] = useState(null); //mockDiaryContent
-   //  const { data: diaryContent } = useFetchData(() => getDiaryContent({ date: nowDate }));
-   //  const userId = userData ? userData.id : null;
-
-    const { data: diaryContent } = useFetchData(() => getDiaryContent({ targetDate: "2024-08-04" }));
-    const { data: apiData } = useFetchData(() => {
-         getMonthEmotions( "2024-07") ;
+    const { data: diaryContent } = useFetchData(() => getDiaryContent({ targetDate: "2024-08-09" }));
+    const { data: apiData = [] } = useFetchData(() => {
+        return getMonthEmotions("2024-08");
     });
+
+    useEffect(() => {
+        if (apiData) {
+            console.log("요약 데이터 : ", apiData);
+        } else {
+            console.log("apiData가 아직 없음");
+        }
+    }, [apiData]);
 
 
     // 날짜 선택
@@ -123,15 +100,6 @@ const Board = () => {
                 setPhoto(reader.result); // 사진 미리보기
             };
             reader.readAsDataURL(file);
-            // 서버로 사진을 보내는 로직 (주석 처리)
-            // const formData = new FormData();
-            // formData.append('photo', file);
-            // fetch('YOUR_API_ENDPOINT', {
-            //     method: 'POST',
-            //     body: formData,
-            // }).then(response => {
-            //     // 서버 응답 처리
-            // });
         }
     };
 
@@ -185,12 +153,14 @@ const Board = () => {
                     {diaryContent ? (
                         <div className="summary-content">
                             <div className="header-top">
-                                <img src={imagePaths[diaryContent.emotion]} alt="chat mood icon" className="chat-emotion"
-                                     width="60px"/>
+                                <img src={imagePaths[getImagePathByEmotion(diaryContent.emotion)]} alt="chat mood icon" className="chat-emotion" width="60px" />
                                 <div className="header-text">
                                     <div className="header-text-top">
                                         {diaryContent.title}
+                                        <div className="buttons">
                                         <button className="edit-button" onClick={handleEditButtonClick}>Edit</button>
+                                        <img src={deleteIcon} alt="deleteIcn" width="20px" color="0xFFFFF"/>
+                                        </div>
                                     </div>
                                     <p>{diaryContent.date}</p>
                                     <div className="keywords">
