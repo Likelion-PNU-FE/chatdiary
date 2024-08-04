@@ -46,6 +46,16 @@ body, html, .App {
       font-size: 18px;
       cursor: pointer;
       padding-left: 10px;
+      transition: color 0.2s ease; /* 클릭 시 색상 전환을 위한 트랜지션 추가 */
+
+      &:hover {
+        color: inherit; /* hover 상태에서 색상 유지 */
+      }
+
+      &:active, &:focus {
+        color: gray; /* 클릭 시 색상 변경 (연해진 보라색) */
+        outline: none; /* 클릭 시 아웃라인 제거 */
+      }
     }
 
     .chat-date {
@@ -61,9 +71,18 @@ body, html, .App {
       cursor: pointer;
       margin-left: 1px;
       padding-right: 5px;
+      transition: color 0.2s ease; /* 클릭 시 색상 전환을 위한 트랜지션 추가 */
+
+      &:hover {
+        color: #6200EE; /* hover 상태에서 색상 유지 */
+      }
+
+      &:active, &:focus {
+        color: #b388ff; /* 클릭 시 색상 변경 (연해진 보라색) */
+        outline: none; /* 클릭 시 아웃라인 제거 */
+      }
     }
   }
-
   .chat-content {
     flex: 1;
     width: 100%;

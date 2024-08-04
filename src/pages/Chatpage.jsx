@@ -79,6 +79,37 @@ async function saveDiary(chatRoomId, summary) {
   }
 }
 
+
+//수정 api 호출
+async function updateDiary(diaryId, summary) {
+  const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwb3RhdG8gand0IHNlcnZpY2UiLCJpc3MiOiJwb3RhdG8gc2VydmVyIiwianRpIjoiYWFAZXhhbXBsZS5jb20iLCJleHAiOjE3MjI4NDE3MTAsImVtYWlsIjoiYWFAZXhhbXBsZS5jb20ifQ.QMKHKFwahHTB9g7Db6hhQO-YtjBKL8dbeKsS4XPK-W4B-p4Y43eRwByCm1ekUw1L4qvhXGuXhEnn-cC4PHQH7Q"; // 실제 토큰으로 교체
+  try {
+    const response = await axios.put(
+      `https://chat-diary.duckdns.org/api/diaries/${diaryId}`,
+      {
+        title: summary.title,
+        content: summary.content,
+        emotion: summary.emotion,
+        keyword1: summary.keywords[0] || '',
+        keyword2: summary.keywords[1] || '',
+        keyword3: summary.keywords[2] || '',
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data; // 수정된 응답 데이터를 반환
+  } catch (error) {
+    console.error('일기 수정 중 오류가 발생했습니다:', error);
+    throw error;
+  }
+}
+
+
 function ChatPage() {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
@@ -146,29 +177,36 @@ function ChatPage() {
   };
 
   const handleSave = async () => {
-    console.log("Save button clicked"); // 버튼 클릭 확인
+    console.log("Save button clicked");
   
     const summary = { title, keywords, content, emotion };
     try {
-      console.log("Saving diary..."); // saveDiary 호출 확인
+      console.log("Saving diary...");
+      const response = await saveDiary(chatRoomId, summary);
   
-      const response = await saveDiary(chatRoomId, summary); // chatRoomId를 전달
-      console.log('백엔드 응답:', response); // 백엔드 응답 확인
+      console.log('백엔드 응답:', response);
+      
+      // 일기 생성 후 수정 API 호출
+      const updatedSummary = {
+        title: response.title || title,
+        keywords: [response.keyword1, response.keyword2, response.keyword3].filter(Boolean),
+        content: response.content || content,
+        emotion: response.emotion || emotion,
+      };
   
-      // 백엔드에서 받은 키워드 데이터를 배열로 변환
-      const updatedKeywords = [response.keyword1, response.keyword2, response.keyword3].filter(Boolean);
+      await updateDiary(response.id, updatedSummary); // 수정 API 호출
   
-      // 상태 업데이트
-      setEmotion(response.emotion || ''); // 백엔드에서 받은 emotion 값으로 상태 업데이트
-      setTitle(response.title || '');
-      setKeywords(updatedKeywords);
-      setContent(response.content || '');
+      setEmotion(updatedSummary.emotion);
+      setTitle(updatedSummary.title);
+      setKeywords(updatedSummary.keywords);
+      setContent(updatedSummary.content);
   
-      setShowPopup(true); // 팝업 표시
+      setShowPopup(true);
     } catch (error) {
       console.error('일기 저장 중 오류가 발생했습니다:', error);
     }
   };
+  
   
 
   const handleClosePopup = () => {
