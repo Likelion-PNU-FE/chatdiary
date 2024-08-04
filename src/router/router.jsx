@@ -9,6 +9,7 @@ import {getMyInfo} from "../services/apis.js";
 
 const routes = createBrowserRouter([
   {
+    id: 'root',
     path: '/',
     Component: Layout,
     loader: protectedLoader,
@@ -48,7 +49,6 @@ async function protectedLoader({request}) {
   const pathname = new URL(request.url).pathname;
   const data = await checkAuth();
   console.log("protectedLoader", data);
-
   if (!data) {
     if (pathname === "/" || pathname === "/login" || pathname === "/signup") return null;
     return redirect("/");
@@ -56,8 +56,8 @@ async function protectedLoader({request}) {
   if (pathname === "/" || pathname === "/login" || pathname === "/signup") {
     return redirect("/board");
   }
-
-  return null;
+  console.log("protectedLoader2", data);
+  return {userData: data.data};
 }
 
 async function checkAuth() {
@@ -66,7 +66,7 @@ async function checkAuth() {
     try {
       const data = await getMyInfo();
       console.log("checkAuth", data);
-      return data
+      return data;
     } catch (e) {
       console.log("checkAuth", e);
       return false;
