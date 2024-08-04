@@ -17,7 +17,8 @@ import happyImg from "../assets/happy.svg";
 import angryImg from "../assets/angry.svg";
 import embarImg from "../assets/embar.svg";
 import sadImg from "../assets/sad.svg";
-
+import useFetchData from "../hook/useFetchData.js";
+import {getMyInfo} from "../services/apis.js";
 const imagePaths = {
     anxiousImg,
     sosoImg,
@@ -28,6 +29,9 @@ const imagePaths = {
     embarImg,
     sadImg
 };
+
+
+
 
 const days = [
     {day: 'Mon', date: 3, emotion: '행복'},
@@ -60,7 +64,6 @@ const mockApiData = [
     {emotion: '슬픔', count: 2},
 ];
 
-const userName = "감정아";
 
 // eslint-disable-next-line no-unused-vars
 const mockChatData = {
@@ -75,6 +78,7 @@ const mockChatData = {
 
 const Board = () => {
     let nowDate = new Date();
+    const {data: userData} = useFetchData(getMyInfo);
     const [selectedIndex, setSelectedIndex] = useState(6);
     const [isPopupVisible, setPopupVisible] = useState(false); // 팝업 상태 추가
     const [photo, setPhoto] = useState(null);
@@ -135,7 +139,7 @@ const Board = () => {
     return (
         <div className="board">
             <header>
-                <h3>반가워, <strong>{userName}</strong>! 👋</h3>
+              <h3>반가워, <strong>{userData?.name.toString() || ""}</strong>! 👋</h3>
                 <button className="date-picker-button">
                     <p>{convertDate(nowDate)}</p>
                     <img src={calendarIcon} alt="calendar" width="20px"/>

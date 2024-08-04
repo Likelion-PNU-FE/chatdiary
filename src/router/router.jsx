@@ -9,6 +9,7 @@ import {getMyInfo} from "../services/apis.js";
 
 const routes = createBrowserRouter([
   {
+    id: 'root',
     path: '/',
     Component: Layout,
     loader: protectedLoader,
@@ -47,8 +48,6 @@ const routes = createBrowserRouter([
 async function protectedLoader({request}) {
   const pathname = new URL(request.url).pathname;
   const data = await checkAuth();
-  console.log("protectedLoader", data);
-
   if (!data) {
     if (pathname === "/" || pathname === "/login" || pathname === "/signup") return null;
     return redirect("/");
@@ -56,7 +55,7 @@ async function protectedLoader({request}) {
   if (pathname === "/" || pathname === "/login" || pathname === "/signup") {
     return redirect("/board");
   }
-
+  console.log("protectedLoader2", data);
   return null;
 }
 
@@ -64,11 +63,9 @@ async function checkAuth() {
   const token = localStorage.getItem("token");
   if (token) {
     try {
-      const data = await getMyInfo();
-      console.log("checkAuth", data);
-      return data
+      await getMyInfo();
+      return true;
     } catch (e) {
-      console.log("checkAuth", e);
       return false;
     }
   }

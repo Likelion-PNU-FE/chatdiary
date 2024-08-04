@@ -22,11 +22,8 @@ const Login = () => {
   return (
     <AuthContainer class="login" type='login' onSubmit={onLogin}>
       <input value={email} onChange={onChange} name="email" id="login-email" type="email" placeholder="이메일"/>
-
       <input value={password} onChange={onChange} name="password" id="login-password" type="password"
              placeholder="비밀번호"/>
-
-
     </AuthContainer>
   );
 }

@@ -22,7 +22,7 @@ const SignUp = () => {
     }
   }
   return (
-    <AuthContainer type='signUp' onSubmit={onSignUp}>
+    <AuthContainer className="signUp" type='signUp' onSubmit={onSignUp}>
       <div className="box">
         <input value={nickname} onChange={onChange} name="nickname" id="signUp-name" type="text" placeholder="이름"/>
       </div>
