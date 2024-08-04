@@ -9,7 +9,8 @@ import '../components/Bargraph.scss'
 import Datepicker from "../components/datepicker.jsx";
 import Bargraph from "../components/Bargraph.jsx";
 import BargraphPopup from "../components/MoodChart.jsx";
-import {useRouteLoaderData} from "react-router-dom";
+import useFetchData from "../hook/useFetchData.js";
+import {getMyInfo} from "../services/apis.js";
 
 const days = [
   {day: 'Mon', date: 3, emoji: '😍'},
@@ -43,7 +44,7 @@ const mockChatData = {
 
 const Board = () => {
   let nowDate = new Date();
-  const {userData} = useRouteLoaderData("root");//name,email,id
+  const {data: userData} = useFetchData(getMyInfo);
   const [selectedIndex, setSelectedIndex] = useState(6);
   const [isPopupVisible, setPopupVisible] = useState(false); // 팝업 상태 추가
   const [photo, setPhoto] = useState(null);
@@ -98,7 +99,7 @@ const Board = () => {
   return (
     <div className="board">
       <header>
-        <h3>반가워, <strong>{userData?.name || ""}</strong>! 👋</h3>
+        <h3>반가워, <strong>{userData?.name.toString() || ""}</strong>! 👋</h3>
         <button className="date-picker-button">
           <p>{convertDate(nowDate)}</p>
           <img src={calendarIcon} alt="calendar" width="20px"/>
