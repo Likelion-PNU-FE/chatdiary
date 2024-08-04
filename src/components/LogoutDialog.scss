@@ -1,0 +1,31 @@
+.logout-dialog {
+  .tile {
+    height: 45px;
+  }
+
+  .action {
+    width: 100%
+  }
+
+  .user-info {
+    .tile {
+      display: flex;
+      padding: 0 20px;
+      min-width: 215px;
+      background: white;
+      margin-top: 20px;
+      align-items: center;
+      border-radius: 15px;
+    }
+
+    .label {
+      width: 60px;
+    }
+
+    .value {
+      flex-grow: 1;
+      padding-left: 10px;
+      overflow: hidden;
+    }
+  }
+}

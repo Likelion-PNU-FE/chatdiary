@@ -1,40 +1,40 @@
 import Calendar from 'react-calendar';
-import PropTypes from 'prop-types';
 import '../styles/Calendar.css';
 import './CalendarPopup.css';
 import moment from 'moment';
+import {useState} from "react";
 
-const CalendarPopup = ({ isVisible, onClose , selectedDate, onDateChange, onConfirm}) => {
-    if (!isVisible) return null;
+const CalendarPopup = ({isVisible, setVisible, nowDate, setNowDate}) => {
 
-    return (
-        <div className="CalendarPopup">
-            <div className="CalendarPopup__popup-summary-overlay">
-                <div className="CalendarPopup__popup-summary">
-                    <Calendar
-                        value={selectedDate}
-                        onClickDay={onDateChange}
-                        showNeighboringMonth={false}
-                        formatDay={(locale, date) => moment(date).format("DD")}
-                        locale="en-GB"
-                    />
-                    <div className="CalendarPopup__buttons">
-                        <button className="CalendarPopup__close-btn" onClick={onClose}>취소</button>
-                        <button className="CalendarPopup__confirm-btn" onClick={onConfirm} disabled={!selectedDate}>선택
-                        </button>
-                    </div>
-                </div>
-            </div>
+  const [date, setDate] = useState(new Date(nowDate));
+  const handleConfirm = () => {
+    setNowDate(date);
+    setVisible(false);
+  };
+
+  if (!isVisible) return null;
+
+  return (
+    <div className="CalendarPopup">
+      <div className="CalendarPopup__popup-summary-overlay">
+        <div className="CalendarPopup__popup-summary">
+          <Calendar
+            value={date}
+            onClickDay={setDate}
+            showNeighboringMonth={false}
+            formatDay={(locale, date) => moment(date).format("DD")}
+            locale="en-GB"
+          />
+          <div className="CalendarPopup__buttons">
+            <button className="CalendarPopup__close-btn" onClick={() => setVisible(false)}>취소</button>
+            <button className="CalendarPopup__confirm-btn" onClick={handleConfirm} disabled={!nowDate}>선택
+            </button>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
-CalendarPopup.propTypes = {
-    isVisible: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-    selectedDate: PropTypes.instanceOf(Date),
-    onDateChange: PropTypes.func.isRequired,
-    onConfirm: PropTypes.func.isRequired,
-};
 
 export default CalendarPopup;
