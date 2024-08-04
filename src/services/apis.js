@@ -1,7 +1,12 @@
 import {Api} from "./index.js";
 
+// user
 export const getMyInfo = () => Api.get("/members/me");
 
 export const login = ({email, password}) => Api.post("/members/login", {email, password});
 
 export const signUp = ({email, password, nickname}) => Api.post("/members/join", {email, password, nickname});
+
+// diary
+export const getDiaryRecentEmotion = (date) => Api.get("/diaries/emotion/range", {params: {targetDate: date}});
+

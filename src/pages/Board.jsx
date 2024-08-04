@@ -12,24 +12,7 @@ import BargraphPopup from "../components/MoodChart.jsx";
 import useFetchData from "../hook/useFetchData.js";
 import {getMyInfo} from "../services/apis.js";
 import LogoutDialog from "../components/LogoutDialog.jsx";
-
-const days = [
-  {day: 'Mon', date: 3, emotion: '행복'},
-  {day: 'Tue', date: 4, emotion: '행복'},
-  {day: 'Wed', date: 5, emotion: '행복'},
-  {day: 'Thu', date: 6, emotion: '행복'},
-  {day: 'Fri', date: 7, emotion: '행복'},
-  {day: 'Sun', date: 8, emotion: '행복'},
-  {day: 'Mon', date: 9, emotion: '행복'},
-  {day: 'Tue', date: 10, emotion: '행복'},
-  {day: 'Wed', date: 11, emotion: '행복'},
-  {day: 'Thu', date: 12, emotion: '화남'},
-  {day: 'Fri', date: 13, emotion: '슬픔'},
-  {day: 'Sat', date: 14, emotion: '당황스러움'},
-  {day: 'Sun', date: 15, emotion: '보통'},
-  {day: 'Mon', date: 16, emotion: '힘듦'},
-  // 필요한 만큼 날짜를 추가합니다.
-];
+import CalendarPopup from "../components/CalendarPopup.jsx";
 
 
 // Mock API 데이터
@@ -57,10 +40,15 @@ const mockChatData = {
 };
 
 const Board = () => {
-  let nowDate = new Date();
+  const initializeDate = () => {
+    const date = new Date();
+    date.setHours(0, 0, 0, 0); // 시간, 분, 초, 밀리초를 0으로 설정
+    return date;
+  };
+  let [nowDate, setNowDate] = useState(initializeDate());
   const {data: userData} = useFetchData(getMyInfo);
   const [isLogoutOpen, setLogoutOpen] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(6);
+  const [isCalendarOpen, setCalendarOpen] = useState(false);
   const [isPopupVisible, setPopupVisible] = useState(false); // 팝업 상태 추가
   const [photo, setPhoto] = useState(null);
   const [chatData] = useState(mockChatData); //mockChatData
@@ -121,13 +109,13 @@ const Board = () => {
     <div className="board">
       <header>
         <h3>반가워, <strong onClick={() => setLogoutOpen(true)}>{userData?.name.toString() || ""}</strong>! 👋</h3>
-        <button className="date-picker-button">
+        <button className="date-picker-button" onClick={() => setCalendarOpen(true)}>
           <p>{convertDate(nowDate)}</p>
           <img src={calendarIcon} alt="calendar" width="20px"/>
         </button>
       </header>
       <nav>
-        <Datepicker days={days} nowIndex={selectedIndex} setIndex={setSelectedIndex}/>
+        <Datepicker nowDate={nowDate} setNowDate={setNowDate}/>
       </nav>
       <section>
         <div className="card mood-chart" onClick={handleMoodChartClick}>
@@ -195,7 +183,7 @@ const Board = () => {
         </div>
       </section>
       <LogoutDialog isOpen={isLogoutOpen} setOpen={setLogoutOpen} user={userData}/>
-
+      <CalendarPopup isVisible={isCalendarOpen} setVisible={setCalendarOpen} nowDate={nowDate} setNowDate={setNowDate}/>
       <BargraphPopup
         isVisible={isPopupVisible}
         onClose={handleClosePopup}
