@@ -5,19 +5,19 @@ import anxious_gra from '../assets/anxious.svg';
 import embar_gra from '../assets/embar.svg';
 import happy_gra from '../assets/happy.svg';
 import joy_gra from '../assets/joy.svg';
-import sad_gra from '../assets/sad_gra.svg';
-import soso_gra from '../assets/soso_gra.svg';
+import sad_gra from '../assets/sad.svg';
+import soso_gra from '../assets/soso.svg';
 import closeIcon from '../assets/close_icn.svg';
 import editIcon from '../assets/edit_icn.svg';
 
 const emotionImages = {
-  angry: angry_gra,
-  anxious: anxious_gra,
-  embar: embar_gra,
-  happy: happy_gra,
-  joy: joy_gra,
-  sad: sad_gra,
-  soso: soso_gra
+  ANGRY: angry_gra,
+  ANXIOUS: anxious_gra,
+  EMBAR: embar_gra,
+  HAPPY: happy_gra,
+  JOY: joy_gra,
+  SAD: sad_gra,
+  SOSO: soso_gra
 };
 
 function DiarySummaryEdit({ emotion, initialTitle, initialKeywords, initialContent, onSave, onClose }) {

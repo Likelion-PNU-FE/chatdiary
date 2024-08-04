@@ -6,40 +6,124 @@ import DiarySummaryEdit from '../components/DiarySummaryEdit';
 import unicorn from '../assets/unicorn.svg';
 import sendIcon from '../assets/send_icn.svg';
 
+// AI 채팅 API에 메시지를 보내고 응답을 받아오는 함수
+async function sendMessageToBackend(message) {
+  const chatRoomId = "23"; // 실제 사용 중인 chatRoomId로 대체
+  const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwb3RhdG8gand0IHNlcnZpY2UiLCJpc3MiOiJwb3RhdG8gc2VydmVyIiwianRpIjoiYWFAZXhhbXBsZS5jb20iLCJleHAiOjE3MjI4NDE3MTAsImVtYWlsIjoiYWFAZXhhbXBsZS5jb20ifQ.QMKHKFwahHTB9g7Db6hhQO-YtjBKL8dbeKsS4XPK-W4B-p4Y43eRwByCm1ekUw1L4qvhXGuXhEnn-cC4PHQH7Q";
+  
+  try {
+    const response = await fetch(`https://chat-diary.duckdns.org/api/chatRooms/${chatRoomId}/messages`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ prompt: message }), // 전송하는 메시지 내용
+    });
+
+    if (!response.ok) {
+      throw new Error('네트워크 응답에 문제가 있습니다.');
+    }
+
+    const data = await response.json();
+    return data.reply; // 백엔드에서 반환된 챗봇의 응답
+  } catch (error) {
+    console.error('오류가 발생했습니다:', error);
+    return '유니콘과 연결하는데 문제가 발생했습니다.';
+  }
+}
+
+// 랜덤 질문을 가져오는 함수
+async function fetchRandomQuestion() {
+  try {
+    const response = await fetch('http://3.37.103.251:8089/query/random');
+    if (!response.ok) {
+      throw new Error('랜덤 질문을 가져오는데 실패했습니다.');
+    }
+    const data = await response.json();
+    return data.query; // 백엔드에서 반환된 랜덤 질문
+  } catch (error) {
+    console.error('랜덤 질문 가져오기 오류:', error);
+    return '질문을 가져오는데 문제가 발생했습니다.';
+  }
+}
+
+// 일기를 저장하는 함수
+async function saveDiary(chatRoomId, summary) {
+  const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwb3RhdG8gand0IHNlcnZpY2UiLCJpc3MiOiJwb3RhdG8gc2VydmVyIiwianRpIjoiYWFAZXhhbXBsZS5jb20iLCJleHAiOjE3MjI4NDE3MTAsImVtYWlsIjoiYWFAZXhhbXBsZS5jb20ifQ.QMKHKFwahHTB9g7Db6hhQO-YtjBKL8dbeKsS4XPK-W4B-p4Y43eRwByCm1ekUw1L4qvhXGuXhEnn-cC4PHQH7Q";
+  try {
+    const response = await fetch(`https://chat-diary.duckdns.org/api/chatRooms/${chatRoomId}/diaries`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        title: summary.title,
+        content: summary.content,
+        emotion: summary.emotion,
+        keyword1: summary.keywords[0] || '',
+        keyword2: summary.keywords[1] || '',
+        keyword3: summary.keywords[2] || ''
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('네트워크 응답에 문제가 있습니다.');
+    }
+
+    const data = await response.json(); // 서버로부터 받은 데이터를 파싱
+    return data; // 응답 데이터를 반환
+  } catch (error) {
+    console.error('일기 저장 중 오류가 발생했습니다:', error);
+    throw error;
+  }
+}
+
 function ChatPage() {
-  const [messages, setMessages] = useState([
-    { text: '안녕, 나의 오늘 하루를 말해도 될까 ?', sender: 'user' },
-    { text: '네, 오늘 하루에 있었던 일을 말해주시면 하루를 요약해 일기를 적어드릴게요.', sender: 'bot' },
-    { text: '오늘 조별과제를 했는데 팀원이 안왔어.', sender: 'user' },
-    { text: '짜증나는 일이네요. 또 다른 일은 없었나요? 오늘 먹은 것이나 본 것 다 괜찮아요! 혹시 이 얘기가 끝났다면 오른쪽 하단에 저랑 버튼을 누르면 제가 일기를 만들어 드릴게요 !', sender: 'bot' },
-  ]);
+  const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
   const [showPopup, setShowPopup] = useState(false);
   const [showSummary, setShowSummary] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [emotion, setEmotion] = useState('happy');
-  const [title, setTitle] = useState('GPT가 추천한 제목...');
-  const [keywords, setKeywords] = useState(['조별과제', '잠수']);
-  const [content, setContent] = useState('오늘 조별과제를 했는데 어떤놈이 잠수를 탔다. 자조사라는 놈이 잠수를 타버려서 매우 화가났다. 과제 제출 2일 전이라 그 놈의 분량까지 하룻동안 밤새워가며 했다. 처음에는 웃지 않은 친구 때문에 화가났고, 그 친구의 과제를 하며 체념을 했다고 이해하는 그냥 허탈했다. 다른 조원의 과제에 마무리 하고, 자조사라는 놈에게 맥주를 먹으며 마무리 지었다.');
-
+  const [title, setTitle] = useState('');
+  const [keywords, setKeywords] = useState([]);
+  const [content, setContent] = useState('');
   const chatContentRef = useRef(null);
   const inputRef = useRef(null);
+  const [chatRoomId, setChatRoomId] = useState('23'); 
 
   useEffect(() => {
-    chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;
-  }, [messages]);
+    // 페이지가 로드될 때 랜덤 질문을 가져옵니다.
+    const getRandomQuestion = async () => {
+      const randomQuestion = await fetchRandomQuestion();
+      setMessages([{ prompt: randomQuestion, sender: 'bot' }]);
+    };
 
-  const handleSend = () => {
+    getRandomQuestion();
+
+    chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;
+  }, []);
+
+  const handleSend = async () => {
     if (inputText.trim()) {
-      setMessages([...messages, { text: inputText, sender: 'user' }]);
+      setMessages([...messages, { prompt: inputText, sender: 'user' }]);
       setInputText('');
       inputRef.current.style.height = 'auto';
-      setTimeout(() => {
+
+      try {
+        const botReply = await sendMessageToBackend(inputText);
         setMessages((prevMessages) => [
           ...prevMessages,
-          { text: '백엔드에서 가져온 유니콘의 응답', sender: 'bot' },
+          { prompt: botReply, sender: 'bot' },
         ]);
-      }, 1000); // 1초 후에 유니콘의 응답을 추가
+      } catch (error) {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { prompt: '유니콘과 연결하는데 문제가 발생했습니다.', sender: 'bot' },
+        ]);
+      }
     }
   };
 
@@ -58,8 +142,25 @@ function ChatPage() {
     }
   };
 
-  const handleSave = () => {
-    setShowPopup(true);
+  const handleSave = async () => {
+    const summary = { title, keywords, content, emotion };
+    try {
+      const response = await saveDiary(chatRoomId, summary); // chatRoomId를 전달
+      console.log('백엔드 응답:', response);
+
+      // 백엔드에서 받은 키워드 데이터를 배열로 변환
+      const updatedKeywords = [response.keyword1, response.keyword2, response.keyword3].filter(Boolean);
+
+      // 상태 업데이트
+      setEmotion(response.emotion || ''); // 백엔드에서 받은 emotion 값으로 상태 업데이트
+      setTitle(response.title || '');
+      setKeywords(updatedKeywords);
+      setContent(response.content || '');
+
+      setShowPopup(true); // 팝업 표시
+    } catch (error) {
+      console.error('일기 저장 중 오류가 발생했습니다:', error);
+    }
   };
 
   const handleClosePopup = () => {
@@ -95,7 +196,7 @@ function ChatPage() {
         <>
           <div className="chat-header">
             <button className="back-button">&lt;</button>
-            <span className="chat-date">7월 15일 일요일</span>
+            <span className="chat-date">2024년 8월 5일 월요일</span>
             <button className="save-button" onClick={handleSave}>SAVE</button>
           </div>
           <div className="chat-content" ref={chatContentRef}>
@@ -103,7 +204,7 @@ function ChatPage() {
               <div key={index} className={`chat-message ${message.sender}`}>
                 {message.sender === 'bot' && <img src={unicorn} alt="unicorn" className="unicorn-icon" />}
                 <div className={`chat-bubble ${message.sender}`}>
-                  <p>{message.text}</p>
+                  <p>{message.prompt}</p>
                 </div>
               </div>
             ))}
@@ -123,7 +224,14 @@ function ChatPage() {
               <img src={sendIcon} alt="Send" />
             </button>
           </div>
-          {showPopup && <PopupSummary isVisible={showPopup} emotion={emotion} onClose={handleClosePopup} onSummary={handleShowSummary} />}
+          {showPopup && (
+            <PopupSummary
+              isVisible={showPopup}
+              emotion={emotion} // 업데이트된 emotion 전달
+              onClose={handleClosePopup}
+              onSummary={handleShowSummary}
+            />
+          )}
         </>
       ) : showSummary ? (
         <DiarySummaryView
