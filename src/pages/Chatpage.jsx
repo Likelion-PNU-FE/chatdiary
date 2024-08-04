@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import '../style/Chat.css';
+import '../style/Chat.scss';
 import PopupSummary from '../components/PopupSummary';
 import DiarySummaryView from '../components/DiarySummaryView';
 import DiarySummaryEdit from '../components/DiarySummaryEdit';

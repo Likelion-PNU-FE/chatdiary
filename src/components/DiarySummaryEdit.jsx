@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import '../style/DiarySummary.css';
+import { useState } from 'react';
+import '../style/DiarySummary.scss';
 import angry_gra from '../assets/angry.svg';
 import anxious_gra from '../assets/anxious.svg';
 import embar_gra from '../assets/embar.svg';
