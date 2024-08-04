@@ -9,6 +9,18 @@ import angryImg from "../assets/angry.svg";
 import embarImg from "../assets/embar.svg";
 import sadImg from "../assets/sad.svg";
 
+const imagePaths = {
+    anxiousImg,
+    sosoImg,
+    strengthImg,
+    joyImg,
+    happyImg,
+    angryImg,
+    embarImg,
+    sadImg
+};
+
+
 const Datepicker = ({days, nowIndex, setIndex}) => {
     const containerRef = useRef(null);
 
@@ -38,7 +50,9 @@ const Datepicker = ({days, nowIndex, setIndex}) => {
                     </div>
 
                     <div className="mood-info">
-                        <img src={getImagePathByEmotion(day.emotion)} alt="chat mood icon" className="chat-emotion"
+                        <img src={imagePaths[getImagePathByEmotion(day.emotion)]}
+                             alt="chat mood icon"
+                             className="chat-emotion"
                              width="30px"/>
                     </div>
                 </div>

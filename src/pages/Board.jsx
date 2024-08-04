@@ -9,6 +9,25 @@ import '../components/Bargraph.scss'
 import Datepicker from "../components/datepicker.jsx";
 import Bargraph from "../components/Bargraph.jsx";
 import BargraphPopup from "../components/MoodChart.jsx";
+import anxiousImg from "../assets/anxious.svg";
+import sosoImg from "../assets/soso.svg";
+import strengthImg from "../assets/strength.svg";
+import joyImg from "../assets/joy.svg";
+import happyImg from "../assets/happy.svg";
+import angryImg from "../assets/angry.svg";
+import embarImg from "../assets/embar.svg";
+import sadImg from "../assets/sad.svg";
+
+const imagePaths = {
+    anxiousImg,
+    sosoImg,
+    strengthImg,
+    joyImg,
+    happyImg,
+    angryImg,
+    embarImg,
+    sadImg
+};
 
 const days = [
     {day: 'Mon', date: 3, emotion: '행복'},
@@ -155,7 +174,7 @@ const Board = () => {
                     {chatData ? (
                         <div className="summary-content">
                             <div className="header-top">
-                                <img src={chatData.emotion} alt="chat mood icon" className="chat-emotion"
+                                <img src={imagePaths[chatData.emotion]} alt="chat mood icon" className="chat-emotion"
                                      width="60px"/>
                                 <div className="header-text">
                                     <div className="header-text-top">

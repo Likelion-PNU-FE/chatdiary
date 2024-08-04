@@ -5,6 +5,7 @@ import closeIcon from "../assets/close_icn.svg";
 import '../components/Bargraph.scss'
 
 
+
 const BargraphPopup = ({ isVisible, onClose, month, apiData }) => {
     if (!isVisible) return null;
 
