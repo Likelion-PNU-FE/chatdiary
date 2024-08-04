@@ -19,7 +19,7 @@ import Datepicker from "../components/datepicker.jsx";
 import Bargraph from "../components/Bargraph.jsx";
 import BargraphPopup from "../components/MoodChart.jsx";
 import useFetchData from "../hook/useFetchData.js";
-import {getMyInfo, getDiaryContent,getMonthEmotions} from "../services/apis.js";
+import {getMyInfo, getDiaryContent, getMonthEmotions, deleteDiary} from "../services/apis.js";
 
 const imagePaths = {
     anxiousImg,
@@ -33,21 +33,21 @@ const imagePaths = {
 };
 
 const days = [
-    { day: 'Mon', date: 3, emotion: 'HAPPY' },
-    { day: 'Tue', date: 4, emotion: 'SAD' },
-    { day: 'Wed', date: 5, emotion: 'ANXIOUS' },
-    { day: 'Thu', date: 6, emotion: 'HAPPY' },
-    { day: 'Fri', date: 7, emotion: 'TIRED' },
-    { day: 'Sat', date: 8, emotion: 'ANGRY' },
-    { day: 'Sun', date: 9, emotion: 'EMBARRASSED' },
-    { day: 'Mon', date: 10, emotion: 'NEUTRAL' },
-    { day: 'Tue', date: 11, emotion: 'EXCITED' },
-    { day: 'Wed', date: 12, emotion: 'HAPPY' },
-    { day: 'Sat', date: 13, emotion: '' },
-    { day: 'Sun', date: 14, emotion: '' },
-    { day: 'Mon', date: 15, emotion: '' },
-    { day: 'Tue', date: 16, emotion: '' },
-    { day: 'Wed', date: 17, emotion: '' },
+    {day: 'Mon', date: 3, emotion: 'HAPPY'},
+    {day: 'Tue', date: 4, emotion: 'SAD'},
+    {day: 'Wed', date: 5, emotion: 'ANXIOUS'},
+    {day: 'Thu', date: 6, emotion: 'HAPPY'},
+    {day: 'Fri', date: 7, emotion: 'TIRED'},
+    {day: 'Sat', date: 8, emotion: 'ANGRY'},
+    {day: 'Sun', date: 9, emotion: 'EMBARRASSED'},
+    {day: 'Mon', date: 10, emotion: 'NEUTRAL'},
+    {day: 'Tue', date: 11, emotion: 'EXCITED'},
+    {day: 'Wed', date: 12, emotion: 'HAPPY'},
+    {day: 'Sat', date: 13, emotion: ''},
+    {day: 'Sun', date: 14, emotion: ''},
+    {day: 'Mon', date: 15, emotion: ''},
+    {day: 'Tue', date: 16, emotion: ''},
+    {day: 'Wed', date: 17, emotion: ''},
 ];
 
 const Board = () => {
@@ -56,8 +56,8 @@ const Board = () => {
     const [selectedIndex, setSelectedIndex] = useState(6);
     const [isPopupVisible, setPopupVisible] = useState(false); // 팝업 상태 추가
     const [photo, setPhoto] = useState(null);
-    const { data: diaryContent } = useFetchData(() => getDiaryContent({ targetDate: "2024-08-09" }));
-    const { data: apiData = [] } = useFetchData(() => {
+    const {data: diaryContent} = useFetchData(() => getDiaryContent({targetDate: "2024-08-01"}));
+    const {data: apiData = []} = useFetchData(() => {
         return getMonthEmotions("2024-08");
     });
 
@@ -111,10 +111,23 @@ const Board = () => {
         alert("수정으로 이동");
     };
 
+    // 사용 예시
+    const handleDeleteDiary = async (diaryId) => {
+        try {
+            await deleteDiary(diaryId);
+            alert("일기가 성공적으로 삭제되었습니다."); // 삭제 후 알림 추가
+            window.location.reload(); // 페이지 새로 고침
+        } catch (error) {
+            console.error("일기 삭제 중 오류가 발생했습니다:", error);
+        }
+    };
+
+
+
     return (
         <div className="board">
             <header>
-              <h3>반가워, <strong>{userData?.name.toString() || ""}</strong>! 👋</h3>
+                <h3>반가워, <strong>{userData?.name.toString() || ""}</strong>! 👋</h3>
                 <button className="date-picker-button">
                     <p>{convertDate(nowDate)}</p>
                     <img src={calendarIcon} alt="calendar" width="20px"/>
@@ -125,8 +138,8 @@ const Board = () => {
             </nav>
             <section>
                 <div className="card mood-chart" onClick={handleMoodChartClick}>
-                    <p>{nowDate.getMonth()+1}월 Mood Chart</p>
-                    <Bargraph version={1} apiData ={apiData}/>
+                    <p>{nowDate.getMonth() + 1}월 Mood Chart</p>
+                    <Bargraph version={1} apiData={apiData}/>
                 </div>
                 <div className="card photo">
                     {photo ? (
@@ -153,13 +166,22 @@ const Board = () => {
                     {diaryContent ? (
                         <div className="summary-content">
                             <div className="header-top">
-                                <img src={imagePaths[getImagePathByEmotion(diaryContent.emotion)]} alt="chat mood icon" className="chat-emotion" width="60px" />
+                                <img src={imagePaths[getImagePathByEmotion(diaryContent.emotion)]} alt="chat mood icon"
+                                     className="chat-emotion" width="60px"/>
                                 <div className="header-text">
                                     <div className="header-text-top">
                                         {diaryContent.title}
                                         <div className="buttons">
-                                        <button className="edit-button" onClick={handleEditButtonClick}>Edit</button>
-                                        <img src={deleteIcon} alt="deleteIcn" width="20px" color="0xFFFFF"/>
+                                            <button className="edit-button" onClick={handleEditButtonClick}>Edit
+                                            </button>
+                                            <img
+                                                src={deleteIcon}
+                                                alt="deleteIcn"
+                                                width="20px"
+                                                color="0xFFFFF"
+                                                className="delete-icon"
+                                                onClick={() => handleDeleteDiary(diaryContent.id)}
+                                            />
                                         </div>
                                     </div>
                                     <p>{diaryContent.date}</p>

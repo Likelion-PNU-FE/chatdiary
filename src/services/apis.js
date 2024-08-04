@@ -9,3 +9,5 @@ export const signUp = ({email, password, nickname}) => Api.post("/members/join",
 export const getDiaryContent = ({ targetDate }) => Api.get("/diaries/date", { params: { targetDate } });
 
 export const getMonthEmotions = (yearMonth) => Api.get(`/diaries/emotion/months`, { params: { yearMonth } });
+
+export const deleteDiary = (diaryId) => Api.delete(`/diaries/${diaryId}/user`);

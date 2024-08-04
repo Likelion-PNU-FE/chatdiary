@@ -209,8 +209,17 @@
             }
           }
           .buttons{
-            display: flex; /* Flexbox 사용 */
-            align-items: center; /* 수직 정렬을 중앙으로 */
+            display: flex;
+            align-items: center;
+            .delete-icon {
+              cursor: pointer;
+              transition: transform 0.2s;
+            }
+
+            .delete-icon:hover {
+              transform: scale(1.1);
+            }
+
             .edit-button{
               display: flex;
               background: none;
