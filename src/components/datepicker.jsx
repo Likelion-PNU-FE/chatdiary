@@ -1,5 +1,13 @@
 import {useEffect, useRef} from "react";
 import {getImagePathByEmotion} from "../utils/utils.js";
+import anxiousImg from "../assets/anxious.svg";
+import sosoImg from "../assets/soso.svg";
+import strengthImg from "../assets/strength.svg";
+import joyImg from "../assets/joy.svg";
+import happyImg from "../assets/happy.svg";
+import angryImg from "../assets/angry.svg";
+import embarImg from "../assets/embar.svg";
+import sadImg from "../assets/sad.svg";
 
 const Datepicker = ({days, nowIndex, setIndex}) => {
     const containerRef = useRef(null);

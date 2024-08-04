@@ -1,8 +1,8 @@
 import {getImagePathByEmotion, getKoDayOfWeek} from "../utils/utils.js";
 import calendarIcon from "../assets/calendar_sm_icn.svg";
 import addIcon from "../assets/add_icn.svg";
-import oops_gra from "../assets/oops_gra.svg";
-import chat_icn from "../assets/chat_icn.svg";
+import oopsGra from "../assets/oops_gra.svg";
+import chatIcon from "../assets/chat_icn.svg";
 import {useState} from "react";
 import './Board.scss';
 import '../components/Bargraph.scss'
@@ -180,10 +180,10 @@ const Board = () => {
                         </div>
                     ) : (
                         <div className="empty-summary">
-                            <img src={oops_gra} alt="opps image"/>
+                            <img src={oopsGra} alt="opps image"/>
                             <p>Oops! 기록할 대화가 없어요!</p>
                             <button className="chat-button" onClick={handleGoChatClick}>
-                                <img src={chat_icn} alt="chat icon" className="chat-icon"/>
+                                <img src={chatIcon} alt="chat icon" className="chat-icon"/>
                                 <span>대화하러 가기</span>
                             </button>
                         </div>
