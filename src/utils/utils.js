@@ -38,16 +38,16 @@ export const getUsDayOfWeek = (dayOfWeek) => {
 
 export const getImagePathByEmotion = (emotion) => {
     const imagePaths = {
-        불안: "anxiousImg",
-        보통: "sosoImg",
-        힘듦: "strengthImg",
-        즐거움: "joyImg",
-        행복: "happyImg",
-        화남: "angryImg",
-        당황스러움: "embarImg",
-        슬픔: "sadImg"
+        ANXIOUS: "anxiousImg",
+        NEUTRAL: "sosoImg",
+        TIRED: "strengthImg",
+        EXCITED: "joyImg",
+        HAPPY: "happyImg",
+        ANGRY: "angryImg",
+        EMBARRASSED: "embarImg",
+        SAD: "sadImg"
     };
-    return imagePaths[emotion] || "errorImg"; // 키워드가 없으면 null 반환
+    return imagePaths[emotion] || ""; // 키워드가 없으면 null 반환
 };
 
 

@@ -7,6 +7,7 @@ import happyImg from "../assets/happy.svg";
 import angryImg from "../assets/angry.svg";
 import embarImg from "../assets/embar.svg";
 import sadImg from "../assets/sad.svg";
+import '../components/Bargraph.scss'
 
 // 이미지 경로를 저장할 객체
 const imagePaths = {
@@ -26,7 +27,7 @@ const Bargraph = ({ version, apiData }) => {
     }
 
     const sortedBars = [...apiData].sort((a, b) => b.count - a.count);
-    const barsToShow = version === 1 ? sortedBars.slice(0, 3) : sortedBars;
+    const barsToShow = version === 1 ? sortedBars.slice(0, 4) : sortedBars;
 
     return (
         <div className="bar-graph">
@@ -37,7 +38,7 @@ const Bargraph = ({ version, apiData }) => {
                 return (
                     <div key={bar.emotion} className="bar-all">
                         <Bar
-                            height={`${(bar.count / 8) * 100}%`}
+                            height={`${(bar.count / 10) * 100+20}%`}
                             color={getColor(bar.emotion)}
                             emotion={emotionImage} // 이미지 경로 전달
                         />
@@ -52,21 +53,21 @@ const Bargraph = ({ version, apiData }) => {
 // 감정에 따라 색상 반환
 const getColor = (emotion) => {
     switch (emotion) {
-        case '화남':
+        case 'ANGRY':
             return '#F75A6D';
-        case '슬픔':
+        case 'SAD':
             return '#83B2FD';
-        case '행복':
+        case 'HAPPY':
             return '#BAD2FF';
-        case '즐거움':
+        case 'EXCITED':
             return '#86EC9E';
-        case '힘듦':
+        case 'TIRED':
             return '#FF746B';
-        case '당황스러움':
+        case 'EMBARRASSED':
             return '#FB9964';
-        case '보통':
+        case 'NEUTRAL':
             return '#FFD873';
-        case '불안':
+        case 'ANXIOUS':
             return '#5364FF';
         default:
             return '#f0f0f0';

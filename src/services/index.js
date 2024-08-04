@@ -4,7 +4,7 @@ import {redirect} from "react-router-dom";
 const isDev = import.meta.env.MODE === "development";
 
 export const Api = axios.create({
-  baseURL: isDev ? "http://3.37.103.251:8089" : "/api",
+  baseURL: isDev ? "http://3.37.103.251:8089/api" : "/api",
   headers: {
     "Content-type": "application/json"
   }
