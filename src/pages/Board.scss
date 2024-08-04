@@ -15,6 +15,8 @@
 
       strong {
         font-weight: bolder;
+        text-decoration: underline #8B4CFC;
+        cursor: pointer;
       }
     }
 
@@ -163,7 +165,7 @@
           .header-text {
             margin-top: 0;
             margin-left: 20px;
-            flex:1;
+            flex: 1;
 
             .header-text-top {
               margin: 0;
@@ -206,16 +208,18 @@
               }
             }
           }
-          .edit-button{
+
+          .edit-button {
             background: none;
             border: none;
             color: #7A43DD;
-            font-size:15px;
+            font-size: 15px;
             font-weight: bolder;
             align-self: flex-start;
             margin-top: 0;
           }
         }
+
         .summary-body {
           text-align: left;
           font-size: 18px;
