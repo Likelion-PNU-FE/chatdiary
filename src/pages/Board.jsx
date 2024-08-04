@@ -18,7 +18,7 @@ import Datepicker from "../components/datepicker.jsx";
 import Bargraph from "../components/Bargraph.jsx";
 import BargraphPopup from "../components/MoodChart.jsx";
 import useFetchData from "../hook/useFetchData.js";
-import {getMyInfo} from "../services/apis.js";
+import {getMyInfo, getDiaryContent,getMonthEmotions} from "../services/apis.js";
 const imagePaths = {
     anxiousImg,
     sosoImg,
@@ -53,6 +53,7 @@ const days = [
 
 
 // Mock API 데이터
+// eslint-disable-next-line no-unused-vars
 const mockApiData = [
     {emotion: '불안', count: 2},
     {emotion: '보통', count: 5},
@@ -66,7 +67,7 @@ const mockApiData = [
 
 
 // eslint-disable-next-line no-unused-vars
-const mockChatData = {
+const mockDiaryContent = {
     title: "오늘의 대화",
     content: "친구와의 대화에서 여행 계획을 논의했습니다.",
     date: "2024-07-31",
@@ -82,8 +83,14 @@ const Board = () => {
     const [selectedIndex, setSelectedIndex] = useState(6);
     const [isPopupVisible, setPopupVisible] = useState(false); // 팝업 상태 추가
     const [photo, setPhoto] = useState(null);
-    const [chatData] = useState(null); //mockChatData
-    const [apiData] = useState(mockApiData);
+    // const [diaryContent] = useState(null); //mockDiaryContent
+   //  const { data: diaryContent } = useFetchData(() => getDiaryContent({ date: nowDate }));
+   //  const userId = userData ? userData.id : null;
+
+    const { data: diaryContent } = useFetchData(() => getDiaryContent({ targetDate: "2024-08-04" }));
+    const { data: apiData } = useFetchData(() => {
+         getMonthEmotions( "2024-07") ;
+    });
 
 
     // 날짜 선택
@@ -175,22 +182,22 @@ const Board = () => {
                 </div>
 
                 <div className="card chat-summary">
-                    {chatData ? (
+                    {diaryContent ? (
                         <div className="summary-content">
                             <div className="header-top">
-                                <img src={imagePaths[chatData.emotion]} alt="chat mood icon" className="chat-emotion"
+                                <img src={imagePaths[diaryContent.emotion]} alt="chat mood icon" className="chat-emotion"
                                      width="60px"/>
                                 <div className="header-text">
                                     <div className="header-text-top">
-                                        {chatData.title}
+                                        {diaryContent.title}
                                         <button className="edit-button" onClick={handleEditButtonClick}>Edit</button>
                                     </div>
-                                    <p>{chatData.date}</p>
+                                    <p>{diaryContent.date}</p>
                                     <div className="keywords">
                                         <span className="keyword-title">KeyWord</span>
-                                        <span className="keyword">{chatData.keywords1}</span>
-                                        <span className="keyword">{chatData.keywords2}</span>
-                                        <span className="keyword">{chatData.keywords3}</span>
+                                        <span className="keyword">{diaryContent.keyword1}</span>
+                                        <span className="keyword">{diaryContent.keyword2}</span>
+                                        <span className="keyword">{diaryContent.keyword3}</span>
                                     </div>
                                 </div>
                                 {/*<button className="edit-button" onClick={handleEditButtonClick}>Edit</button>*/}
@@ -198,7 +205,7 @@ const Board = () => {
                             <hr className="divider"/>
                             <div className="summary-body">
                                 <h4>내용</h4>
-                                <p>{chatData.content}</p>
+                                <p>{diaryContent.content}</p>
                             </div>
                         </div>
                     ) : (

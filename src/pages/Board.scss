@@ -167,12 +167,14 @@
 
             .header-text-top {
               margin: 0;
+              color: black;
               font-size: 16px;
               font-weight: bold; /* 제목을 굵게 표시 */
               display: flex;
-              align-items: center;
+              align-items: flex-end;
               justify-content: space-between;
-
+              line-height: 1.2;
+              bottom: 0; /* 바닥에 붙이기 */
             }
 
             p {
@@ -207,6 +209,7 @@
             }
           }
           .edit-button{
+            display: flex;
             background: none;
             border: none;
             color: #7A43DD;
