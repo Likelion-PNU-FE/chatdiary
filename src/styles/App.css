@@ -3,12 +3,14 @@
 각 컵포넌트에서 쓰일만한 css는 styles 폴더에 컴포넌트 이름으로 파일을 만들어서 작성해주세요!
 */
 
-p{
+p {
   color: black;
 }
-h1,h2,h3{
+
+h1, h2, h3 {
   color: black;
 }
+
 .layout {
   max-width: 600px;
   min-width: 300px;
@@ -34,7 +36,7 @@ h1,h2,h3{
   height: 100%;
 }
 
-a.action {
+button.action, a.action {
   border: none;
   min-width: 255px;
   height: 55px;
@@ -44,17 +46,19 @@ a.action {
   font-weight: 700;
   cursor: pointer;
   margin-top: 15px;
-  align-content: center;
-  text-align: center;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-a.primary {
+.primary {
   background: #8B4CFC;
   color: #FFFFFF;
   border: none;
 }
 
-a.secondary {
+.secondary {
   background: #DDCAFF;
   color: #8B4CFC;
 }
