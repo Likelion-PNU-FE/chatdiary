@@ -6,14 +6,16 @@ function useFetchData(api, params) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (loading) return;
     fetchData();
-  }, [api]);
+  }, [params]);
 
   const fetchData = async () => {
     try {
       setLoading(true);
       const response = await api(params);
       setData(response.data);
+      setError(null);
     } catch (e) {
       setError(e);
     } finally {
