@@ -82,7 +82,7 @@ const Board = () => {
     const [selectedIndex, setSelectedIndex] = useState(6);
     const [isPopupVisible, setPopupVisible] = useState(false); // 팝업 상태 추가
     const [photo, setPhoto] = useState(null);
-    const [chatData] = useState(mockChatData); //mockChatData
+    const [chatData] = useState(null); //mockChatData
     const [apiData] = useState(mockApiData);
 
 

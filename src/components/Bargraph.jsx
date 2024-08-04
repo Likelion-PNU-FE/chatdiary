@@ -1,5 +1,5 @@
 import { getImagePathByEmotion } from '../utils/utils.js'; // utils.js에서 함수 import
-import anxiousImg from '../assets/anxious.svg';
+import anxiousImg from "../assets/anxious.svg";
 import sosoImg from "../assets/soso.svg";
 import strengthImg from "../assets/strength.svg";
 import joyImg from "../assets/joy.svg";
