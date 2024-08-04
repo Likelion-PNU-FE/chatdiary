@@ -146,25 +146,30 @@ function ChatPage() {
   };
 
   const handleSave = async () => {
+    console.log("Save button clicked"); // 버튼 클릭 확인
+  
     const summary = { title, keywords, content, emotion };
     try {
+      console.log("Saving diary..."); // saveDiary 호출 확인
+  
       const response = await saveDiary(chatRoomId, summary); // chatRoomId를 전달
-      console.log('백엔드 응답:', response);
-
+      console.log('백엔드 응답:', response); // 백엔드 응답 확인
+  
       // 백엔드에서 받은 키워드 데이터를 배열로 변환
       const updatedKeywords = [response.keyword1, response.keyword2, response.keyword3].filter(Boolean);
-
+  
       // 상태 업데이트
       setEmotion(response.emotion || ''); // 백엔드에서 받은 emotion 값으로 상태 업데이트
       setTitle(response.title || '');
       setKeywords(updatedKeywords);
       setContent(response.content || '');
-
+  
       setShowPopup(true); // 팝업 표시
     } catch (error) {
       console.error('일기 저장 중 오류가 발생했습니다:', error);
     }
   };
+  
 
   const handleClosePopup = () => {
     setShowPopup(false);
@@ -199,7 +204,7 @@ function ChatPage() {
         <>
           <div className="chat-header">
             <button className="back-button">&lt;</button>
-            <span className="chat-date">2024년 8월 5일 월요일</span>
+            <span className="chat-date">2024년 8월 6일 월요일</span>
             <button className="save-button" onClick={handleSave}>SAVE</button>
           </div>
           <div className="chat-content" ref={chatContentRef}>
