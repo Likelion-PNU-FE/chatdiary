@@ -4,12 +4,11 @@ import addIcon from "../assets/add_icn.svg";
 import oops_gra from "../assets/oops_gra.svg";
 import chat_icn from "../assets/chat_icn.svg";
 import {useState} from "react";
-import '../pages/Board.scss';
+import './Board.scss';
 import '../components/Bargraph.scss'
 import Datepicker from "../components/datepicker.jsx";
 import Bargraph from "../components/Bargraph.jsx";
 import BargraphPopup from "../components/MoodChart.jsx";
-import CalendarPopup from "../components/CalendarPopup.jsx";
 
 const days = [
     {day: 'Mon', date: 3, emotion: '행복'},
@@ -55,8 +54,6 @@ const mockChatData = {
     keywords3: "계획"
 };
 
-
-
 const Board = () => {
     let nowDate = new Date();
     const [selectedIndex, setSelectedIndex] = useState(6);
@@ -65,18 +62,6 @@ const Board = () => {
     const [chatData] = useState(mockChatData); //mockChatData
     const [apiData] = useState(mockApiData);
 
-
-    const [isCalendarVisible, setCalendarVisible] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(nowDate);
-
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
-
-    const handleConfirm = () => {
-        alert(`Selected date: ${selectedDate.toLocaleDateString()}`); // 날짜 팝업 보이게 해놨음
-        setCalendarVisible(false);
-    };
 
     // 날짜 선택
     const convertDate = (date) => {
@@ -132,7 +117,7 @@ const Board = () => {
         <div className="board">
             <header>
                 <h3>반가워, <strong>{userName}</strong>! 👋</h3>
-                <button className="date-picker-button" onClick={() => setCalendarVisible(true)}> {/* 날짜 선택 버튼 */}
+                <button className="date-picker-button">
                     <p>{convertDate(nowDate)}</p>
                     <img src={calendarIcon} alt="calendar" width="20px"/>
                 </button>
@@ -142,7 +127,7 @@ const Board = () => {
             </nav>
             <section>
                 <div className="card mood-chart" onClick={handleMoodChartClick}>
-                    <p>{selectedDate.getMonth()+1}월 Mood Chart</p>
+                    <p>{nowDate.getMonth()+1}월 Mood Chart</p>
                     <Bargraph version={1} apiData ={apiData}/>
                 </div>
                 <div className="card photo">
@@ -209,19 +194,10 @@ const Board = () => {
             <BargraphPopup
                 isVisible={isPopupVisible}
                 onClose={handleClosePopup}
-                month={selectedDate.getMonth() + 1}
+                month={nowDate.getMonth() + 1}
                 apiData={apiData}
             />
-            <CalendarPopup
-                isVisible={isCalendarVisible}
-                onClose={() => setCalendarVisible(false)}
-                selectedDate={selectedDate}
-                onDateChange={handleDateChange}
-                onConfirm={handleConfirm}
-            />
-
         </div>
-
     );
 }
 

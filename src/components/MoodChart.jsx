@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import Bargraph from './bargraph.jsx';
+import Bargraph from './Bargraph.jsx';
 import './MoodChart.scss';
 import closeIcon from "../assets/close_icn.svg";
 import '../components/Bargraph.scss'
