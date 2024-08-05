@@ -3,7 +3,7 @@ import chatIcon from "../assets/chat_icn.svg";
 import {getImagePathByEmotion} from "../utils/utils.js";
 import deleteIcon from "../assets/deleteIcn.svg";
 
-const ChatSummary = ({diaryContent, diaryError, goChat, goEdit}) => {
+const ChatSummary = ({diaryContent, diaryError, goChat, goEdit, goDelete}) => {
   if (diaryError || !diaryContent) {
     const isEmpty = diaryError?.response?.status === 409
     return (
@@ -31,6 +31,14 @@ const ChatSummary = ({diaryContent, diaryError, goChat, goEdit}) => {
             {diaryContent.title}
             <div className="buttons">
               <button className="edit-button" onClick={goEdit}>Edit</button>
+              <img
+                src={deleteIcon}
+                alt="deleteIcn"
+                width="20px"
+                color="0xFFFFF"
+                className="delete-icon"
+                onClick={() => goDelete(diaryContent.id)}
+              />
               <img src={deleteIcon} alt="deleteIcn" width="20px" color="0xFFFFF"/>
             </div>
           </div>
@@ -42,7 +50,6 @@ const ChatSummary = ({diaryContent, diaryError, goChat, goEdit}) => {
             <span className="keyword">{diaryContent.keyword3}</span>
           </div>
         </div>
-        {/*<button className="edit-button" onClick={handleEditButtonClick}>Edit</button>*/}
       </div>
       <hr className="divider"/>
       <div className="summary-body">
