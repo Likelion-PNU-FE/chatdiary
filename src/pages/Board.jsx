@@ -49,22 +49,28 @@ const Board = () => {
         getPhotos(diaryId)
             .then(response => {
               if (response.data && response.data.length > 0) {
-                const imageUrl = response.data;
+                const imageUrl = response.data; // 응답에서 이미지 URL 가져오기
                 console.log("추출된 이미지 URL:", imageUrl); // URL 확인
                 setPhoto(imageUrl); // 상태 업데이트
+              } else {
+                setPhoto(null); // 사진이 없을 경우 null로 설정
               }
             })
             .catch(error => {
               console.error("사진을 가져오는 중 오류 발생:", error);
+              setPhoto(null); // 오류 발생 시에도 photo를 null로 설정
             });
       } else {
         console.error("유효하지 않은 diaryId:", diaryId);
+        setPhoto(null); // diaryId가 유효하지 않을 경우 null로 설정
       }
+    } else {
+      setPhoto(null); // diaryContent가 없는 경우에도 null로 설정
     }
   }, [diaryContent]);
 
   useEffect(() => {
-    console.log("현재 사진", { photo });
+    console.log("현재 사진 상태:", { photo });
   }, [photo]);
 
 
