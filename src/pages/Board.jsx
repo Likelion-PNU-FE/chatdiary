@@ -11,7 +11,7 @@ import Datepicker from "../components/datepicker.jsx";
 import Bargraph from "../components/Bargraph.jsx";
 import BargraphPopup from "../components/MoodChart.jsx";
 import useFetchData from "../hook/useFetchData.js";
-import {getDiaryContent, getMonthEmotions, getMyInfo, postChatRoom, deleteDiary} from "../services/apis.js";
+import {getDiaryContent, getMonthEmotions, getMyInfo, postChatRoom, deleteDiary, getPhotos} from "../services/apis.js";
 import LogoutDialog from "../components/LogoutDialog.jsx";
 import CalendarPopup from "../components/CalendarPopup.jsx";
 import {useNavigate} from "react-router-dom";
@@ -40,6 +40,33 @@ const Board = () => {
       console.log("apiData가 아직 없음");
     }
   }, [apiData]);
+
+
+  useEffect(() => {
+    if (diaryContent) {
+      const diaryId = diaryContent.id; // diaryContent에서 diaryId 가져오기
+      if (diaryId) { // diaryId가 유효한 경우에만 API 호출
+        getPhotos(diaryId)
+            .then(response => {
+              if (response.data && response.data.length > 0) {
+                const imageUrl = response.data;
+                console.log("추출된 이미지 URL:", imageUrl); // URL 확인
+                setPhoto(imageUrl); // 상태 업데이트
+              }
+            })
+            .catch(error => {
+              console.error("사진을 가져오는 중 오류 발생:", error);
+            });
+      } else {
+        console.error("유효하지 않은 diaryId:", diaryId);
+      }
+    }
+  }, [diaryContent]);
+
+  useEffect(() => {
+    console.log("현재 사진", { photo });
+  }, [photo]);
+
 
   // 날짜 선택
   const convertDate = (date) => {
@@ -86,8 +113,9 @@ const Board = () => {
     } catch (e) {
       alert(`대화방 생성 실패 : ${e}`);
     }
-  }
+  };
 
+  // 수정 관련!
   const handleEditButtonClick = () => {
     alert("수정으로 이동");
   };
@@ -150,6 +178,7 @@ const Board = () => {
                   <div className="header-text-top">
                     {diaryContent.title}
                     <div className="buttons">
+                      {/*수정 관련!*/}
                       <button className="edit-button" onClick={handleEditButtonClick}>Edit
                       </button>
                       <img

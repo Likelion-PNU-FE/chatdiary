@@ -32,7 +32,7 @@
     align-items: center; /* 버튼들을 수직으로 가운데 정렬 */
     gap: 10px;
     padding-left: 60px;
-    padding-top: 20px;
+    padding-bottom: 10px;
     font-size: 15px;
     width: 80%;
 }
