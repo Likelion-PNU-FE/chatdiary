@@ -77,11 +77,12 @@ const Board = () => {
 
   const handleGoChatClick = async () => {
     try {
+      if (diaryError?.response?.status !== 409) return alert("대화방 생성 실패 : 이미 생성된 대화방이 있습니다. 새로고침 해주세요");
       const date = getDateString(nowDate);
       const response = await postChatRoom({title: "오늘의 대화", date});
       const id = response.data?.chatRoomId;
       if (!id) throw new Error("id 없음");
-      navigate('/chat', {state: {date, id}});
+      navigate('/chat', {state: {data: nowDate, id}});
     } catch (e) {
       alert(`대화방 생성 실패 : ${e}`);
     }

@@ -1,5 +1,5 @@
 [[redirects]]
-    from = "/api/*"
+    from = "/proxy/*"
     to = "http://3.37.103.251:8089/api/:splat"
     status = 200
     force = true
