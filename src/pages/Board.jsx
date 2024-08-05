@@ -11,7 +11,7 @@ import Datepicker from "../components/datepicker.jsx";
 import Bargraph from "../components/Bargraph.jsx";
 import BargraphPopup from "../components/MoodChart.jsx";
 import useFetchData from "../hook/useFetchData.js";
-import {getDiaryContent, getMonthEmotions, getMyInfo, postChatRoom, deleteDiary, getPhotos} from "../services/apis.js";
+import {getDiaryContent, getMonthEmotions, getMyInfo, postChatRoom, deleteDiary, getPhotos, upLodePhotos} from "../services/apis.js";
 import LogoutDialog from "../components/LogoutDialog.jsx";
 import CalendarPopup from "../components/CalendarPopup.jsx";
 import {useNavigate} from "react-router-dom";
@@ -104,6 +104,15 @@ const Board = () => {
         setPhoto(reader.result); // 사진 미리보기
       };
       reader.readAsDataURL(file);
+
+      const diaryId = diaryContent.id;
+      upLodePhotos(diaryId, file) // 다이어리 ID와 파일을 업로드
+          .then(response => {
+            console.log("파일 업로드 성공:", response.data);
+          })
+          .catch(error => {
+            console.error("파일 업로드 중 오류 발생:", error);
+          });
     }
   };
 
