@@ -3,11 +3,11 @@
 각 컵포넌트에서 쓰일만한 css는 styles 폴더에 컴포넌트 이름으로 파일을 만들어서 작성해주세요!
 */
 
-p {
+p ,input,span,div,abbr,button{
   color: black;
 }
 
-h1, h2, h3 {
+h1, h2, h3 ,h4{
   color: black;
 }
 

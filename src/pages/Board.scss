@@ -169,11 +169,14 @@
 
             .header-text-top {
               margin: 0;
+              color: black;
               font-size: 16px;
               font-weight: bold; /* 제목을 굵게 표시 */
               display: flex;
-              align-items: center;
+              align-items: flex-end;
               justify-content: space-between;
+              line-height: 1.2;
+              bottom: 0; /* 바닥에 붙이기 */
 
             }
 
@@ -209,8 +212,16 @@
             }
           }
           .buttons{
-            display: flex; /* Flexbox 사용 */
-            align-items: center; /* 수직 정렬을 중앙으로 */
+            display: flex;
+            align-items: center;
+            .delete-icon {
+              cursor: pointer;
+              transition: transform 0.2s;
+            }
+
+            .delete-icon:hover {
+              transform: scale(1.1);
+            }
             .edit-button{
               display: flex;
               background: none;

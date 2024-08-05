@@ -1,25 +1,7 @@
 import { getImagePathByEmotion } from '../utils/utils.js'; // utils.js에서 함수 import
-import anxiousImg from "../assets/anxious.svg";
-import sosoImg from "../assets/soso.svg";
-import strengthImg from "../assets/strength.svg";
-import joyImg from "../assets/joy.svg";
-import happyImg from "../assets/happy.svg";
-import angryImg from "../assets/angry.svg";
-import embarImg from "../assets/embar.svg";
-import sadImg from "../assets/sad.svg";
 import '../components/Bargraph.scss'
 
 // 이미지 경로를 저장할 객체
-const imagePaths = {
-    anxiousImg,
-    sosoImg,
-    strengthImg,
-    joyImg,
-    happyImg,
-    angryImg,
-    embarImg,
-    sadImg
-};
 
 const Bargraph = ({ version, apiData }) => {
     if (!Array.isArray(apiData)) {
@@ -32,15 +14,12 @@ const Bargraph = ({ version, apiData }) => {
     return (
         <div className="bar-graph">
             {barsToShow.map((bar) => {
-                const emotionImageKey = getImagePathByEmotion(bar.emotion); // 이미지 키 가져오기
-                const emotionImage = imagePaths[emotionImageKey]; // 이미지 경로 가져오기
-
                 return (
                     <div key={bar.emotion} className="bar-all">
                         <Bar
                             height={`${(bar.count / 10) * 100+20}%`}
                             color={getColor(bar.emotion)}
-                            emotion={emotionImage} // 이미지 경로 전달
+                            emotion={getImagePathByEmotion(bar.emotion)} // 이미지 경로 전달
                         />
                         {version === 2 && <p>{bar.count}</p>}
                     </div>

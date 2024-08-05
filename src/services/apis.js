@@ -15,3 +15,19 @@ export const getDiaryContent = (targetDate) => Api.get("/diaries/date", {params:
 export const getMonthEmotions = (yearMonth) => Api.get(`/diaries/emotion/months`, {params: {yearMonth}});
 
 export const postChatRoom = ({title, date}) => Api.post("/chatRoom", {title, date});
+
+export const deleteDiary = (diaryId) => Api.delete(`/diaries/${diaryId}/user`);
+
+export const getPhotos = (diaryId) => Api.get(`/diaries/photos`,{params:{diaryId}})
+
+export const upLodePhotos = (diaryId, file) => {
+    const formData = new FormData();
+    formData.append('diaryId', diaryId); // 다이어리 ID 추가
+    formData.append('file', file); // 파일 추가
+
+    return Api.post('/diaries/photos', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data' // Content-Type 설정
+        }
+    });
+};
