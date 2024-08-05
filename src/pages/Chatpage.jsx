@@ -5,8 +5,13 @@ import DiarySummaryView from '../components/DiarySummaryView';
 import DiarySummaryEdit from '../components/DiarySummaryEdit';
 import unicorn from '../assets/unicorn.svg';
 import sendIcon from '../assets/send_icn.svg';
+import {useLocation} from "react-router-dom";
 
 function ChatPage() {
+
+  const {state} = useLocation();
+  const {date, id} = state;
+  
   const [messages, setMessages] = useState([
     {text: '안녕, 나의 오늘 하루를 말해도 될까 ?', sender: 'user'},
     {text: '네, 오늘 하루에 있었던 일을 말해주시면 하루를 요약해 일기를 적어드릴게요.', sender: 'bot'},
