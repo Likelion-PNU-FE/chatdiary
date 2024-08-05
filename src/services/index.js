@@ -4,7 +4,7 @@ import {redirect} from "react-router-dom";
 const isDev = import.meta.env.MODE === "development";
 
 export const Api = axios.create({
-  baseURL: isDev ? "http://3.37.103.251:8089/api" : "/proxy",
+  baseURL: isDev ? "https://chat-diary.duckdns.org/api" : "/proxy",
   headers: {
     "Content-type": "application/json"
   }
