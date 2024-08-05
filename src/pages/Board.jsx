@@ -1,9 +1,6 @@
-import {getDateString, getImagePathByEmotion, getKoDayOfWeek} from "../utils/utils.js";
+import {getDateString, getKoDayOfWeek} from "../utils/utils.js";
 import calendarIcon from "../assets/calendar_sm_icn.svg";
-import deleteIcon from "../assets/deleteIcn.svg"
 import addIcon from "../assets/add_icn.svg";
-import oopsGra from "../assets/oops_gra.svg";
-import chatIcon from "../assets/chat_icn.svg";
 import {useEffect, useState} from "react";
 import './Board.scss';
 import '../components/Bargraph.scss'
@@ -15,6 +12,7 @@ import {getDiaryContent, getMonthEmotions, getMyInfo, postChatRoom, deleteDiary,
 import LogoutDialog from "../components/LogoutDialog.jsx";
 import CalendarPopup from "../components/CalendarPopup.jsx";
 import {useNavigate} from "react-router-dom";
+import ChatSummary from "../components/ChatSummary.jsx";
 
 
 const Board = () => {
@@ -128,7 +126,7 @@ const Board = () => {
     } catch (e) {
       alert(`대화방 생성 실패 : ${e}`);
     }
-  };
+  }
 
   // 수정 관련!
   const handleEditButtonClick = () => {
@@ -184,54 +182,8 @@ const Board = () => {
         </div>
 
         <div className="card chat-summary">
-          {(!diaryError && diaryContent) ? (
-            <div className="summary-content">
-              <div className="header-top">
-                <img src={getImagePathByEmotion(diaryContent.emotion)} alt="chat mood icon"
-                     className="chat-emotion" width="60px"/>
-                <div className="header-text">
-                  <div className="header-text-top">
-                    {diaryContent.title}
-                    <div className="buttons">
-                      {/*수정 관련!*/}
-                      <button className="edit-button" onClick={handleEditButtonClick}>Edit
-                      </button>
-                      <img
-                          src={deleteIcon}
-                          alt="deleteIcn"
-                          width="20px"
-                          color="0xFFFFF"
-                          className="delete-icon"
-                          onClick={() => handleDeleteDiary(diaryContent.id)}
-                      />
-                    </div>
-                  </div>
-                  <p>{diaryContent.date}</p>
-                  <div className="keywords">
-                    <span className="keyword-title">KeyWord</span>
-                    <span className="keyword">{diaryContent.keyword1}</span>
-                    <span className="keyword">{diaryContent.keyword2}</span>
-                    <span className="keyword">{diaryContent.keyword3}</span>
-                  </div>
-                </div>
-                {/*<button className="edit-button" onClick={handleEditButtonClick}>Edit</button>*/}
-              </div>
-              <hr className="divider"/>
-              <div className="summary-body">
-                <h4>내용</h4>
-                <p>{diaryContent.content}</p>
-              </div>
-            </div>
-          ) : (
-            <div className="empty-summary">
-              <img src={oopsGra} alt="opps image"/>
-              <p>Oops! 기록할 대화가 없어요!</p>
-              <button className="chat-button" onClick={handleGoChatClick}>
-                <img src={chatIcon} alt="chat icon" className="chat-icon"/>
-                <span>대화하러 가기</span>
-              </button>
-            </div>
-          )}
+          <ChatSummary diaryContent={diaryContent} diaryError={diaryError}
+                       goChat={handleGoChatClick} goEdit={handleEditButtonClick} goDelete={handleDeleteDiary}/>
         </div>
       </section>
 
