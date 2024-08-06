@@ -39,10 +39,6 @@ const routes = createBrowserRouter([
         Component: Chat,
       },
       {
-        path: 'edit',
-        Component: Diary,
-      },
-      {
         path: '*',
         Component: () => <div>404 Not Found</div>
       }

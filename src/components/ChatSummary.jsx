@@ -33,11 +33,6 @@ const ChatSummary = ({diaryContent, diaryError, goChat, goEdit, goDelete}) => {
           <div className="header-text-top">
             {diaryContent.title}
             <div className="buttons">
-              <button className="edit-button" onClick={(e) => {
-                e.preventDefault();
-                goEdit()
-              }}>Edit
-              </button>
               <img
                 src={deleteIcon}
                 alt="deleteIcn"
@@ -49,7 +44,6 @@ const ChatSummary = ({diaryContent, diaryError, goChat, goEdit, goDelete}) => {
                   goDelete(diaryContent.id);
                 }}
               />
-              <img src={deleteIcon} alt="deleteIcn" width="20px" color="0xFFFFF"/>
             </div>
           </div>
           <p>{diaryContent.date}</p>

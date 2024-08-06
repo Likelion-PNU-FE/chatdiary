@@ -156,7 +156,7 @@ const Board = () => {
 
         <div className="card chat-summary">
           <ChatSummary diaryContent={diaryContent} diaryError={diaryError}
-                       goChat={handleGoChatClick} goEdit={handleEditButtonClick} goDelete={handleDeleteDiary}/>
+                       goChat={handleGoChatClick} goDelete={handleDeleteDiary}/>
         </div>
       </section>
 
