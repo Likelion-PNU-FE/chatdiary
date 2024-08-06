@@ -1,7 +1,8 @@
-import {useEffect, useRef, useState} from 'react';
-import {useLocation, useNavigate} from 'react-router-dom';
-import {deleteDiary, getDiaryContent, getMyInfo} from '../services/apis'; // 필요한 API 불러오기
+import { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { deleteDiary, getDiaryContent, getMyInfo } from '../services/apis'; // 필요한 API 불러오기
 import '../styles/Chat.scss';
+import { Api } from '../services/index.js';
 import PopupSummary from '../components/PopupSummary';
 import DiarySummaryView from '../components/DiarySummaryView';
 import DiarySummaryEdit from '../components/DiarySummaryEdit';
@@ -11,7 +12,7 @@ import sendIcon from '../assets/send_icn.svg';
 function ChatPage() {
   const navigate = useNavigate();
   const locate = useLocation();
-  const {date, id: chatRoomId} = locate?.state || {};  // 여기서 date를 받아옴
+  const { date, id: chatRoomId } = locate?.state || {};  // 여기서 date를 받아옴
   console.log('locate:', date, chatRoomId);
   const [isSaved, setIsSaved] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -66,41 +67,103 @@ function ChatPage() {
     fetchDiaryContent();
 
     setMessages([
-      {prompt: '오늘 하루에 있었던 일을 말해주시면 하루를 요약해 일기를 적어드릴게요.', sender: 'bot'},
+      { prompt: '오늘 하루에 있었던 일을 말해주시면 하루를 요약해 일기를 적어드릴게요.', sender: 'bot' },
     ]);
 
     if (chatContentRef.current) {
       chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;
     }
   }, [chatRoomId, date, navigate]);
+  
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();  // 기본 동작(줄 바꿈)을 방지합니다.
+      handleSend();  // 메시지 전송을 한 번만 호출합니다.
+    }
+  };
 
   const handleSend = async () => {
     if (inputText.trim()) {
-      setMessages([...messages, {prompt: inputText, sender: 'user'}]);
-      setInputText('');
+      // 사용자의 입력 메시지를 먼저 추가
+      setMessages(prevMessages => [...prevMessages, { prompt: inputText, sender: 'user' }]);
+  
+      const currentInput = inputText;  // 현재 입력 텍스트를 별도로 저장
+      setInputText('');  // 입력 필드 초기화
       inputRef.current.style.height = 'auto';
-
+  
       try {
-        const botReply = '유니콘과 연결 중입니다...'; // 실제 API 요청을 위한 자리표시자
-        setMessages((prevMessages) => [
+        const response = await Api.post(`/chatRooms/${chatRoomId}/messages`, {
+          prompt: currentInput,  // 저장한 입력 텍스트 사용
+        });
+  
+        // 챗봇 응답을 메시지로 추가
+        setMessages(prevMessages => [
           ...prevMessages,
-          {prompt: botReply, sender: 'bot'},
+          { prompt: response.data.reply, sender: 'bot' },  // 백엔드의 챗봇 응답 사용
         ]);
       } catch (error) {
-        setMessages((prevMessages) => [
+        console.error('오류가 발생했습니다:', error);
+        setMessages(prevMessages => [
           ...prevMessages,
-          {prompt: '유니콘과 연결하는데 문제가 발생했습니다.', sender: 'bot'},
+          { prompt: '유니콘과 연결하는데 문제가 발생했습니다.', sender: 'bot' },
         ]);
+      }
+  
+      if (chatContentRef.current) {
+        chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;  // 채팅창을 최신 메시지로 스크롤
       }
     }
   };
 
   const handleSave = async () => {
-    // Save 버튼 클릭 시 처리
-    setIsSaved(true);
-    setShowPopup(true);
-  };
+    try {
+      // 일기 생성 API 호출
+      const response = await Api.post(`/chatRooms/${chatRoomId}/diaries`, {
+        // 필요한 데이터는 백엔드 API 스펙에 맞게 전달
+        // 예시: 이 부분에 전달할 필요한 데이터가 있다면 추가하세요
+      });
 
+      // 일기 생성이 성공하면 응답 데이터를 사용하여 팝업에 전달할 상태 업데이트
+      const createdDiary = response.data; // 백엔드에서 반환된 일기 데이터
+
+      // 일기 정보를 상태에 저장하여 `DiarySummaryView`로 전달
+      setTitle(createdDiary.title || '');
+      setKeywords([
+        createdDiary.keyword1 || '',
+        createdDiary.keyword2 || '',
+        createdDiary.keyword3 || ''
+      ]);
+      setContent(createdDiary.content || '');
+      setEmotion(createdDiary.emotion || 'HAPPY'); // 기본 감정값 설정 (예: HAPPY)
+
+      // 팝업 표시
+      setIsSaved(true);
+      setShowSummary(true); // DiarySummaryView를 표시하기 위해 상태 변경
+    } catch (error) {
+      console.error('일기 생성 중 오류가 발생했습니다:', error);
+      // 오류 처리 로직을 추가하세요 (예: 사용자에게 오류 메시지를 표시)
+    }
+  };
+  const handleSaveAndClose = async () => {
+    try {
+      const response = await Api.post(`/chatRooms/${chatRoomId}/diaries`, {});
+      const createdDiary = response.data;
+
+      setTitle(createdDiary.title || '');
+      setKeywords([
+        createdDiary.keyword1 || '',
+        createdDiary.keyword2 || '',
+        createdDiary.keyword3 || ''
+      ]);
+      setContent(createdDiary.content || '');
+      setEmotion(createdDiary.emotion || 'HAPPY');
+      setIsSaved(true);
+
+      navigate('/board'); // board로 이동
+    } catch (error) {
+      console.error('일기 저장 중 오류가 발생했습니다:', error);
+    }
+  };
   const handleBackClick = async () => {
     // 메시지 배열에 사용자 메시지가 있는지 확인 (index 1부터는 사용자 메시지가 있을 가능성이 큼)
     const hasUserMessage = messages.some((msg, index) => index > 0 && msg.sender === 'user');
@@ -115,24 +178,24 @@ function ChatPage() {
     navigate('/board');
   };
 
+  const handleEdit = () => {
+    setShowEdit(true);
+    setShowSummary(false);
+  };
 
   const formatDate = (dateString) => {
     if (!dateString) return '날짜 없음';
-
+  
     const dateObj = new Date(dateString);
     if (isNaN(dateObj.getTime())) return '날짜 오류';
-
+  
     const year = dateObj.getFullYear();
-    const month = dateObj.getMonth() + 1;
-    const day = dateObj.getDate();
-
-    // 요일을 구하기 위해 추가
-    const weekDays = ["일", "월", "화", "수", "목", "금", "토"];
-    const dayOfWeek = weekDays[dateObj.getDay()];
-
-    return `${year}년 ${month}월 ${day}일 ${dayOfWeek}요일`;
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
   };
-
+  
   return (
     <div className="chat-container">
       {!showSummary && !showEdit ? (
@@ -145,7 +208,7 @@ function ChatPage() {
           <div className="chat-content" ref={chatContentRef}>
             {messages.map((message, index) => (
               <div key={index} className={`chat-message ${message.sender}`}>
-                {message.sender === 'bot' && <img src={unicorn} alt="unicorn" className="unicorn-icon"/>}
+                {message.sender === 'bot' && <img src={unicorn} alt="unicorn" className="unicorn-icon" />}
                 <div className={`chat-bubble ${message.sender}`}>
                   <p>{message.prompt}</p>
                 </div>
@@ -158,18 +221,13 @@ function ChatPage() {
               placeholder="오늘 있었던 일을 unicorn에게 말해주세요"
               value={inputText}
               onChange={e => setInputText(e.target.value)}
-              onKeyDown={e => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend();
-                }
-              }}
-              className="chat-input"
-              ref={inputRef}
-              rows={1}
+            onKeyDown={handleKeyDown}  // 여기서 handleKeyDown 함수를 호출합니다.
+            className="chat-input"
+            ref={inputRef}
+            rows={1}
             />
             <button className="send-button" onClick={handleSend}>
-              <img src={sendIcon} alt="Send"/>
+              <img src={sendIcon} alt="Send" />
             </button>
           </div>
           {showPopup && (
@@ -187,24 +245,27 @@ function ChatPage() {
           title={title}
           keywords={keywords}
           content={content}
-          onEdit={() => setShowEdit(true)}
+          onEdit={handleEdit}
           onClose={() => setShowSummary(false)}
+          onSaveAndClose={handleSaveAndClose}
         />
       ) : (
         <DiarySummaryEdit
-          emotion={emotion}
-          initialTitle={title}
-          initialKeywords={keywords}
-          initialContent={content}
-          onSave={(newTitle, newKeywords, newContent) => {
-            setTitle(newTitle);
-            setKeywords(newKeywords);
-            setContent(newContent);
-            setShowEdit(false);
-            setShowSummary(true);
-          }}
-          onClose={() => setShowEdit(false)}
-        />
+  diaryId={chatRoomId}  // diaryId로 전달
+  date={formatDate(date)}  // 수정할 일기의 날짜를 전달
+  emotion={emotion}
+  initialTitle={title}
+  initialKeywords={keywords}
+  initialContent={content}
+  onSave={(newTitle, newKeywords, newContent) => {
+    setTitle(newTitle);
+    setKeywords(newKeywords);
+    setContent(newContent);
+    setShowEdit(false);
+    setShowSummary(true);
+  }}
+  onClose={() => setShowEdit(false)}
+/>
       )}
     </div>
   );
