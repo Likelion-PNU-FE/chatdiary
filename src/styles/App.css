@@ -1,14 +1,22 @@
 /*
 공통으로 쓰일 만한 컴포넌트는 여기다가 적었습니다!
-각 컵포넌트에서 쓰일만한 css는 style 폴더에 컴포넌트 이름으로 파일을 만들어서 작성해주세요!
+각 컵포넌트에서 쓰일만한 css는 styles 폴더에 컴포넌트 이름으로 파일을 만들어서 작성해주세요!
 */
+
+p ,input,span,div,abbr,button{
+  color: black;
+}
+
+h1, h2, h3 ,h4{
+  color: black;
+}
 
 .layout {
   max-width: 600px;
   min-width: 300px;
   min-height: 600px;
   overflow: hidden;
-  height: 100vh;
+  height: 100%;
   margin: 0 auto;
   width: 100%;
   background: linear-gradient(
@@ -28,32 +36,32 @@
   height: 100%;
 }
 
-button.primary {
+button.action, a.action {
+  border: none;
+  min-width: 255px;
+  height: 55px;
+  padding: 0 30px;
+  border-radius: 15px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 15px;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.primary {
   background: #8B4CFC;
   color: #FFFFFF;
   border: none;
-  min-width: 255px;
-  height: 60px;
-  padding: 0.5rem 60px;
-  border-radius: 15px;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 25px;
 }
 
-button.secondary {
+.secondary {
   background: #DDCAFF;
   color: #8B4CFC;
-  border: none;
-  min-width: 255px;
-  height: 60px;
-  padding: 0.5rem 60px;
-  border-radius: 15px;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 25px;
 }
 
 .card {
@@ -62,3 +70,15 @@ button.secondary {
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
   padding: 12px 20px;
 }
+
+form.large input {
+  padding: 15px;
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  background-color: #F6F4F9;
+  opacity: 0.7;
+}
+

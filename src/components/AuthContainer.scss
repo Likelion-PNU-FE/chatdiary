@@ -1,0 +1,64 @@
+.auth-container {
+  padding-bottom: 30px;
+
+  .title {
+    height: 40px;
+    margin-top: 30px;
+  }
+
+  .sub-title {
+    padding: 8px 0;
+    margin-bottom: 30px;
+  }
+
+  form.large {
+    margin: 10px 0;
+    max-width: 400px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+
+    input {
+      margin: 5px 10px;
+      flex-grow: 1;
+    }
+
+  }
+
+  a.action {
+    margin-top: 25px;
+    margin-bottom: 15px;
+  }
+
+  .social {
+    width: 60%;
+    align-items: center;
+    text-align: center;
+
+    .divider {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      text-align: center;
+      margin: 15px 0;
+
+      &::before, &::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid #aaa;
+        margin: 0 10px;
+      }
+    }
+  }
+
+  .advice {
+    font-size: 12px;
+
+    a {
+      color: red;
+      font-weight: 600;
+    }
+  }
+}

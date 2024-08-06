@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import '../style/Chat.scss';
@@ -6,6 +7,7 @@ import DiarySummaryView from '../components/DiarySummaryView';
 import DiarySummaryEdit from '../components/DiarySummaryEdit';
 import unicorn from '../assets/unicorn.svg';
 import sendIcon from '../assets/send_icn.svg';
+import {useLocation} from "react-router-dom";
 
 // AI 채팅 API에 메시지를 보내고 응답을 받아오는 함수
 async function sendMessageToBackend(message) {
@@ -248,7 +250,7 @@ function ChatPage() {
           <div className="chat-content" ref={chatContentRef}>
             {messages.map((message, index) => (
               <div key={index} className={`chat-message ${message.sender}`}>
-                {message.sender === 'bot' && <img src={unicorn} alt="unicorn" className="unicorn-icon" />}
+                {message.sender === 'bot' && <img src={unicorn} alt="unicorn" className="unicorn-icon"/>}
                 <div className={`chat-bubble ${message.sender}`}>
                   <p>{message.prompt}</p>
                 </div>
@@ -267,7 +269,7 @@ function ChatPage() {
               rows={1}
             />
             <button className="send-button" onClick={handleSend}>
-              <img src={sendIcon} alt="Send" />
+              <img src={sendIcon} alt="Send"/>
             </button>
           </div>
           {showPopup && (
