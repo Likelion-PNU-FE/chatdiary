@@ -21,11 +21,11 @@ const emotionImages = {
   TIRED: tired
 };
 
-function DiarySummaryView({ emotion, title, keywords, content, onEdit, onClose }) {
+function DiarySummaryView({ emotion, title, keywords, content, onEdit, onSaveAndClose }) {
   return (
-    <div className="diary-summary-overlay" onClick={(e) => e.target.classList.contains('diary-summary-overlay') && onClose()}>
+    <div className="diary-summary-overlay" onClick={(e) => e.target.classList.contains('diary-summary-overlay') && onSaveAndClose()}>
       <div className="diary-summary">
-        <button className="close-button" onClick={onClose}>
+        <button className="close-button" onClick={onSaveAndClose}>
           <img src={closeIcon} alt="Close" />
         </button>
         <div className="summary-header">
@@ -52,7 +52,7 @@ function DiarySummaryView({ emotion, title, keywords, content, onEdit, onClose }
         </div>
         <div className="summary-buttons">
           <button className="edit-button" onClick={onEdit}>수정</button>
-          <button className="save-button" onClick={onClose}>저장</button>
+          <button className="save-button" onClick={onSaveAndClose}>저장</button>
         </div>
       </div>
     </div>

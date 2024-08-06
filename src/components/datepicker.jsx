@@ -80,7 +80,7 @@ const Datepicker = ({nowDate, setNowDate}) => {
           </div>)
         }
       )}
-    < /div>
+    </div>
   );
 }
 
