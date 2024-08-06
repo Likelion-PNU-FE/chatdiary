@@ -1,17 +1,21 @@
-
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 
-function useFetchData(api) {
+function useFetchData(api, params) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    useEffect(() => {
+        if (loading) return;
+        fetchData();
+    }, [params]);
+
     const fetchData = async () => {
         try {
             setLoading(true);
-            const response = await api();
+            const response = await api(params);
             setData(response.data);
+            setError(null);
         } catch (e) {
             setError(e);
         } finally {
@@ -19,12 +23,7 @@ function useFetchData(api) {
         }
     };
 
-    useEffect(() => {
-        fetchData();
-    }, []); // 초기 로드 시 데이터 가져오기
-
-    return { data, loading, error, fetchData };
+    return { data, loading, error };
 }
 
 export default useFetchData;
-

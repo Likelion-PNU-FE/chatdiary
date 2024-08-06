@@ -1,0 +1,274 @@
+@font-face {
+  font-family: 'Pretendard';
+  src: url('../assets/fonts/Pretendard-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.diary-summary-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Pretendard', sans-serif;
+
+  .diary-summary {
+    background: white;
+    padding: 20px;
+    border-radius: 30px; // 팝업 창을 최대한 둥글게
+    text-align: center;
+    width: 335px; // 팝업 너비
+    height: 600px; // 팝업 높이
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    box-sizing: border-box; // 패딩과 경계선을 포함한 너비 및 높이 계산
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; // 상단에 정렬
+
+    .close-button {
+      position: absolute;
+      top: 10px; // 닫기 버튼 위치를 조정
+      right: 10px; // 닫기 버튼 위치를 조정
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      outline: none; // 아웃라인 제거
+
+      &:focus,
+      &:active {
+        outline: none; // 포커스 및 클릭 시 아웃라인 제거
+        box-shadow: none; // 포커스 시 박스 그림자 제거
+      }
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    .emoji-icon {
+      width: 60px; // 이모지 너비
+      height: 60px; // 이모지 높이
+      margin-right: 5px;
+      margin-bottom: 10px;
+    }
+
+    .summary-header {
+      margin-top: 20px;
+      width: 100%;
+      text-align: left; // 왼쪽 정렬
+
+      h3 {
+        margin-top: 0;
+        margin: 0;
+        font-size: 16px;
+        font-weight: bold; // 제목을 굵게 표시
+        display: flex;
+        align-items: center;
+      }
+
+      p {
+        margin-top: 10px;
+        font-size: 12px;
+        color: grey;
+      }
+
+      .header-top {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+      }
+
+      .header-text {
+        margin-top: 0;
+        margin-left: 10px;
+      }
+
+      .title-container {
+        display: flex;
+        align-items: center;
+      }
+
+      .editable-title {
+        color: #666; // 진한 그레이 색상
+      }
+
+      .keywords {
+        display: flex;
+        gap: 5px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+
+        .keyword-title {
+          margin-top: 5px;
+          font-weight: bold;
+          font-size: 15px;
+          color: black;
+        }
+
+        .keyword {
+          background-color: #DDCAFF;
+          color: #7A43DD;
+          padding: 4px 11px;
+          margin-right: 2px;
+          border-radius: 15px;
+          font-size: 13px;
+          display: flex;
+          align-items: center;
+          position: relative; // 상대 위치 지정
+
+          .remove-keyword-icon {
+            width: 12px;
+            height: 12px;
+            position: absolute; // 절대 위치 지정
+            top: -6px; // 키워드 텍스트 상단에 위치
+            right: -8px; // 키워드 텍스트 오른쪽에 위치
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px; // X의 크기 조정
+            color: #7A43DD; // X 아이콘의 색상
+          }
+        }
+      }
+
+      .edit-icon {
+        width: 16px;
+        height: 16px;
+        margin-left: 5px;
+        cursor: pointer;
+      }
+    }
+
+    .divider {
+      width: 100%;
+      border: 0;
+      border-top: 1px solid #ddd;
+      margin-bottom: 15px;
+    }
+
+    .summary-body {
+      text-align: left;
+      font-size: 16px;
+      width: 100%;
+
+      h4 {
+        margin-bottom: 10px;
+        font-weight: bold;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        color: black;
+      }
+
+      p {
+        margin-bottom: 10px;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        line-height: 1.4;
+        color: black;
+      }
+
+      .editable-content {
+        color: #666; // 진한 그레이 색상
+      }
+
+      .edit-title-input,
+      .edit-content-textarea {
+        width: 100%;
+        font-family: 'Pretendard', sans-serif;
+        font-size: 16px;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        outline: none;
+        resize: none;
+        box-sizing: border-box;
+
+        &.edit-content-textarea {
+          height: 300px;
+          border-radius: 5px;
+          padding: 10px;
+          border: 1px solid #ccc;
+        }
+      }
+    }
+
+    .summary-buttons {
+      margin-top: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      position: absolute;
+      bottom: 20px;
+
+      .edit-button,
+      .save-button,
+      .edit-save-button {
+        width: 134px; // 버튼 너비
+        height: 38px; // 버튼 높이
+        border: none;
+        border-radius: 10px; // 버튼을 최대한 둥글게
+        cursor: pointer;
+        font-size: 15px;
+        font-family: 'Pretendard', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &.edit-button {
+          background-color: white;
+          color: #8B4CFC;
+          border: 1px solid #8B4CFC;
+          margin-left: 25px; // 버튼 사이의 간격을 15px로 고정
+          outline: none; // 아웃라인 제거
+
+          &:focus,
+          &:active {
+            outline: none; // 포커스 및 클릭 시 아웃라인 제거
+            box-shadow: none; // 포커스 시 박스 그림자 제거
+            color: rgba(139, 76, 252, 0.5); // 버튼 색 연하게
+          }
+        }
+
+        &.save-button {
+          background-color: #8B4CFC;
+          color: white;
+          margin-right: 25px;
+          padding: 10px 40px;
+          outline: none; // 아웃라인 제거
+
+          &:focus,
+          &:active {
+            outline: none; // 포커스 및 클릭 시 아웃라인 제거
+            box-shadow: none; // 포커스 시 박스 그림자 제거
+            background-color: rgba(139, 76, 252, 0.8); // 버튼 색 연하게
+          }
+        }
+
+        &.edit-save-button {
+          background-color: #8B4CFC;
+          color: white;
+          margin-left: auto;
+          margin-right: auto;
+          outline: none; // 아웃라인 제거
+
+          &:focus,
+          &:active {
+            outline: none; // 포커스 및 클릭 시 아웃라인 제거
+            box-shadow: none; // 포커스 시 박스 그림자 제거
+            background-color: rgba(139, 76, 252, 0.8); // 버튼 색 연하게
+          }
+        }
+      }
+    }
+  }
+}
