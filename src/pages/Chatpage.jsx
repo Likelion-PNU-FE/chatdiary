@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { postChatRoom, getDiaryContent, deleteDiary, getMyInfo } from '../services/apis'; // 필요한 API 불러오기
+import {useEffect, useRef, useState} from 'react';
+import {useLocation, useNavigate} from 'react-router-dom';
+import {deleteDiary, getDiaryContent, getMyInfo} from '../services/apis'; // 필요한 API 불러오기
 import '../styles/Chat.scss';
 import PopupSummary from '../components/PopupSummary';
 import DiarySummaryView from '../components/DiarySummaryView';
@@ -10,8 +10,9 @@ import sendIcon from '../assets/send_icn.svg';
 
 function ChatPage() {
   const navigate = useNavigate();
-  const { locate } = useLocation();
-  const { date, id: chatRoomId } = locate || {};  // 여기서 date를 받아옴
+  const locate = useLocation();
+  const {date, id: chatRoomId} = locate?.state || {};  // 여기서 date를 받아옴
+  console.log('locate:', date, chatRoomId);
   const [isSaved, setIsSaved] = useState(false);
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
@@ -65,7 +66,7 @@ function ChatPage() {
     fetchDiaryContent();
 
     setMessages([
-      { prompt: '오늘 하루에 있었던 일을 말해주시면 하루를 요약해 일기를 적어드릴게요.', sender: 'bot' },
+      {prompt: '오늘 하루에 있었던 일을 말해주시면 하루를 요약해 일기를 적어드릴게요.', sender: 'bot'},
     ]);
 
     if (chatContentRef.current) {
@@ -75,7 +76,7 @@ function ChatPage() {
 
   const handleSend = async () => {
     if (inputText.trim()) {
-      setMessages([...messages, { prompt: inputText, sender: 'user' }]);
+      setMessages([...messages, {prompt: inputText, sender: 'user'}]);
       setInputText('');
       inputRef.current.style.height = 'auto';
 
@@ -83,12 +84,12 @@ function ChatPage() {
         const botReply = '유니콘과 연결 중입니다...'; // 실제 API 요청을 위한 자리표시자
         setMessages((prevMessages) => [
           ...prevMessages,
-          { prompt: botReply, sender: 'bot' },
+          {prompt: botReply, sender: 'bot'},
         ]);
       } catch (error) {
         setMessages((prevMessages) => [
           ...prevMessages,
-          { prompt: '유니콘과 연결하는데 문제가 발생했습니다.', sender: 'bot' },
+          {prompt: '유니콘과 연결하는데 문제가 발생했습니다.', sender: 'bot'},
         ]);
       }
     }
@@ -117,18 +118,18 @@ function ChatPage() {
 
   const formatDate = (dateString) => {
     if (!dateString) return '날짜 없음';
-  
+
     const dateObj = new Date(dateString);
     if (isNaN(dateObj.getTime())) return '날짜 오류';
-  
+
     const year = dateObj.getFullYear();
     const month = dateObj.getMonth() + 1;
     const day = dateObj.getDate();
-  
+
     // 요일을 구하기 위해 추가
     const weekDays = ["일", "월", "화", "수", "목", "금", "토"];
     const dayOfWeek = weekDays[dateObj.getDay()];
-  
+
     return `${year}년 ${month}월 ${day}일 ${dayOfWeek}요일`;
   };
 
@@ -138,13 +139,13 @@ function ChatPage() {
         <>
           <div className="chat-header">
             <button className="back-button" onClick={handleBackClick}>&lt;</button>
-            <span className="chat-date">{formatDate(date)}</span>  {/* 전달받은 date를 표시 */}
+            <span className="chat-date">{formatDate(date)}</span> {/* 전달받은 date를 표시 */}
             <button className="save-button" onClick={handleSave}>SAVE</button>
           </div>
           <div className="chat-content" ref={chatContentRef}>
             {messages.map((message, index) => (
               <div key={index} className={`chat-message ${message.sender}`}>
-                {message.sender === 'bot' && <img src={unicorn} alt="unicorn" className="unicorn-icon" />}
+                {message.sender === 'bot' && <img src={unicorn} alt="unicorn" className="unicorn-icon"/>}
                 <div className={`chat-bubble ${message.sender}`}>
                   <p>{message.prompt}</p>
                 </div>
@@ -157,13 +158,18 @@ function ChatPage() {
               placeholder="오늘 있었던 일을 unicorn에게 말해주세요"
               value={inputText}
               onChange={e => setInputText(e.target.value)}
-              onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
+              onKeyDown={e => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSend();
+                }
+              }}
               className="chat-input"
               ref={inputRef}
               rows={1}
             />
             <button className="send-button" onClick={handleSend}>
-              <img src={sendIcon} alt="Send" />
+              <img src={sendIcon} alt="Send"/>
             </button>
           </div>
           {showPopup && (
