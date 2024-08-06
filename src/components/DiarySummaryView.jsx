@@ -7,16 +7,18 @@ import joy_gra from '../assets/joy.svg';
 import sad_gra from '../assets/sad.svg';
 import soso_gra from '../assets/soso.svg';
 import closeIcon from '../assets/close_icn.svg';
+import tired from '../assets/strength.svg';
 
 // 감정별 이미지 매핑
 const emotionImages = {
   ANGRY: angry_gra,
-  ANXIOUS: anxious_gra,
-  EMBAR: embar_gra,
   HAPPY: happy_gra,
-  JOY: joy_gra,
+  EMBARRASSED: embar_gra,
   SAD: sad_gra,
-  SOSO: soso_gra
+  NEUTRAL: soso_gra,
+  EXCITED: joy_gra,
+  ANXIOUS: anxious_gra,
+  TIRED: tired
 };
 
 function DiarySummaryView({ emotion, title, keywords, content, onEdit, onClose }) {
