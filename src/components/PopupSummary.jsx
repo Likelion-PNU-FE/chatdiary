@@ -8,25 +8,28 @@ import joy from '../assets/joy_gra.svg';
 import sad from '../assets/sad_gra.svg';
 import soso from '../assets/soso_gra.svg';
 import closeIcon from '../assets/close_icn.svg';
+import tired from '../assets/strength_gra.svg';
 
 const emotionImages = {
   ANGRY: angry,
-  ANXIOUS: anxious,
-  EMBAR: embar,
   HAPPY: happy,
-  JOY: joy,
+  EMBARRASSED: embar,
   SAD: sad,
-  SOSO: soso
+  NEUTRAL: soso,
+  EXCITED: joy,
+  ANXIOUS: anxious,
+  TIRED: tired
 };
 
 const emotionKorean = {
   ANGRY: '화남',
-  ANXIOUS: '불안',
-  EMBAR: '당황',
   HAPPY: '행복',
-  JOY: '즐거움',
+  EMBARRASSED: '당황',
   SAD: '슬픔',
-  SOSO: '보통'
+  NEUTRAL: '보통',
+  EXCITED: '즐거움',
+  ANXIOUS: '불안',
+  TIRED: '힘듦'
 };
 
 const PopupSummary = ({isVisible, emotion, onClose, onSummary}) => {
