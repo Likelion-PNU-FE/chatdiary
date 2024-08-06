@@ -11,7 +11,7 @@ import Datepicker from "../components/datepicker.jsx";
 import Bargraph from "../components/Bargraph.jsx";
 import BargraphPopup from "../components/MoodChart.jsx";
 import useFetchData from "../hook/useFetchData.js";
-import {getDiaryContent, getMonthEmotions, getMyInfo, postChatRoom, deleteDiary, getPhotos, upLodePhotos} from "../services/apis.js";
+import {getDiaryContent, getMonthEmotions, getMyInfo, postChatRoom, deleteDiary} from "../services/apis.js";
 import LogoutDialog from "../components/LogoutDialog.jsx";
 import CalendarPopup from "../components/CalendarPopup.jsx";
 import {useNavigate} from "react-router-dom";
@@ -40,39 +40,6 @@ const Board = () => {
       console.log("apiData가 아직 없음");
     }
   }, [apiData]);
-
-
-  useEffect(() => {
-    if (diaryContent) {
-      const diaryId = diaryContent.id; // diaryContent에서 diaryId 가져오기
-      if (diaryId) { // diaryId가 유효한 경우에만 API 호출
-        getPhotos(diaryId)
-            .then(response => {
-              if (response.data && response.data.length > 0) {
-                const imageUrl = response.data; // 응답에서 이미지 URL 가져오기
-                console.log("추출된 이미지 URL:", imageUrl); // URL 확인
-                setPhoto(imageUrl); // 상태 업데이트
-              } else {
-                setPhoto(null); // 사진이 없을 경우 null로 설정
-              }
-            })
-            .catch(error => {
-              console.error("사진을 가져오는 중 오류 발생:", error);
-              setPhoto(null); // 오류 발생 시에도 photo를 null로 설정
-            });
-      } else {
-        console.error("유효하지 않은 diaryId:", diaryId);
-        setPhoto(null); // diaryId가 유효하지 않을 경우 null로 설정
-      }
-    } else {
-      setPhoto(null); // diaryContent가 없는 경우에도 null로 설정
-    }
-  }, [diaryContent]);
-
-  useEffect(() => {
-    console.log("현재 사진 상태:", { photo });
-  }, [photo]);
-
 
   // 날짜 선택
   const convertDate = (date) => {
@@ -104,15 +71,6 @@ const Board = () => {
         setPhoto(reader.result); // 사진 미리보기
       };
       reader.readAsDataURL(file);
-
-      const diaryId = diaryContent.id;
-      upLodePhotos(diaryId, file) // 다이어리 ID와 파일을 업로드
-          .then(response => {
-            console.log("파일 업로드 성공:", response.data);
-          })
-          .catch(error => {
-            console.error("파일 업로드 중 오류 발생:", error);
-          });
     }
   };
 
@@ -128,9 +86,8 @@ const Board = () => {
     } catch (e) {
       alert(`대화방 생성 실패 : ${e}`);
     }
-  };
+  }
 
-  // 수정 관련!
   const handleEditButtonClick = () => {
     alert("수정으로 이동");
   };
@@ -193,7 +150,6 @@ const Board = () => {
                   <div className="header-text-top">
                     {diaryContent.title}
                     <div className="buttons">
-                      {/*수정 관련!*/}
                       <button className="edit-button" onClick={handleEditButtonClick}>Edit
                       </button>
                       <img
