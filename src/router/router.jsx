@@ -6,6 +6,8 @@ import Chat from "../pages/Chatpage.jsx";
 import SignUp from "../pages/SignUp.jsx";
 import Login from "../pages/Login.jsx";
 import {getMyInfo} from "../services/apis.js";
+import DiarySummaryEdit from '../components/DiarySummaryEdit';
+
 
 const routes = createBrowserRouter([
   {
@@ -35,6 +37,10 @@ const routes = createBrowserRouter([
       {
         path: 'chat',
         Component: Chat,
+      },
+      {
+        path: 'edit',
+        Component: Diary,
       },
       {
         path: '*',

@@ -88,7 +88,22 @@ const Board = () => {
   }
 
   const handleEditButtonClick = () => {
-    alert("수정으로 이동");
+    // diaryContent에는 현재 선택된 날짜에 해당하는 일기 데이터가 포함되어 있어야 합니다.
+    if (!diaryContent) {
+      alert("수정할 일기 데이터가 없습니다.");
+      return;
+    }
+  
+    const { title, content, emotion, diaryId } = diaryContent; // diaryContent에서 필요한 데이터 추출
+    navigate('/edit', { 
+      state: { 
+        title, 
+        content, 
+        emotion, 
+        diaryId, 
+        date: getDateString(nowDate) // 현재 선택된 날짜를 전달
+      }
+    });
   };
 
   const handleDeleteDiary = async (diaryId) => {
