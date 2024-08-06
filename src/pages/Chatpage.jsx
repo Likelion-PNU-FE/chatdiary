@@ -74,21 +74,28 @@ function ChatPage() {
       chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;
     }
   }, [chatRoomId, date, navigate]);
+  
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();  // 기본 동작(줄 바꿈)을 방지합니다.
+      handleSend();  // 메시지 전송을 한 번만 호출합니다.
+    }
+  };
 
   const handleSend = async () => {
     if (inputText.trim()) {
       // 사용자의 입력 메시지를 먼저 추가
       setMessages(prevMessages => [...prevMessages, { prompt: inputText, sender: 'user' }]);
-
+  
       const currentInput = inputText;  // 현재 입력 텍스트를 별도로 저장
       setInputText('');  // 입력 필드 초기화
       inputRef.current.style.height = 'auto';
-
+  
       try {
         const response = await Api.post(`/chatRooms/${chatRoomId}/messages`, {
           prompt: currentInput,  // 저장한 입력 텍스트 사용
         });
-
+  
         // 챗봇 응답을 메시지로 추가
         setMessages(prevMessages => [
           ...prevMessages,
@@ -101,7 +108,7 @@ function ChatPage() {
           { prompt: '유니콘과 연결하는데 문제가 발생했습니다.', sender: 'bot' },
         ]);
       }
-
+  
       if (chatContentRef.current) {
         chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;  // 채팅창을 최신 메시지로 스크롤
       }
@@ -137,7 +144,26 @@ function ChatPage() {
       // 오류 처리 로직을 추가하세요 (예: 사용자에게 오류 메시지를 표시)
     }
   };
+  const handleSaveAndClose = async () => {
+    try {
+      const response = await Api.post(`/chatRooms/${chatRoomId}/diaries`, {});
+      const createdDiary = response.data;
 
+      setTitle(createdDiary.title || '');
+      setKeywords([
+        createdDiary.keyword1 || '',
+        createdDiary.keyword2 || '',
+        createdDiary.keyword3 || ''
+      ]);
+      setContent(createdDiary.content || '');
+      setEmotion(createdDiary.emotion || 'HAPPY');
+      setIsSaved(true);
+
+      navigate('/board'); // board로 이동
+    } catch (error) {
+      console.error('일기 저장 중 오류가 발생했습니다:', error);
+    }
+  };
   const handleBackClick = async () => {
     // 메시지 배열에 사용자 메시지가 있는지 확인 (index 1부터는 사용자 메시지가 있을 가능성이 큼)
     const hasUserMessage = messages.some((msg, index) => index > 0 && msg.sender === 'user');
@@ -195,15 +221,10 @@ function ChatPage() {
               placeholder="오늘 있었던 일을 unicorn에게 말해주세요"
               value={inputText}
               onChange={e => setInputText(e.target.value)}
-              onKeyDown={e => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend();
-                }
-              }}
-              className="chat-input"
-              ref={inputRef}
-              rows={1}
+            onKeyDown={handleKeyDown}  // 여기서 handleKeyDown 함수를 호출합니다.
+            className="chat-input"
+            ref={inputRef}
+            rows={1}
             />
             <button className="send-button" onClick={handleSend}>
               <img src={sendIcon} alt="Send" />
@@ -226,6 +247,7 @@ function ChatPage() {
           content={content}
           onEdit={handleEdit}
           onClose={() => setShowSummary(false)}
+          onSaveAndClose={handleSaveAndClose}
         />
       ) : (
         <DiarySummaryEdit
