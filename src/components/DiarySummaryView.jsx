@@ -1,4 +1,4 @@
-import '../styles/DiarySummary.css';
+import '../styles/DiarySummary.scss';
 import angry_gra from '../assets/angry.svg';
 import anxious_gra from '../assets/anxious.svg';
 import embar_gra from '../assets/embar.svg';
@@ -10,30 +10,27 @@ import closeIcon from '../assets/close_icn.svg';
 
 // 감정별 이미지 매핑
 const emotionImages = {
-  angry: angry_gra,
-  anxious: anxious_gra,
-  embar: embar_gra,
-  happy: happy_gra,
-  joy: joy_gra,
-  sad: sad_gra,
-  soso: soso_gra
+  ANGRY: angry_gra,
+  ANXIOUS: anxious_gra,
+  EMBAR: embar_gra,
+  HAPPY: happy_gra,
+  JOY: joy_gra,
+  SAD: sad_gra,
+  SOSO: soso_gra
 };
 
-function DiarySummaryView({emotion, title, keywords, content, onEdit, onClose}) {
+function DiarySummaryView({ emotion, title, keywords, content, onEdit, onClose }) {
   return (
-    <div className="diary-summary-overlay"
-         onClick={(e) => e.target.classList.contains('diary-summary-overlay') && onClose()}>
+    <div className="diary-summary-overlay" onClick={(e) => e.target.classList.contains('diary-summary-overlay') && onClose()}>
       <div className="diary-summary">
         <button className="close-button" onClick={onClose}>
-          <img src={closeIcon} alt="Close"/>
+          <img src={closeIcon} alt="Close" />
         </button>
         <div className="summary-header">
           <div className="header-top">
-            <img src={emotionImages[emotion]} alt={emotion} className="emoji-icon"/>
+            <img src={emotionImages[emotion]} alt={emotion} className="emoji-icon" />
             <div className="header-text">
-              <h3>
-                {title}
-              </h3>
+              <h3>{title}</h3>
               <p>2024.07.12</p>
               <div className="keywords">
                 <span className="keyword-title">KeyWord</span>
@@ -46,7 +43,7 @@ function DiarySummaryView({emotion, title, keywords, content, onEdit, onClose}) 
             </div>
           </div>
         </div>
-        <hr className="divider"/>
+        <hr className="divider" />
         <div className="summary-body">
           <h4>내용</h4>
           <p>{content}</p>
