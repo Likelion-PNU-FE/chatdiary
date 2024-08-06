@@ -1,6 +1,10 @@
-.signUp .box {
+.auth-container .box {
   width: 100%;
   height: 100%;
   display: flex;
   position: relative;
+
+  input {
+    flex-grow: 1;
+  }
 }
