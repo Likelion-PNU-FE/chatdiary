@@ -10,23 +10,23 @@ import soso from '../assets/soso_gra.svg';
 import closeIcon from '../assets/close_icn.svg';
 
 const emotionImages = {
-  angry: angry,
-  anxious: anxious,
-  embar: embar,
-  happy: happy,
-  joy: joy,
-  sad: sad,
-  soso: soso
+  ANGRY: angry,
+  ANXIOUS: anxious,
+  EMBAR: embar,
+  HAPPY: happy,
+  JOY: joy,
+  SAD: sad,
+  SOSO: soso
 };
 
 const emotionKorean = {
-  angry: '화남',
-  anxious: '불안',
-  embar: '당황',
-  happy: '행복',
-  joy: '즐거움',
-  sad: '슬픔',
-  soso: '보통'
+  ANGRY: '화남',
+  ANXIOUS: '불안',
+  EMBAR: '당황',
+  HAPPY: '행복',
+  JOY: '즐거움',
+  SAD: '슬픔',
+  SOSO: '보통'
 };
 
 const PopupSummary = ({isVisible, emotion, onClose, onSummary}) => {

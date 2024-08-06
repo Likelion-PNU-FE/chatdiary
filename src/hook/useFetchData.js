@@ -1,29 +1,30 @@
-import {useEffect, useState} from "react";
 
-function useFetchData(api, params) {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-  useEffect(() => {
-    if (loading) return;
-    fetchData();
-  }, [params]);
+function useFetchData(api) {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      const response = await api(params);
-      setData(response.data);
-      setError(null);
-    } catch (e) {
-      setError(e);
-    } finally {
-      setLoading(false);
-    }
-  }
+    const fetchData = async () => {
+        try {
+            setLoading(true);
+            const response = await api();
+            setData(response.data);
+        } catch (e) {
+            setError(e);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return {data, loading, error};
+    useEffect(() => {
+        fetchData();
+    }, []); // 초기 로드 시 데이터 가져오기
+
+    return { data, loading, error, fetchData };
 }
 
 export default useFetchData;
+
